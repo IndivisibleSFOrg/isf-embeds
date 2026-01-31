@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Grid3x3, Slice } from "lucide-react";
+import { Grid3x3, Image } from "lucide-react";
 import { MasonryView } from "./MasonryView";
 import { CarouselView } from "./CarouselView";
 import { CountdownItem } from "@/lib/googleSheets";
@@ -13,7 +13,7 @@ interface CountdownDisplayProps {
 }
 
 export function CountdownDisplay({ actions }: CountdownDisplayProps) {
-    const [layout, setLayout] = useState<LayoutType>("masonry");
+    const [layout, setLayout] = useState<LayoutType>("carousel");
 
     return (
         <>
@@ -23,10 +23,10 @@ export function CountdownDisplay({ actions }: CountdownDisplayProps) {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
                             <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent">
-                                Community Action Calendar
+                                30 Days Until No Kings March
                             </h1>
                             <p className="mt-2 text-gray-600">
-                                30 ways to make a difference in your community
+                                30 ways to make a difference before then
                             </p>
                         </div>
 
@@ -49,7 +49,7 @@ export function CountdownDisplay({ actions }: CountdownDisplayProps) {
                                     : "text-gray-700 hover:bg-gray-200"
                                     }`}
                             >
-                                <Slice className="w-4 h-4" />
+                                <Image className="w-4 h-4" />
                                 <span className="hidden sm:inline">Carousel View</span>
                             </button>
                         </div>
@@ -58,7 +58,7 @@ export function CountdownDisplay({ actions }: CountdownDisplayProps) {
             </header>
 
             {/* Main Content */}
-            <main className="py-8 md:py-12">
+            <main className="py-8 md:py-12 max-w-7xl mx-auto px-4">
                 {layout === "masonry" ? (
                     <MasonryView actions={actions} />
                 ) : (

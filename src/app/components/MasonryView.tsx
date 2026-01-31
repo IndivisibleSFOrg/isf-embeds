@@ -24,11 +24,16 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 // Assign random heights for Pinterest-style layout
 const heights = [200, 250, 300, 350, 280, 320, 240, 360];
 
-// Random colors for card backs
-const backColors = [
-  "bg-gradient-to-br from-red-500 to-red-600 border-red-700",
-  "bg-gradient-to-br from-blue-500 to-blue-600 border-blue-700",
-  "bg-white border-gray-300",
+// Random overlay colors (25% opacity)
+// Standard Tailwind colors. We'll use style / arbitrary values if needed, 
+// but modern Tailwind supports /25 on standard colors.
+// If /25 fails, we can use 'bg-red-600 bg-opacity-25'.
+// Let's use generic RGBA for safety or standard classes.
+// The user asked for "red, white or blue" with 25% opacity.
+const overlayClasses = [
+  "bg-red-600/25",
+  "bg-blue-600/25",
+  "bg-white/25",
 ];
 
 export function MasonryView({ actions }: MasonryViewProps) {
@@ -44,16 +49,14 @@ export function MasonryView({ actions }: MasonryViewProps) {
 
     // Shuffle and assign properties only on client to ensure deterministic render match
     const shuffled = shuffleArray(actions).map((action, index) => {
-      const randomColor =
-        backColors[Math.floor(Math.random() * backColors.length)];
+      const overlayClass =
+        overlayClasses[Math.floor(Math.random() * overlayClasses.length)];
       return {
         ...action,
         height: heights[index % heights.length],
-        backColor: randomColor,
-        textColor:
-          randomColor === "bg-white border-gray-300"
-            ? "text-gray-800"
-            : "text-white",
+        overlayClass: overlayClass,
+        // Text color logic: if overlay is white/25, white text is still okay if image is dark.
+        // But to be safe, we can enforce shadow.
       };
     });
     setShuffledActions(shuffled);
@@ -84,8 +87,7 @@ export function MasonryView({ actions }: MasonryViewProps) {
     }
   };
 
-  // Prevent hydration mismatch by not rendering the random/time-dependent content until mounted
-  // We can render a shell or just return null. Returning null is safest for mismatch.
+  // Prevent hydration mismatch
   if (!isMounted) {
     return <div className="w-full h-96 flex items-center justify-center">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
@@ -93,7 +95,7 @@ export function MasonryView({ actions }: MasonryViewProps) {
   }
 
   return (
-    <div className="w-full px-4 md:px-8">
+    <div className="w-full">
       <style>{`
         .card-flip {
           perspective: 1000px;
@@ -124,108 +126,86 @@ export function MasonryView({ actions }: MasonryViewProps) {
         }
       `}</style>
       <ResponsiveMasonry
-        columnsCountBreakPoints={{ 350: 1, 640: 2, 1024: 3, 1280: 4 }}
+        columnsCountBreakPoints={{ 350: 2, 768: 3, 1024: 4 }}
+        gutterBreakPoints={{ 350: "1rem", 640: "1.5rem", 1024: "2rem" }}
       >
-        <Masonry gutter="1rem">
+        <Masonry>
           {shuffledActions.map((action) => {
             const isToday = action.date === currentDay;
-            const isPast = action.date < currentDay;
             const isFlipped = flippedCards.has(action.date);
 
             return (
               <div
                 key={action.date}
-                className={`card-flip cursor-pointer ${isFlipped ? "flipped" : ""}`}
+                className={`card-flip cursor-pointer rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] ${isFlipped ? "flipped" : ""}`}
                 onClick={(e) => handleCardClick(action.date, e)}
               >
                 <div
-                  className="card-flip-inner rounded-lg"
+                  className="card-flip-inner"
                   style={{ height: `${action.height}px` }}
                 >
-                  {/* Front of card (face-down, showing only date) */}
-                  <div
-                    className={`card-front rounded-lg border-4 shadow-lg flex items-center justify-center transition-all hover:shadow-xl ${action.backColor}`}
-                  >
-                    <div className="text-center">
-                      <div className={`text-7xl font-bold mb-2 ${action.textColor}`}>
-                        {action.date}
-                      </div>
-                      {isToday && (
-                        <div className="bg-black/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold">
-                          Today
+                  {/* Front: Image Background + Overlay + Date */}
+                  <div className="card-front relative rounded-lg overflow-hidden">
+                    {/* Background Image */}
+                    <img
+                      src={action.image || defaultImage}
+                      alt={action.headline}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+
+                    {/* Colored Overlay (25% opacity) */}
+                    {/* TODO: If you want to go back to random color overlays, uncomment */}
+                    {/* <div className={`absolute inset-0 ${action.overlayClass} transition-colors duration-300`}></div> */}
+                    <div className={`absolute inset-0 bg-black/25 transition-colors duration-300`}></div>
+
+                    {/* Content (Date) */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="text-center p-4">
+                        <div className="text-7xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                          {action.date}
                         </div>
-                      )}
+                        {isToday && (
+                          <div className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg mt-2 inline-block">
+                            Today
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Back of card (face-up, showing content) */}
+                  {/* Back: Content (Image + Headline + Link) */}
                   <div
-                    className={`card-back rounded-lg border-4 overflow-hidden shadow-lg ${isToday
-                      ? "border-blue-600"
-                      : isPast
-                        ? "border-gray-300"
-                        : "border-red-400"
-                      }`}
+                    className="card-back bg-white flex flex-col h-full rounded-lg overflow-hidden"
                     onClick={(e) => handleLinkClick(action.link, action.date, e)}
                   >
                     <div className="relative h-full flex flex-col">
-                      {/* Image with gradient overlay */}
+                      {/* Image header on back - flexible height, can shrink */}
                       <div className="relative flex-1 overflow-hidden min-h-0">
                         <img
                           src={action.image || defaultImage}
                           alt={action.headline}
-                          className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                          className="w-full h-full object-cover"
                         />
-                        {/* Dark gradient overlay for better text contrast */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60"></div>
-
-                        {/* Floating date badge with modern styling */}
-                        <div
-                          className={`absolute top-3 right-3 w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-white shadow-xl backdrop-blur-sm border-2 border-white/30 ${isToday
-                            ? "bg-gradient-to-br from-blue-500 to-blue-700"
-                            : isPast
-                              ? "bg-gradient-to-br from-gray-400 to-gray-600"
-                              : "bg-gradient-to-br from-red-500 to-red-700"
-                            }`}
-                        >
-                          <div className="text-center">
-                            <div className="text-xl leading-none">{action.date}</div>
-                          </div>
-                        </div>
-
-                        {/* Today badge with glow effect */}
-                        {isToday && (
-                          <div className="absolute top-3 left-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl border-2 border-white/30 animate-pulse">
-                            ✦ Today
-                          </div>
-                        )}
+                        <div className="absolute inset-0 bg-black/20"></div>
                       </div>
 
-                      {/* Content area with modern styling */}
-                      <div className="p-5 bg-gradient-to-br from-white to-gray-50 flex-shrink-0 relative">
-                        {/* Decorative corner accent */}
-                        <div className={`absolute top-0 left-0 w-16 h-1 ${isToday
-                          ? "bg-gradient-to-r from-blue-600 to-transparent"
-                          : isPast
-                            ? "bg-gradient-to-r from-gray-400 to-transparent"
-                            : "bg-gradient-to-r from-red-500 to-transparent"
-                          }`}></div>
+                      <div className="p-5 bg-white flex-shrink-0 flex flex-col justify-between">
+                        <div>
+                          <h3 className="font-bold text-gray-900 leading-tight text-lg mb-2">
+                            {action.headline}
+                          </h3>
+                          <p className="text-zinc-600 text-sm">
+                            {action.Details}
+                          </p>
+                        </div>
 
-                        <h3 className="font-bold text-gray-900 leading-tight text-base mb-3">
-                          {action.headline}
-                        </h3>
-
-                        {/* Call to action with icon */}
-                        <div className={`inline-flex items-center gap-2 text-sm font-semibold rounded-full px-4 py-2 transition-all hover:gap-3 ${isToday
-                          ? "text-blue-600 bg-blue-50 hover:bg-blue-100"
-                          : isPast
-                            ? "text-gray-600 bg-gray-100 hover:bg-gray-200"
-                            : "text-red-600 bg-red-50 hover:bg-red-100"
-                          }`}>
-                          <span>Take Action</span>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </svg>
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <div className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                            <span>Take Action</span>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -46,32 +46,41 @@ export function CarouselView({ actions }: CarouselViewProps) {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
+          centerPadding: "0px",
         },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
-          centerPadding: "20px",
+          centerPadding: "40px",
         },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          centerPadding: "15px",
+          centerPadding: "20px",
         },
       },
     ],
   };
 
   return (
-    <div className="w-full px-4 md:px-12 carousel-container">
+    <div className="w-full px-0 md:px-12 carousel-container">
       <style>{`
         .carousel-container .slick-slide {
           transition: all 0.3s ease;
           opacity: 0.5;
           transform: scale(0.85);
+        }
+        @media (max-width: 640px) {
+          .carousel-container .slick-slide {
+            transform: scale(0.75); /* Smaller side cards on mobile */
+          }
+           .carousel-container .slick-slide.slick-center {
+             transform: scale(1);
+           }
         }
         .carousel-container .slick-slide.slick-center {
           opacity: 1;
@@ -95,6 +104,29 @@ export function CarouselView({ actions }: CarouselViewProps) {
         .carousel-container .slick-next {
           right: -50px;
         }
+        @media (max-width: 640px) {
+          .carousel-container .slick-prev {
+            left: 10px;
+          }
+          .carousel-container .slick-next {
+            right: 10px;
+          }
+          /* Hide text on side cards on mobile with smooth transition */
+          .carousel-container .slick-slide .card-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+          }
+          .carousel-container .slick-slide.slick-center .card-content {
+            max-height: 300px; /* Enough to fit content */
+            opacity: 1;
+            padding-top: 1.5rem; /* p-6 equivalent */
+            padding-bottom: 1.5rem;
+          }
+        }
       `}</style>
       <Slider ref={sliderRef} {...settings}>
         {actions.map((action) => {
@@ -102,7 +134,7 @@ export function CarouselView({ actions }: CarouselViewProps) {
           const isPast = action.date < currentDay;
 
           return (
-            <div key={action.date} className="px-3">
+            <div key={action.date} className="px-1 md:px-3">
               <a
                 href={action.link}
                 target="_blank"
@@ -136,7 +168,7 @@ export function CarouselView({ actions }: CarouselViewProps) {
                     </div>
                   )}
                 </div>
-                <div className="p-6 bg-white">
+                <div className="p-6 bg-white card-content">
                   <h3 className="text-xl font-semibold text-gray-900">
                     {action.headline}
                   </h3>
