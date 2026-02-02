@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   basePath: '/No-Kings-Countdown',
   assetPrefix: '/No-Kings-Countdown/',
   async redirects() {
+    if (process.env.NODE_ENV !== 'development') {
+      return [];
+    }
+
     return [
       {
         source: '/',
