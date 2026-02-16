@@ -18,13 +18,12 @@ export interface CountdownItem {
 }
 
 export interface CountdownCSVItem {
-  Action: string;
-  Details: string;
+  headline: string;
+  details: string;
   link_url: string;
   link: string;
   date: number | string;
   image: string;
-  headline: string;
 }
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv';
@@ -50,10 +49,10 @@ const parseCsvDate = (value: CountdownCSVItem["date"]): Date => {
 };
 
 export const toCountdownItem = (item: CountdownCSVItem): CountdownItem => ({
-  action: item.Action,
-  details: item.Details,
-  link_url: item.link_url,
-  link_text: item.link,
+  action: item.headline,
+  details: item.details || '',
+  link_url: item.link_url || '#',
+  link_text: item.link || 'Learn more',
   date: parseCsvDate(item.date),
   image: item.image,
   headline: item.headline,
@@ -61,7 +60,15 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem => ({
 
 export async function fetchCountdownItems(): Promise<CountdownItem[]> {
   try {
-    const response = await fetch(SHEET_URL, { next: { revalidate: 60 } }); // Revalidate every 60 seconds
+    const response = await fetch(SHEET_URL, { 
+      cache: 'no-cache',
+      redirect: 'follow'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const csvText = await response.text();
 
     return new Promise((resolve, reject) => {

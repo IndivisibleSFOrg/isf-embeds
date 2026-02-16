@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# No Kings Countdown - Vue/Nuxt 3 Edition
+
+A countdown application showcasing 30 community actions leading up to the No Kings March, built with Vue 3 and Nuxt 3.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or higher recommended)
+- pnpm (or npm/yarn)
+
+### Installation
+
+Install dependencies:
 
 ```bash
+pnpm install
+# or
+npm install
+# or
+yarn install
+```
+
+### Development
+
+Run the development server:
+
+```bash
+pnpm dev
+# or
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generate a static site:
 
-## Learn More
+```bash
+pnpm generate
+# or
+npm run generate
+# or
+yarn generate
+```
 
-To learn more about Next.js, take a look at the following resources:
+The static files will be generated in the `out` directory.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Preview the production build:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm preview
+# or
+npm run preview
+# or
+yarn preview
+```
 
-## Deploy on Vercel
+## Technology Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Nuxt 3
+- **UI Library**: Vue 3 (Composition API)
+- **Styling**: Tailwind CSS
+- **Icons**: lucide-vue-next
+- **Carousel**: vue-slick-carousel
+- **Data Parsing**: papaparse
+- **TypeScript**: Full type safety
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+.
+├── assets/
+│   └── css/
+│       └── main.css          # Global styles
+├── components/
+│   ├── CountdownDisplay.vue  # Main display component
+│   ├── MasonryView.vue       # Grid/masonry view
+│   └── CarouselView.vue      # Carousel view
+├── composables/
+│   ├── dateHelpers.ts        # Date utility functions
+│   └── googleSheets.ts       # Data fetching logic
+├── pages/
+│   └── index.vue             # Home page
+├── public/                   # Static assets
+├── app.vue                   # Root app component
+├── nuxt.config.ts            # Nuxt configuration
+└── tailwind.config.js        # Tailwind configuration
+```
+
+## Features
+
+- **Two View Modes**: Switch between masonry grid and carousel views
+- **Interactive Cards**: Flip cards to reveal action details
+- **Current Day Highlighting**: Automatically highlights today's action
+- **Responsive Design**: Optimized for mobile and desktop
+- **Static Site Generation**: Deploys as a static site for GitHub Pages
+
+## Data Source
+
+The application fetches countdown data from a Google Sheets CSV export. Update the `SHEET_URL` in `composables/googleSheets.ts` to point to your own data source.
+
+## Deployment
+
+This project is configured for GitHub Pages deployment with a base path of `/No-Kings-Countdown/`. To deploy to a different path or domain, update the `baseURL` in [nuxt.config.ts](nuxt.config.ts).
+
+## License
+
+This project is open source and available under the MIT License.
