@@ -16,10 +16,10 @@
           <!-- Layout Switcher -->
           <div class="flex gap-2 bg-gray-100 p-1 rounded-lg flex-wrap">
             <button
-              @click="layout = 'masonry'"
+              @click="layout = 'grid'"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'masonry'
+                layout === 'grid'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-gray-700 hover:bg-gray-200'
               ]"
@@ -28,16 +28,16 @@
               <span class="hidden sm:inline">Grid</span>
             </button>
             <button
-              @click="layout = 'masonryWall'"
+              @click="layout = 'wall'"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'masonryWall'
+                layout === 'wall'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-gray-700 hover:bg-gray-200'
               ]"
             >
               <LayoutGrid :size="16" />
-              <span class="hidden sm:inline">Masonry</span>
+              <span class="hidden sm:inline">Wall</span>
             </button>
             <button
               @click="layout = 'calendar'"
@@ -70,8 +70,8 @@
 
     <!-- Main Content -->
     <main class="py-8 md:py-12 max-w-7xl mx-auto px-4">
-      <GridView v-if="layout === 'masonry'" :actions="actions" />
-      <MasonryWallView v-else-if="layout === 'masonryWall'" :actions="actions" />
+      <GridView v-if="layout === 'grid'" :actions="actions" />
+      <MasonryWallView v-else-if="layout === 'wall'" :actions="actions" />
       <CalendarView v-else-if="layout === 'calendar'" :actions="actions" />
       <div v-else class="max-w-6xl mx-auto">
         <CarouselView :key="'carousel'" :actions="actions" />
@@ -99,10 +99,11 @@ import type { CountdownItem } from '~/composables/googleSheets';
 
 interface Props {
   actions: CountdownItem[];
+  initialLayout?: LayoutType;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-type LayoutType = 'masonry' | 'masonryWall' | 'calendar' | 'carousel';
-const layout = ref<LayoutType>('carousel');
+type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
+const layout = ref<LayoutType>(props.initialLayout || 'carousel');
 </script>
