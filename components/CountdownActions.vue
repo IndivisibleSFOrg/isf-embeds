@@ -80,20 +80,30 @@
 
     <!-- Footer -->
     <footer class="mt-16 bg-gradient-to-r from-red-600 to-blue-600 text-white py-8">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <p class="text-lg font-semibold">
-          Every action counts. Start making a difference today!
-        </p>
-        <p class="mt-2 text-sm text-white/80">
-          Together, we can build stronger, more connected communities.
-        </p>
+      <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4">
+        <div class="flex-1 text-center">
+          <p class="text-lg font-semibold">
+            Every action counts. Start making a difference today!
+          </p>
+          <p class="mt-2 text-sm text-white/80">
+            Together, we can build stronger, more connected communities.
+          </p>
+        </div>
+        <div class="text-xs text-white/60 text-right">
+          <div class="font-mono">
+            {{ buildInfo.ref }} @ {{ buildInfo.shortSha }}
+          </div>
+          <div class="text-[10px]">
+            {{ buildInfo.date }}
+          </div>
+        </div>
       </div>
     </footer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Grid3x3, Image, LayoutGrid, Calendar } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -104,6 +114,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const router = useRouter();
+const config = useRuntimeConfig();
 
 type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
 const layout = ref<LayoutType>(props.initialLayout || 'carousel');
@@ -112,4 +123,16 @@ const changeLayout = (newLayout: LayoutType) => {
   layout.value = newLayout;
   router.push({ query: { layout: newLayout } });
 };
+
+const buildInfo = computed(() => {
+  const sha = config.public.commitSha as string;
+  const ref = config.public.commitRef as string;
+  const date = config.public.buildDate as string;
+  
+  return {
+    shortSha: sha.substring(0, 7),
+    ref: ref,
+    date: new Date(date).toISOString().split('T')[0]
+  };
+});
 </script>

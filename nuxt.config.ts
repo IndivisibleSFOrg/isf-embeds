@@ -39,5 +39,13 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true
+  },
+
+  runtimeConfig: {
+    public: {
+      commitSha: process.env.NUXT_PUBLIC_COMMIT_SHA || 'dev',
+      commitRef: process.env.NUXT_PUBLIC_COMMIT_REF || 'local',
+      buildDate: process.env.NUXT_PUBLIC_BUILD_DATE || new Date().toISOString()
+    }
   }
 });
