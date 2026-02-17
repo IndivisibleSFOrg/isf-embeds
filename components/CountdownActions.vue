@@ -16,7 +16,7 @@
           <!-- Layout Switcher -->
           <div class="flex gap-2 bg-gray-100 p-1 rounded-lg flex-wrap">
             <button
-              @click="layout = 'grid'"
+              @click="changeLayout('grid')"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'grid'
@@ -28,7 +28,7 @@
               <span class="hidden sm:inline">Grid</span>
             </button>
             <button
-              @click="layout = 'wall'"
+              @click="changeLayout('wall')"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'wall'
@@ -40,7 +40,7 @@
               <span class="hidden sm:inline">Wall</span>
             </button>
             <button
-              @click="layout = 'calendar'"
+              @click="changeLayout('calendar')"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'calendar'
@@ -52,7 +52,7 @@
               <span class="hidden sm:inline">Calendar</span>
             </button>
             <button
-              @click="layout = 'carousel'"
+              @click="changeLayout('carousel')"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'carousel'
@@ -103,7 +103,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const router = useRouter();
 
 type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
 const layout = ref<LayoutType>(props.initialLayout || 'carousel');
+
+const changeLayout = (newLayout: LayoutType) => {
+  layout.value = newLayout;
+  router.push({ query: { layout: newLayout } });
+};
 </script>
