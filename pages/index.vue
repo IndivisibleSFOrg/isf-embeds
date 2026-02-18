@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-blue-50">
-    <CountdownActions v-if="communityActions" :actions="communityActions" :initial-layout="initialLayout" />
+    <CountdownActions v-if="communityActions" :actions="communityActions" :initial-layout="initialLayout" :fetched-at="fetchedAt" />
     <div v-else class="min-h-screen flex items-center justify-center">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
     </div>
@@ -14,6 +14,7 @@ import type { CountdownItem } from '~/composables/googleSheets';
 
 const route = useRoute();
 const communityActions = ref<CountdownItem[] | null>(null);
+const fetchedAt = ref<Date | null>(null);
 
 type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
 const validLayouts: LayoutType[] = ['grid', 'wall', 'calendar', 'carousel'];
@@ -28,6 +29,7 @@ const initialLayout = computed<LayoutType | undefined>(() => {
 
 onMounted(async () => {
   communityActions.value = await fetchCountdownItems();
+  fetchedAt.value = new Date();
 });
 
 useHead({

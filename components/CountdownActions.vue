@@ -94,7 +94,11 @@
             {{ buildInfo.ref }} @ {{ buildInfo.shortSha }}
           </div>
           <div class="text-[10px]">
-            {{ buildInfo.date }}
+            built {{ buildInfo.date }}
+          </div>
+          <hr/>
+          <div v-if="fetchedAt" class="text-[10px] mt-1">
+            data as of<br/>{{ dataFreshnessLabel }}
           </div>
         </div>
       </div>
@@ -110,6 +114,7 @@ import type { CountdownItem } from '~/composables/googleSheets';
 interface Props {
   actions: CountdownItem[];
   initialLayout?: LayoutType;
+  fetchedAt?: Date | null;
 }
 
 const props = defineProps<Props>();
@@ -134,5 +139,18 @@ const buildInfo = computed(() => {
     ref: ref,
     date: new Date(date).toISOString().split('T')[0]
   };
+});
+
+const dataFreshnessLabel = computed(() => {
+  if (!props.fetchedAt) return '';
+  return props.fetchedAt.toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).replace(/(\d+)\/(\d+)\/(\d+),\s*/, '$3-$1-$2 '); // + ' PT';
 });
 </script>
