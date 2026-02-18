@@ -97,7 +97,7 @@
             built {{ buildInfo.date }}
           </div>
           <hr/>
-          <div v-if="fetchedAt" class="text-[10px] mt-1">
+          <div v-if="fetchedAt" class="text-[10px] mt-1 cursor-pointer hover:text-white/90 transition-colors" title="Click to refresh data" @click="emit('refresh')">
             data as of<br/>{{ dataFreshnessLabel }}
           </div>
         </div>
@@ -118,6 +118,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
 const config = useRuntimeConfig();
 

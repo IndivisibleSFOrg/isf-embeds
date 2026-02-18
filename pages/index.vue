@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-blue-50">
-    <CountdownActions v-if="communityActions" :actions="communityActions" :initial-layout="initialLayout" :fetched-at="fetchedAt" />
+    <CountdownActions v-if="communityActions" :actions="communityActions" :initial-layout="initialLayout" :fetched-at="fetchedAt" @refresh="loadData" />
     <div v-else class="min-h-screen flex items-center justify-center">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
     </div>
@@ -27,10 +27,12 @@ const initialLayout = computed<LayoutType | undefined>(() => {
   return undefined;
 });
 
-onMounted(async () => {
+const loadData = async () => {
   communityActions.value = await fetchCountdownItems();
   fetchedAt.value = new Date();
-});
+};
+
+onMounted(loadData);
 
 useHead({
   title: '30 Days Until No Kings March',
