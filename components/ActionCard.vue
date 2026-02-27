@@ -50,36 +50,46 @@
             {{ action.headline }}
           </p>
 
-          <!-- Bottom row: share (left) + complete (right) -->
+          <!-- Bottom row: details (left) + share + complete (right) -->
           <div class="flex items-center justify-between mt-1">
-            <!-- Share via WebShare API -->
+            <!-- Details link -->
             <button
-              v-if="canShare"
-              class="text-gray-500 hover:text-gray-800 rounded-full p-1 transition-colors"
-              title="Share"
-              @click.stop="share"
+              class="text-blue-600 hover:text-blue-800 text-xs font-medium underline underline-offset-2 transition-colors"
+              @click.stop="openDetail(props.action)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="18" cy="5" r="3" />
-                <circle cx="6" cy="12" r="3" />
-                <circle cx="18" cy="19" r="3" />
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-              </svg>
+              Details&hellip;
             </button>
-            <div v-else />
 
-            <!-- Mark complete (stub) -->
-            <button
-              class="rounded-full p-1 transition-colors"
-              :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
-              title="Mark complete"
-              @click.stop="toggleComplete"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </button>
+            <!-- Right side: share + complete -->
+            <div class="flex items-center gap-1">
+              <!-- Share via WebShare API -->
+              <button
+                v-if="canShare"
+                class="text-gray-500 hover:text-gray-800 rounded-full p-1 transition-colors"
+                title="Share"
+                @click.stop="share"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+              </button>
+
+              <!-- Mark complete (stub) -->
+              <button
+                class="rounded-full p-1 transition-colors"
+                :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
+                title="Mark complete"
+                @click.stop="toggleComplete"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -88,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -97,6 +107,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const openDetail = inject<(action: CountdownItem) => void>('openDetail', () => {});
 
 const isFlipped = ref(false);
 const isComplete = ref(false);

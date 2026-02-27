@@ -31,3 +31,11 @@ export const parseCsvDate = (value: string): Date | null => {
   console.error(`parseCsvDate: invalid date format: "${value}"`);
   return null;
 };
+
+// Format a Date as YYYY-MM-DD (local time) for use as a URL key.
+export const formatDateKey = (date: Date): string => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+};

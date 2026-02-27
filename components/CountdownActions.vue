@@ -116,13 +116,22 @@
         </div>
       </div>
     </footer>
+
+    <!-- Action detail overlay -->
+    <ActionDetails
+      v-if="selectedAction"
+      :action="selectedAction"
+      @close="closeDetail"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
 import { Grid3x3, Image, LayoutGrid, Calendar, List } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
+import { formatDateKey } from '~/composables/dateHelpers';
+import ActionDetails from './ActionDetails.vue';
 
 interface Props {
   actions: CountdownItem[];
@@ -133,7 +142,38 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
+const route = useRoute();
 const config = useRuntimeConfig();
+
+// --- Detail overlay ---
+const selectedAction = ref<CountdownItem | null>(null);
+
+const openDetail = (action: CountdownItem) => {
+  selectedAction.value = action;
+  router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });
+};
+
+const closeDetail = () => {
+  selectedAction.value = null;
+  const q = { ...route.query };
+  delete q.detail;
+  router.push({ query: q });
+};
+
+provide('openDetail', openDetail);
+
+// Auto-open from URL on load (actions arrive async, so watch for them)
+watch(
+  () => props.actions,
+  (actions) => {
+    const key = route.query.detail as string | undefined;
+    if (key && actions.length && !selectedAction.value) {
+      const match = actions.find(a => formatDateKey(a.date) === key);
+      if (match) selectedAction.value = match;
+    }
+  },
+  { immediate: true },
+);
 
 type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel' | 'list';
 const layout = ref<LayoutType>(props.initialLayout || 'carousel');
