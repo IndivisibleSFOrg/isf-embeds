@@ -63,6 +63,18 @@
               <Image :size="16" />
               <span class="hidden sm:inline">Carousel</span>
             </button>
+            <button
+              @click="changeLayout('list')"
+              :class="[
+                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
+                layout === 'list'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-gray-700 hover:bg-gray-200'
+              ]"
+            >
+              <List :size="16" />
+              <span class="hidden sm:inline">List</span>
+            </button>
           </div>
         </div>
       </div>
@@ -73,6 +85,7 @@
       <GridView v-if="layout === 'grid'" :actions="actions" />
       <MasonryWallView v-else-if="layout === 'wall'" :actions="actions" />
       <CalendarView v-else-if="layout === 'calendar'" :actions="actions" />
+      <ListView v-else-if="layout === 'list'" :actions="actions" />
       <div v-else class="max-w-6xl mx-auto">
         <CarouselView :key="'carousel'" :actions="actions" />
       </div>
@@ -108,7 +121,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Grid3x3, Image, LayoutGrid, Calendar } from 'lucide-vue-next';
+import { Grid3x3, Image, LayoutGrid, Calendar, List } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 
 interface Props {
@@ -122,7 +135,7 @@ const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
 const config = useRuntimeConfig();
 
-type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
+type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel' | 'list';
 const layout = ref<LayoutType>(props.initialLayout || 'carousel');
 
 const changeLayout = (newLayout: LayoutType) => {

@@ -16,8 +16,8 @@ const route = useRoute();
 const communityActions = ref<CountdownItem[] | null>(null);
 const fetchedAt = ref<Date | null>(null);
 
-type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel';
-const validLayouts: LayoutType[] = ['grid', 'wall', 'calendar', 'carousel'];
+type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel' | 'list';
+const validLayouts: LayoutType[] = ['grid', 'wall', 'calendar', 'carousel', 'list'];
 
 const initialLayout = computed<LayoutType | undefined>(() => {
   const layoutParam = route.query.layout as string;
