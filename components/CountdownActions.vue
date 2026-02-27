@@ -101,6 +101,12 @@
           <p class="mt-2 text-sm text-white/80">
             Together, we can build stronger, more connected communities.
           </p>
+          <button
+            class="mt-3 text-xs text-white/60 hover:text-white underline transition-colors"
+            @click="showPrivacyModal = true"
+          >
+            Privacy
+          </button>
         </div>
         <div class="text-xs text-white/60 text-right">
           <div class="font-mono">
@@ -123,6 +129,9 @@
       :action="selectedAction"
       @close="closeDetail"
     />
+
+    <!-- Privacy modal -->
+    <PrivacyModal v-if="showPrivacyModal" @close="showPrivacyModal = false" />
   </div>
 </template>
 
@@ -132,6 +141,7 @@ import { Grid3x3, Image, LayoutGrid, Calendar, List } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import ActionDetails from './ActionDetails.vue';
+import PrivacyModal from './PrivacyModal.vue';
 
 interface Props {
   actions: CountdownItem[];
@@ -144,6 +154,8 @@ const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
 const route = useRoute();
 const config = useRuntimeConfig();
+
+const showPrivacyModal = ref(false);
 
 // --- Detail overlay ---
 const selectedAction = ref<CountdownItem | null>(null);

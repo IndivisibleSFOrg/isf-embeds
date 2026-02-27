@@ -47,8 +47,20 @@
             <h2 class="font-bold text-isf-navy text-lg leading-snug flex-1">
               {{ action.headline }}
             </h2>
+            <!-- Completion toggle -->
             <button
-              v-if="canShare || isDev"
+              class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
+              :class="isComplete(action.date) ? 'bg-isf-success hover:opacity-80' : 'bg-gray-400/80 hover:bg-gray-500'"
+              :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
+              @click="toggleComplete(action.date)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+            <!-- Share -->
+            <button
+              v-if="(canShare && isComplete(action.date)) || isDev"
               class="flex-shrink-0 transition-colors p-0.5 mt-0.5"
               :class="canShare ? 'text-isf-slate hover:text-isf-red' : 'text-isf-slate'"
               aria-label="Share"
@@ -93,6 +105,7 @@
 import { computed, onMounted, onUnmounted } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
+import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
   action: CountdownItem;
@@ -100,6 +113,8 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{ close: [] }>();
+
+const { isComplete, toggleComplete } = useActionCompletion();
 
 const dateLabel = computed(() => {
   const d = props.action.date;

@@ -26,6 +26,16 @@
         >
           Today
         </div>
+
+        <!-- Completion badge -->
+        <div
+          class="absolute bottom-2 right-2 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
+          :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
       </div>
 
       <!-- Back -->
@@ -60,17 +70,15 @@
               Details&hellip;
             </button>
 
-            <!-- Mark complete (stub) -->
-            <button
-              class="rounded-full p-1 transition-colors"
-              :class="isComplete ? 'text-isf-success hover:opacity-80' : 'text-isf-slate hover:text-isf-navy'"
-              title="Mark complete"
-              @click.stop="toggleComplete"
+            <!-- Completion badge (read-only; toggle via detail view) -->
+            <div
+              class="rounded-full w-7 h-7 flex items-center justify-center shadow"
+              :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -82,6 +90,7 @@
 import { ref, computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
+import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
   action: CountdownItem;
@@ -92,7 +101,7 @@ const props = defineProps<Props>();
 const openDetail = inject<(action: CountdownItem) => void>('openDetail', () => {});
 
 const isFlipped = ref(false);
-const isComplete = ref(false);
+const { isComplete } = useActionCompletion();
 
 const dateLabel = computed(() => {
   const d = props.action.date;
@@ -116,10 +125,6 @@ const flip = () => {
 const handleBackClick = (e: Event) => {
   // Flip back when clicking the back face directly (not on a button)
   isFlipped.value = false;
-};
-
-const toggleComplete = () => {
-  isComplete.value = !isComplete.value;
 };
 </script>
 

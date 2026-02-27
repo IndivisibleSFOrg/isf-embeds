@@ -33,7 +33,7 @@
               </div>
               <div
                 :class="[
-                  'flex-1 flex items-center px-4 bg-white',
+                  'flex-1 flex items-center justify-between px-4 bg-white',
                   isToday(action.date) ? 'border-l-4 border-isf-blue' : 'border-l-4 border-isf-red'
                 ]"
               >
@@ -50,6 +50,15 @@
                   >
                     Today
                   </div>
+                </div>
+                <!-- Completion badge -->
+                <div
+                  class="flex-shrink-0 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
+                  :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -71,11 +80,22 @@
                 <p class="font-semibold text-isf-navy text-sm leading-tight line-clamp-2">
                   {{ action.headline }}
                 </p>
-                <div class="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-isf-blue">
-                  <span>Take Action</span>
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
+                <div class="mt-1 flex items-center justify-between">
+                  <div class="inline-flex items-center gap-1 text-xs font-semibold text-isf-blue">
+                    <span>Take Action</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                  <!-- Completion badge (read-only; toggle via detail view) -->
+                  <div
+                    class="flex-shrink-0 rounded-full w-7 h-7 flex items-center justify-center shadow"
+                    :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -90,6 +110,7 @@
 import { ref, computed } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
+import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
   actions: CountdownItem[];
@@ -98,6 +119,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const flippedCards = ref<Set<string>>(new Set());
+const { isComplete } = useActionCompletion();
 
 // Return the Monday of the week containing `date`
 const weekStart = (date: Date): Date => {
