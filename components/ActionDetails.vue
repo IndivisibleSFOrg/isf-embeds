@@ -126,7 +126,7 @@ const dateLabel = computed(() => {
 });
 
 const canShare = computed(() => typeof navigator !== 'undefined' && !!navigator.share);
-const isDev = import.meta.dev;
+const { isDevMode: isDev } = useDevMode();
 
 const shareAction = async () => {
   try {

@@ -155,7 +155,7 @@ const handleShare = async () => {
 
 // --- Detail overlay ---
 const selectedAction = ref<CountdownItem | null>(null);
-const isDev = import.meta.dev;
+const { isDevMode: isDev } = useDevMode();
 
 const isActionFuture = (action: CountdownItem) => {
   const today = new Date();
@@ -164,7 +164,7 @@ const isActionFuture = (action: CountdownItem) => {
 };
 
 const openDetail = (action: CountdownItem) => {
-  if (isActionFuture(action) && !isDev) return;
+  if (isActionFuture(action) && !isDev.value) return;
   selectedAction.value = action;
   router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });
 };
@@ -185,9 +185,9 @@ watch(
     const key = route.query.detail as string | undefined;
     if (key && actions.length && !selectedAction.value) {
       const match = actions.find(a => formatDateKey(a.date) === key);
-      if (match && (!isActionFuture(match) || isDev)) {
+      if (match && (!isActionFuture(match) || isDev.value)) {
         selectedAction.value = match;
-      } else if (match && isActionFuture(match) && !isDev) {
+      } else if (match && isActionFuture(match) && !isDev.value) {
         // Strip the blocked future detail param from the URL silently
         const q = { ...route.query };
         delete q.detail;

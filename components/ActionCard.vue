@@ -155,10 +155,10 @@ const isFuture = computed(() => {
 });
 
 // Allow flipping future cards in dev for testing; block in production.
-const isDev = import.meta.dev;
+const { isDevMode: isDev } = useDevMode();
 
 const flip = () => {
-  if (isFuture.value && !isDev) return;
+  if (isFuture.value && !isDev.value) return;
   isFlipped.value = !isFlipped.value;
 };
 
