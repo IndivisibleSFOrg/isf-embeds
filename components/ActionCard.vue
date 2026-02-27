@@ -27,15 +27,25 @@
           Today
         </div>
 
-        <!-- Completion badge -->
-        <div
+        <!-- Completion badge (clickable → opens detail) -->
+        <button
           class="absolute bottom-2 right-2 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
-          :class="isComplete(action.date) ? 'bg-isf-green' : 'bg-gray-400/80'"
+          :class="isComplete(action.date) ? 'bg-isf-green hover:brightness-110' : 'bg-isf-red hover:brightness-110'"
+          :title="isComplete(action.date) ? 'Completed – click for details' : 'Not completed – click for details'"
+          @click.stop="openDetail(props.action)"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </div>
+          <template v-if="isComplete(action.date)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </template>
+          <template v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </template>
+        </button>
       </div>
 
       <!-- Back -->
@@ -70,15 +80,25 @@
               Details&hellip;
             </button>
 
-            <!-- Completion badge (read-only; toggle via detail view) -->
-            <div
-              class="rounded-full w-7 h-7 flex items-center justify-center shadow"
-              :class="isComplete(action.date) ? 'bg-isf-green' : 'bg-gray-400/80'"
+            <!-- Completion badge (clickable → opens detail) -->
+            <button
+              class="rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
+              :class="isComplete(action.date) ? 'bg-isf-green hover:brightness-110' : 'bg-isf-red hover:brightness-110'"
+              :title="isComplete(action.date) ? 'Completed – click for details' : 'Not completed – click for details'"
+              @click.stop="openDetail(props.action)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
+              <template v-if="isComplete(action.date)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </template>
+              <template v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </template>
+            </button>
           </div>
         </div>
       </div>
