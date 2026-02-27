@@ -2,17 +2,13 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  
+
   modules: [
     '@nuxtjs/tailwindcss'
   ],
 
-  routeRules: {
-    '/': { redirect: '/nk3-countdown' }
-  },
-
   app: {
-    baseURL: '/',
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     head: {
       title: 'No Kings Countdown',
       meta: [
@@ -33,6 +29,10 @@ export default defineNuxtConfig({
   ssr: false,
 
   nitro: {
+    prerender: {
+      crawlLinks: false,  // disable crawling; explicitly list routes instead
+      routes: ['/nk3-countdown'],
+    },
     preset: 'static',
     output: {
       publicDir: 'out'
