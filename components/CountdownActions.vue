@@ -13,6 +13,25 @@
             </p>
           </div>
 
+          <!-- Score + Share -->
+          <div class="flex flex-col items-start md:items-end gap-2">
+            <div v-if="totalCount > 0" class="flex items-center gap-3">
+              <span class="font-display text-lg font-bold text-isf-navy">
+                {{ completedCount }}<span class="text-isf-slate font-normal">/{{ totalCount }}</span> completed
+              </span>
+              <button
+                @click="handleShare"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-isf-blue text-white text-sm font-semibold hover:bg-isf-navy transition-colors"
+              >
+                <Share2 :size="14" />
+                Share
+              </button>
+            </div>
+            <p v-if="shareNotice" class="text-xs text-isf-slate max-w-xs text-right">
+              {{ shareNotice }}
+            </p>
+          </div>
+
           <!-- Layout Switcher -->
           <div class="flex gap-2 bg-isf-tinted p-1 rounded-lg flex-wrap">
             <button
@@ -137,9 +156,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
-import { Grid3x3, Image, LayoutGrid, Calendar, List } from 'lucide-vue-next';
+import { Grid3x3, Image, LayoutGrid, Calendar, List, Share2 } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
+import { useActionCompletion } from '~/composables/useActionCompletion';
 import ActionDetails from './ActionDetails.vue';
 import PrivacyModal from './PrivacyModal.vue';
 
@@ -156,6 +176,50 @@ const route = useRoute();
 const config = useRuntimeConfig();
 
 const showPrivacyModal = ref(false);
+
+// --- Completion score ---
+const { completedKeys } = useActionCompletion();
+
+const shareMessage = computed(() =>
+  `I'm ramping up for No Kings 3 with daily civic actions. I've completed ${completedCount.value}/${totalCount.value} actions. Join me at https://nk3-ramp-up.org/`
+);
+
+const availableActions = computed(() => {
+  const today = new Date();
+  today.setHours(23, 59, 59, 999);
+  return props.actions.filter(a => a.date <= today);
+});
+
+const completedCount = computed(() =>
+  availableActions.value.filter(a => completedKeys.value.has(formatDateKey(a.date))).length
+);
+
+const totalCount = computed(() => availableActions.value.length);
+
+const shareNotice = ref<string | null>(null);
+let shareNoticeTimer: ReturnType<typeof setTimeout> | null = null;
+
+const handleShare = async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({ text: shareMessage.value });
+    } catch {
+      // user cancelled — ignore
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(shareMessage.value);
+    } catch {
+      // clipboard may be blocked; still show the notice
+    }
+    if (shareNoticeTimer) clearTimeout(shareNoticeTimer);
+    shareNotice.value =
+      'Device does not support WebShare API. You must share manually. Message has been copied to the clipboard.';
+    shareNoticeTimer = setTimeout(() => {
+      shareNotice.value = null;
+    }, 6000);
+  }
+};
 
 // --- Detail overlay ---
 const selectedAction = ref<CountdownItem | null>(null);
