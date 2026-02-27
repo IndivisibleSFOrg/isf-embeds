@@ -6,10 +6,10 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 class="font-display text-4xl font-bold bg-gradient-to-r from-isf-red via-isf-blue to-isf-red bg-clip-text text-transparent">
-              30 Days Until No Kings March
+              28 Days Until No Kings March
             </h1>
             <p class="mt-2 text-isf-slate">
-              30 ways to make a difference before then
+              28 ways to make a difference before then
             </p>
           </div>
 
