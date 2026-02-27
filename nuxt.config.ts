@@ -7,6 +7,10 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss'
   ],
 
+  routeRules: {
+    '/': { redirect: '/nk3-countdown' }
+  },
+
   app: {
     baseURL: '/',
     head: {
