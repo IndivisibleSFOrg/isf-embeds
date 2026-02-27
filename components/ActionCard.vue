@@ -1,7 +1,13 @@
 <template>
   <div
-    class="action-card cursor-pointer rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-    :class="{ flipped: isFlipped }"
+    class="action-card rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+    :class="[
+      { flipped: isFlipped },
+      { 'cursor-pointer': !isFuture || isDev },
+      { 'cursor-default': isFuture && !isDev },
+      isToday ? 'ring-4 ring-isf-blue ring-offset-2' : '',
+      isFuture ? 'opacity-50' : '',
+    ]"
     @click="flip"
   >
     <div class="action-card-inner">
@@ -29,6 +35,7 @@
 
         <!-- Completion badge (clickable → opens detail) -->
         <button
+          v-if="!isFuture"
           class="absolute bottom-2 right-2 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
           :class="isComplete(action.date) ? 'bg-isf-green hover:brightness-110' : 'bg-isf-red hover:brightness-110'"
           :title="isComplete(action.date) ? 'Completed – click for details' : 'Not completed – click for details'"
@@ -82,6 +89,7 @@
 
             <!-- Completion badge (clickable → opens detail) -->
             <button
+              v-if="!isFuture"
               class="rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
               :class="isComplete(action.date) ? 'bg-isf-green hover:brightness-110' : 'bg-isf-red hover:brightness-110'"
               :title="isComplete(action.date) ? 'Completed – click for details' : 'Not completed – click for details'"
@@ -138,7 +146,17 @@ const isToday = computed(() => {
   );
 });
 
+const isFuture = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return props.action.date > today;
+});
+
+// Allow flipping future cards in dev for testing; block in production.
+const isDev = import.meta.dev;
+
 const flip = () => {
+  if (isFuture.value && !isDev) return;
   isFlipped.value = !isFlipped.value;
 };
 
