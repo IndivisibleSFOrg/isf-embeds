@@ -5,7 +5,7 @@
     </div>
     <div v-else class="grid-view">
       <div
-        v-for="action in shuffledActions"
+        v-for="action in sortedActions"
         :key="action.date.toISOString()"
         :class="[
           'card-flip cursor-pointer rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]',
@@ -99,16 +99,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// Shuffle array helper
-const shuffleArray = <T,>(array: T[]): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
 // Assign random heights for Pinterest-style layout
 const heights = [200, 250, 300, 350, 280, 320, 240, 360];
 
@@ -119,7 +109,7 @@ const overlayClasses = [
   "bg-white/25",
 ];
 
-const shuffledActions = ref<any[]>([]);
+const sortedActions = ref<any[]>([]);
 const flippedCards = ref<Set<string>>(new Set());
 const isMounted = ref(false);
 
@@ -153,8 +143,8 @@ const handleLinkClick = (link: string, key: string, e: Event) => {
 };
 
 onMounted(() => {
-  // Shuffle and assign properties only on client to ensure deterministic render match
-  const shuffled = shuffleArray(props.actions).map((action, index) => {
+  // Sort by date ascending and assign properties only on client to ensure deterministic render match
+  const sorted = [...props.actions].sort((a, b) => a.date.getTime() - b.date.getTime()).map((action, index) => {
     const overlayClass =
       overlayClasses[Math.floor(Math.random() * overlayClasses.length)];
     return {
@@ -163,7 +153,7 @@ onMounted(() => {
       overlayClass: overlayClass,
     };
   });
-  shuffledActions.value = shuffled;
+  sortedActions.value = sorted;
   isMounted.value = true;
 });
 </script>
