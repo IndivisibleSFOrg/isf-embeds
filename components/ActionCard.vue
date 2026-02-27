@@ -29,56 +29,58 @@
       </div>
 
       <!-- Back -->
-      <div class="action-card-face action-card-back rounded-lg overflow-hidden" @click.stop="handleBackClick">
-        <img
-          :src="action.image_back_url || defaultImage"
-          :alt="action.headline"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-        <div class="absolute inset-0 bg-black/55" />
-
-        <!-- Date: upper left -->
-        <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
-          {{ dateLabel }}
+      <div class="action-card-face action-card-back rounded-lg overflow-hidden flex flex-col" @click.stop="handleBackClick">
+        <!-- Upper 50%: image -->
+        <div class="relative h-1/2 flex-shrink-0">
+          <img
+            :src="action.image_back_url || defaultImage"
+            :alt="action.headline"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+          <!-- Date: upper left -->
+          <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
+            {{ dateLabel }}
+          </div>
         </div>
 
-        <!-- Headline: vertically centered -->
-        <div class="absolute inset-x-3 top-10 bottom-12 flex items-center justify-center">
-          <p class="text-white font-bold text-sm text-center drop-shadow-lg line-clamp-5">
+        <!-- Lower 50%: headline + actions -->
+        <div class="h-1/2 flex-shrink-0 bg-white flex flex-col justify-between px-3 py-2">
+          <p class="font-bold text-gray-900 text-sm leading-snug line-clamp-4">
             {{ action.headline }}
           </p>
-        </div>
 
-        <!-- Bottom row: share (left) + complete (right) -->
-        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <!-- Share via WebShare API -->
-          <button
-            v-if="canShare"
-            class="text-white bg-white/20 hover:bg-white/40 rounded-full p-1.5 transition-colors"
-            title="Share"
-            @click.stop="share"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3" />
-              <circle cx="6" cy="12" r="3" />
-              <circle cx="18" cy="19" r="3" />
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-            </svg>
-          </button>
-          <div v-else />
+          <!-- Bottom row: share (left) + complete (right) -->
+          <div class="flex items-center justify-between mt-1">
+            <!-- Share via WebShare API -->
+            <button
+              v-if="canShare"
+              class="text-gray-500 hover:text-gray-800 rounded-full p-1 transition-colors"
+              title="Share"
+              @click.stop="share"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <div v-else />
 
-          <!-- Mark complete (stub) -->
-          <button
-            class="text-white bg-white/20 hover:bg-white/40 rounded-full p-1.5 transition-colors"
-            :class="{ 'bg-green-500/60 hover:bg-green-500/80': isComplete }"
-            title="Mark complete"
-            @click.stop="toggleComplete"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </button>
+            <!-- Mark complete (stub) -->
+            <button
+              class="rounded-full p-1 transition-colors"
+              :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
+              title="Mark complete"
+              @click.stop="toggleComplete"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
