@@ -75,7 +75,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { defaultImage } from '~/composables/constants';
+import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
 
 interface Props {

@@ -90,7 +90,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { defaultImage } from '~/composables/constants';
+import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import type { CountdownItem } from '~/composables/googleSheets';
 
 interface Props {
