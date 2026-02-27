@@ -9,10 +9,16 @@ import { parseCsvDate } from '~/composables/dateHelpers';
 // retrieves the CSV data from the Google Sheet, parses it, and returns an
 // array of CountdownItem objects.
 
+export interface ImageAttribution {
+  name: string;
+  url: string;
+}
+
 export interface CountdownItem {
   date: Date;
   details: string;
   headline: string;
+  image_attributions: ImageAttribution[];
   image_back_url: string;
   image_front_url: string;
   link_text: string;
@@ -24,12 +30,30 @@ export interface CountdownCSVItem {
   date: string;
   details: string;
   headline: string;
+  image_attributions: string;
   image_back_url: string;
   image_front_url: string;
   link_text: string;
   link_url: string;
   social_message: string;
 }
+
+const parseImageAttributions = (raw: string): ImageAttribution[] => {
+  if (!raw) return [];
+  return raw
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      // Format: https://example.com/photo (Author Name)
+      const match = line.match(/^(.+?)\s+\((.+)\)$/);
+      if (match) {
+        return { url: match[1].trim(), name: match[2].trim() };
+      }
+      // Fallback: treat the whole line as a URL with no name
+      return { url: line, name: '' };
+    });
+};
 
 export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
   const date = parseCsvDate(item.date);
@@ -38,6 +62,7 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null =>
     date,
     details: item.details || '',
     headline: item.headline,
+    image_attributions: parseImageAttributions(item.image_attributions || ''),
     image_back_url: item.image_back_url || item.image_front_url,
     image_front_url: item.image_front_url,
     link_text: item.link_text || 'Learn more',

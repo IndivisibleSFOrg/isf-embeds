@@ -28,6 +28,16 @@
             {{ dateLabel }}
           </div>
 
+          <!-- Image attribution: lower left -->
+          <a
+            v-if="action.image_attributions[0]"
+            :href="action.image_attributions[0].url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="absolute bottom-3 left-3 bg-isf-navy/90 text-white text-[10px] px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
+            @click.stop
+          >{{ action.image_attributions[0].name || '©' }}</a>
+
           <!-- Close button -->
           <button
             class="absolute top-3 right-3 text-white bg-black/30 hover:bg-black/50 rounded-full p-1.5 transition-colors"

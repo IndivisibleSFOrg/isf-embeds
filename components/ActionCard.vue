@@ -33,6 +33,16 @@
           Today
         </div>
 
+        <!-- Image attribution: lower left -->
+        <a
+          v-if="action.image_attributions[0]"
+          :href="action.image_attributions[0].url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
+          @click.stop
+        >{{ action.image_attributions[0].name || '©' }}</a>
+
         <!-- Completion badge (clickable → opens detail) -->
         <button
           v-if="!isFuture"
@@ -69,6 +79,16 @@
           <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
             {{ dateLabel }}
           </div>
+
+          <!-- Image attribution: lower left -->
+          <a
+            v-if="action.image_attributions[1] || action.image_attributions[0]"
+            :href="(action.image_attributions[1] || action.image_attributions[0]).url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
+            @click.stop
+          >{{ (action.image_attributions[1] || action.image_attributions[0]).name || '©' }}</a>
         </div>
 
         <!-- Lower 50%: headline + actions -->
@@ -196,5 +216,11 @@ const handleBackClick = (e: Event) => {
 
 .action-card-back {
   transform: rotateY(180deg);
+}
+
+.image-attribution {
+  font-size: 10px;
+  transform: scale(0.8);
+  transform-origin: left bottom;
 }
 </style>
