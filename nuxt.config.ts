@@ -8,8 +8,7 @@ export default defineNuxtConfig({
   ],
 
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/No-Kings-Countdown/' : '/',
-    buildAssetsDir: process.env.NODE_ENV === 'production' ? '/No-Kings-Countdown/_nuxt/' : '/_nuxt/',
+    baseURL: '/',
     head: {
       title: 'No Kings Countdown',
       meta: [
