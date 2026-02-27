@@ -1,4 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { execSync } from 'child_process';
+
+const gitDescribe = (() => {
+  try {
+    return execSync('git describe --always --dirty=+').toString().trim();
+  } catch {
+    return 'dev';
+  }
+})();
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -46,7 +56,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      commitSha: process.env.NUXT_PUBLIC_COMMIT_SHA || 'dev',
+      commitSha: process.env.NUXT_PUBLIC_COMMIT_SHA || gitDescribe,
       commitRef: process.env.NUXT_PUBLIC_COMMIT_REF || 'local',
       buildDate: process.env.NUXT_PUBLIC_BUILD_DATE || new Date().toISOString(),
       sheetUrl: process.env.NUXT_PUBLIC_SHEET_URL || 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv'

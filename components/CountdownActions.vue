@@ -161,7 +161,7 @@ const buildInfo = computed(() => {
   const date = config.public.buildDate as string;
   
   return {
-    shortSha: sha.substring(0, 7),
+    shortSha: sha,
     ref: ref,
     date: new Date(date).toISOString().split('T')[0]
   };
