@@ -368,6 +368,18 @@
     font-family: var(--font-mono);
     letter-spacing: 0.08em;
   }
+
+@media print {
+  @page {
+    size: legal;
+    margin: 0mm;
+  }
+
+  body {
+    padding: 10px;
+    margin: 10px;
+  }
+}
 </style>
 </head>
 <body>
