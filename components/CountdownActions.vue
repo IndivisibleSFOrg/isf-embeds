@@ -155,8 +155,16 @@ const handleShare = async () => {
 
 // --- Detail overlay ---
 const selectedAction = ref<CountdownItem | null>(null);
+const isDev = import.meta.dev;
+
+const isActionFuture = (action: CountdownItem) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return action.date > today;
+};
 
 const openDetail = (action: CountdownItem) => {
+  if (isActionFuture(action) && !isDev) return;
   selectedAction.value = action;
   router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });
 };
@@ -177,7 +185,14 @@ watch(
     const key = route.query.detail as string | undefined;
     if (key && actions.length && !selectedAction.value) {
       const match = actions.find(a => formatDateKey(a.date) === key);
-      if (match) selectedAction.value = match;
+      if (match && (!isActionFuture(match) || isDev)) {
+        selectedAction.value = match;
+      } else if (match && isActionFuture(match) && !isDev) {
+        // Strip the blocked future detail param from the URL silently
+        const q = { ...route.query };
+        delete q.detail;
+        router.replace({ query: q });
+      }
     }
   },
   { immediate: true },
