@@ -28,8 +28,6 @@ export interface CountdownCSVItem {
   image: string;
 }
 
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv';
-
 export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
   const date = parseCsvDate(item.date);
   if (date === null) return null;
@@ -45,8 +43,9 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null =>
 };
 
 export async function fetchCountdownItems(): Promise<CountdownItem[]> {
+  const { public: { sheetUrl } } = useRuntimeConfig();
   try {
-    const response = await fetch(SHEET_URL, { 
+    const response = await fetch(sheetUrl, { 
       cache: 'no-cache',
       redirect: 'follow'
     });

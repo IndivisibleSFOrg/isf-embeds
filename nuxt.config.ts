@@ -45,7 +45,8 @@ export default defineNuxtConfig({
     public: {
       commitSha: process.env.NUXT_PUBLIC_COMMIT_SHA || 'dev',
       commitRef: process.env.NUXT_PUBLIC_COMMIT_REF || 'local',
-      buildDate: process.env.NUXT_PUBLIC_BUILD_DATE || new Date().toISOString()
+      buildDate: process.env.NUXT_PUBLIC_BUILD_DATE || new Date().toISOString(),
+      sheetUrl: process.env.NUXT_PUBLIC_SHEET_URL || 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv'
     }
   }
 });
