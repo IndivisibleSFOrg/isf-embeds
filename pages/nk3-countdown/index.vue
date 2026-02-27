@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-isf-gold-pale via-white to-isf-tinted">
+  <div class="min-h-screen bg-gradient-to-br from-isf-gold-light via-white to-isf-tinted">
     <CountdownActions v-if="communityActions" :actions="communityActions" :initial-layout="initialLayout" :fetched-at="fetchedAt" @refresh="loadData" />
     <div v-else class="min-h-screen flex items-center justify-center">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-isf-red"></div>

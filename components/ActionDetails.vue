@@ -50,7 +50,7 @@
             <!-- Completion toggle -->
             <button
               class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
-              :class="isComplete(action.date) ? 'bg-isf-success hover:opacity-80' : 'bg-gray-400/80 hover:bg-gray-500'"
+              :class="isComplete(action.date) ? 'bg-isf-green hover:bg-isf-green-dark' : 'bg-gray-400/80 hover:bg-gray-500'"
               :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
               @click="toggleComplete(action.date)"
             >

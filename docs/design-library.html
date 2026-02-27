@@ -5,55 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Design Library</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="main.css">
 <style>
-  :root {
-    --blue:        #2547a0;
-    --red:         #c1211f;
-    --gold:        #f9c430;
-    --white:       #ffffff;
-    --blue-dark:   #1a3570;
-    --blue-light:  #3a6bbf;
-    --red-bright:  #e8463f;
-    --red-dark:    #a8180f;
-    --gold-deep:   #f5b800;
-    --gold-pale:   #fde68a;
-    --navy-black:  #1c2440;
-    --bg-tinted:   #e8edf5;
-    --muted:       #6b7a99;
-
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', system-ui, sans-serif;
-    --font-mono: 'Source Code Pro', monospace;
-  }
-
+  /* ── Scaffold-only styles (not in main.css) ── */
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     background: #f2f5fb;
     font-family: var(--font-body);
-    color: var(--navy-black);
+    color: var(--isf-blue-dark);
     padding: 48px 32px;
     max-width: 1100px;
     margin: 0 auto;
   }
 
-  /* ── Section headers ── */
   .section-label {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--isf-slate);
     margin-bottom: 20px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--bg-tinted);
+    border-bottom: 1px solid var(--isf-tinted);
   }
 
   .section { margin-bottom: 60px; }
 
-  /* ══════════════════════════════════════
-     COLOR TABLE
-  ══════════════════════════════════════ */
+  /* ── Color swatches ── */
   .color-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -67,16 +46,11 @@
     background: white;
   }
 
-  .swatch-block {
-    height: 80px;
-    width: 100%;
-    position: relative;
-  }
+  .swatch-block { height: 80px; width: 100%; position: relative; }
 
   .swatch-block .hex-badge {
     position: absolute;
-    bottom: 8px;
-    right: 10px;
+    bottom: 8px; right: 10px;
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 600;
@@ -84,33 +58,12 @@
     border-radius: 3px;
   }
 
-  .swatch-info {
-    padding: 10px 12px;
-  }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-name { font-size: 13px; font-weight: 700; color: var(--isf-blue-dark); margin-bottom: 2px; }
+  .swatch-rgb  { font-family: var(--font-mono); font-size: 11px; color: var(--isf-slate); }
+  .swatch-role { font-size: 11px; color: var(--isf-slate); margin-top: 4px; line-height: 1.4; }
 
-  .swatch-name {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--navy-black);
-    margin-bottom: 2px;
-  }
-
-  .swatch-rgb {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .swatch-role {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-    line-height: 1.4;
-  }
-
-  /* ══════════════════════════════════════
-     TYPOGRAPHY
-  ══════════════════════════════════════ */
+  /* ── Typography demos ── */
   .type-demo { display: flex; flex-direction: column; gap: 24px; }
 
   .type-row {
@@ -118,111 +71,50 @@
     align-items: baseline;
     gap: 24px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--bg-tinted);
+    border-bottom: 1px solid var(--isf-tinted);
   }
 
   .type-meta {
     min-width: 160px;
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--muted);
+    color: var(--isf-slate);
     line-height: 1.6;
   }
 
-  .type-meta strong { display: block; color: var(--navy-black); margin-bottom: 2px; }
+  .type-meta strong { display: block; color: var(--isf-blue-dark); margin-bottom: 2px; }
 
-  h1.demo { font-family: var(--font-display); font-size: 48px; color: var(--blue-dark); line-height: 1.1; font-weight: 900; }
-  h2.demo { font-family: var(--font-display); font-size: 32px; color: var(--navy-black); line-height: 1.2; font-weight: 700; }
-  h3.demo { font-family: var(--font-body); font-size: 22px; color: var(--blue); font-weight: 700; letter-spacing: -0.01em; }
-  h4.demo { font-family: var(--font-body); font-size: 16px; color: var(--navy-black); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
-  .body-demo { font-size: 16px; color: var(--navy-black); line-height: 1.7; max-width: 520px; }
-  .small-demo { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 480px; }
-  .label-demo { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-  .caption-demo { font-size: 12px; color: var(--muted); font-style: italic; }
+  h1.demo { font-family: var(--font-display); font-size: 48px; color: var(--isf-blue-dark); line-height: 1.1; font-weight: 900; }
+  h2.demo { font-family: var(--font-display); font-size: 32px; color: var(--isf-blue-dark); line-height: 1.2; font-weight: 700; }
+  h3.demo { font-family: var(--font-body); font-size: 22px; color: var(--isf-blue); font-weight: 700; letter-spacing: -0.01em; }
+  h4.demo { font-family: var(--font-body); font-size: 16px; color: var(--isf-blue-dark); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .body-demo    { font-size: 16px; color: var(--isf-blue-dark); line-height: 1.7; max-width: 520px; }
+  .small-demo   { font-size: 13px; color: var(--isf-slate); line-height: 1.6; max-width: 480px; }
+  .label-demo   { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--isf-slate); }
+  .caption-demo { font-size: 12px; color: var(--isf-slate); font-style: italic; }
 
-  /* ══════════════════════════════════════
-     BUTTONS
-  ══════════════════════════════════════ */
+  /* ── Layout helpers ── */
   .button-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 22px;
-    border-radius: 4px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    border: 2px solid transparent;
-    text-decoration: none;
-    transition: all 0.15s ease;
-  }
-
-  .btn-primary   { background: var(--blue);      color: var(--white); }
-  .btn-primary:hover { background: var(--blue-dark); }
-
-  .btn-danger    { background: var(--red);       color: var(--white); }
-  .btn-danger:hover { background: var(--red-dark); }
-
-  .btn-gold      { background: var(--gold);      color: var(--navy-black); }
-  .btn-gold:hover { background: var(--gold-deep); }
-
-  .btn-outline   { background: transparent; border-color: var(--blue); color: var(--blue); }
-  .btn-outline:hover { background: var(--blue); color: white; }
-
-  .btn-outline-red { background: transparent; border-color: var(--red); color: var(--red); }
-  .btn-outline-red:hover { background: var(--red); color: white; }
-
-  .btn-ghost     { background: transparent; border-color: transparent; color: var(--blue); padding-left: 0; }
-  .btn-ghost:hover { color: var(--blue-dark); text-decoration: underline; }
-
-  .btn-dark      { background: var(--navy-black); color: var(--white); }
-  .btn-dark:hover { background: #111827; }
-
-  .btn-sm { padding: 6px 14px; font-size: 12px; }
-  .btn-lg { padding: 14px 30px; font-size: 16px; }
-
-  /* ══════════════════════════════════════
-     LINKS
-  ══════════════════════════════════════ */
   .links-demo { display: flex; flex-direction: column; gap: 16px; }
+  .badges-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .alert-demo { display: flex; flex-direction: column; gap: 12px; }
+  .cards-row  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
-  a.link-default { color: var(--blue); text-decoration: underline; }
-  a.link-default:hover { color: var(--blue-dark); }
+  /* ── Separators ── */
+  .sep-demo  { display: flex; flex-direction: column; gap: 24px; }
+  .sep-label { font-family: var(--font-mono); font-size: 11px; color: var(--isf-slate); margin-bottom: 6px; }
 
-  a.link-red { color: var(--red); text-decoration: underline; }
-
-  a.link-nav {
-    color: var(--navy-black);
-    text-decoration: none;
-    font-weight: 600;
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: 1px;
-  }
-  a.link-nav:hover { color: var(--blue); }
-
-  a.link-muted { color: var(--muted); font-size: 13px; text-decoration: underline; }
-
-  /* ══════════════════════════════════════
-     SEPARATORS
-  ══════════════════════════════════════ */
-  .sep-demo { display: flex; flex-direction: column; gap: 24px; }
-  .sep-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-
-  hr.sep-default { border: none; border-top: 1px solid var(--bg-tinted); }
-  hr.sep-bold    { border: none; border-top: 2px solid var(--blue); }
-  hr.sep-gold    { border: none; border-top: 3px solid var(--gold); }
-  hr.sep-red     { border: none; border-top: 2px solid var(--red); }
-  hr.sep-dash    { border: none; border-top: 2px dashed var(--muted); opacity: 0.4; }
+  hr.sep-default { border: none; border-top: 1px solid var(--isf-tinted); }
+  hr.sep-bold    { border: none; border-top: 2px solid var(--isf-blue); }
+  hr.sep-gold    { border: none; border-top: 3px solid var(--isf-gold); }
+  hr.sep-red     { border: none; border-top: 2px solid var(--isf-red); }
+  hr.sep-dash    { border: none; border-top: 2px dashed var(--isf-slate); opacity: 0.4; }
 
   .sep-ornament {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: var(--gold);
+    color: var(--isf-gold);
     font-size: 18px;
   }
   .sep-ornament::before,
@@ -230,115 +122,36 @@
     content: '';
     flex: 1;
     height: 2px;
-    background: var(--gold);
+    background: var(--isf-gold);
   }
 
-  /* ══════════════════════════════════════
-     BADGES & LABELS
-  ══════════════════════════════════════ */
-  .badges-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: var(--font-mono);
-  }
-
-  .badge-blue   { background: var(--blue);      color: white; }
-  .badge-red    { background: var(--red);        color: white; }
-  .badge-gold   { background: var(--gold);       color: var(--navy-black); }
-  .badge-tinted { background: var(--bg-tinted);  color: var(--blue); }
-  .badge-dark   { background: var(--navy-black); color: white; }
-  .badge-muted  { background: var(--muted);      color: white; }
-  .badge-pale   { background: var(--gold-pale);  color: #7a5f00; }
-  .badge-outline { border: 1.5px solid var(--blue); color: var(--blue); background: transparent; }
-
-  /* ══════════════════════════════════════
-     ALERTS / CALLOUTS
-  ══════════════════════════════════════ */
-  .alert-demo { display: flex; flex-direction: column; gap: 12px; }
-
-  .alert {
-    padding: 14px 18px;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-    border-left: 4px solid;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-  .alert-info    { background: #dce6f7; border-color: var(--blue);   color: var(--blue-dark); }
-  .alert-warning { background: var(--gold-pale); border-color: var(--gold-deep); color: #6b4d00; }
-  .alert-danger  { background: #fde0df; border-color: var(--red);   color: var(--red-dark); }
-  .alert-success { background: #d9f0e4; border-color: #2d8a55;      color: #1a5c38; }
-  .alert-dark    { background: var(--navy-black); border-color: var(--gold); color: white; }
-
-  /* ══════════════════════════════════════
-     FORM ELEMENTS
-  ══════════════════════════════════════ */
+  /* ── Form demo ── */
   .form-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 700px; }
 
   .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label { font-size: 13px; font-weight: 700; color: var(--navy-black); letter-spacing: 0.02em; }
+  .field label { font-size: 13px; font-weight: 700; color: var(--isf-blue-dark); letter-spacing: 0.02em; }
   .field input, .field select, .field textarea {
     padding: 9px 12px;
     border: 1.5px solid #c9d4e8;
     border-radius: 4px;
     font-family: var(--font-body);
     font-size: 14px;
-    color: var(--navy-black);
+    color: var(--isf-blue-dark);
     background: white;
     transition: border 0.15s;
     outline: none;
   }
   .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--blue);
+    border-color: var(--isf-blue);
     box-shadow: 0 0 0 3px rgba(37,71,160,.12);
   }
-  .field input.error { border-color: var(--red); }
-  .field .hint { font-size: 12px; color: var(--muted); }
-  .field .error-msg { font-size: 12px; color: var(--red); }
+  .field input.error { border-color: var(--isf-red); }
+  .field .hint      { font-size: 12px; color: var(--isf-slate); }
+  .field .error-msg { font-size: 12px; color: var(--isf-red); }
 
-  /* ══════════════════════════════════════
-     CARDS
-  ══════════════════════════════════════ */
-  .cards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-
-  .card {
-    background: white;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(28,36,64,.10);
-  }
-
-  .card-header {
-    padding: 16px 20px 14px;
-    background: var(--blue);
-    color: white;
-  }
-
-  .card-header-gold { background: var(--gold); color: var(--navy-black); }
-  .card-header-red  { background: var(--red);  color: white; }
-  .card-header-dark { background: var(--navy-black); color: white; }
-
-  .card-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
-  .card-sub   { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-  .card-body  { padding: 16px 20px; font-size: 14px; color: #444; line-height: 1.6; }
-  .card-footer { padding: 10px 20px 14px; display: flex; justify-content: flex-end; }
-
-  /* ══════════════════════════════════════
-     PAGE TITLE BANNER
-  ══════════════════════════════════════ */
+  /* ── Page title banner ── */
   .page-title {
-    background: var(--blue-dark);
+    background: var(--isf-blue-dark);
     color: white;
     padding: 40px 48px 36px;
     margin: -48px -32px 60px;
@@ -351,7 +164,7 @@
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--blue-light) 100%);
+    background: linear-gradient(90deg, var(--isf-red) 0%, var(--isf-gold) 50%, var(--isf-blue) 100%);
   }
 
   .page-title h1 {
@@ -383,14 +196,14 @@
   <div class="section-label">Color Palette</div>
 
   <!-- BLUES -->
-  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--blue); letter-spacing:0.12em; text-transform:uppercase;">Blues</div>
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--isf-blue); letter-spacing:0.12em; text-transform:uppercase;">Blues</div>
   <div class="color-grid" style="margin-bottom:28px;">
     <div class="swatch-card">
       <div class="swatch-block" style="background:#1a3570;">
         <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#1a3570</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Deep Navy</div>
+        <div class="swatch-name">isf-blue-dark</div>
         <div class="swatch-rgb">rgb(26, 53, 112)</div>
         <div class="swatch-role">Hover states, headers, footer</div>
       </div>
@@ -400,32 +213,32 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#2547a0</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Blue (Primary)</div>
+        <div class="swatch-name">isf-blue (Primary)</div>
         <div class="swatch-rgb">rgb(37, 71, 160)</div>
         <div class="swatch-role">Primary buttons, links, brand</div>
       </div>
     </div>
     <div class="swatch-card">
-      <div class="swatch-block" style="background:#3a6bbf;">
-        <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#3a6bbf</span>
+      <div class="swatch-block" style="background:#c8d8f4;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.12);color:#1a3570;">#c8d8f4</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Blue Light</div>
-        <div class="swatch-rgb">rgb(58, 107, 191)</div>
-        <div class="swatch-role">Secondary buttons, link text</div>
+        <div class="swatch-name">isf-blue-light</div>
+        <div class="swatch-rgb">rgb(200, 216, 244)</div>
+        <div class="swatch-role">Info tint, subtle blue backgrounds</div>
       </div>
     </div>
   </div>
 
   <!-- REDS -->
-  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--red); letter-spacing:0.12em; text-transform:uppercase;">Reds</div>
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--isf-red); letter-spacing:0.12em; text-transform:uppercase;">Reds</div>
   <div class="color-grid" style="margin-bottom:28px;">
     <div class="swatch-card">
       <div class="swatch-block" style="background:#a8180f;">
         <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#a8180f</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Red Dark / Crimson</div>
+        <div class="swatch-name">isf-red-dark</div>
         <div class="swatch-rgb">rgb(168, 24, 15)</div>
         <div class="swatch-role">Pressed states, red borders</div>
       </div>
@@ -435,19 +248,19 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#c1211f</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Red (Primary)</div>
+        <div class="swatch-name">isf-red (Primary)</div>
         <div class="swatch-rgb">rgb(193, 33, 31)</div>
         <div class="swatch-role">Alerts, CTAs, highlights</div>
       </div>
     </div>
     <div class="swatch-card">
-      <div class="swatch-block" style="background:#e8463f;">
-        <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#e8463f</span>
+      <div class="swatch-block" style="background:#f8c6c4;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.12);color:#a8180f;">#f8c6c4</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Red Bright</div>
-        <div class="swatch-rgb">rgb(232, 70, 63)</div>
-        <div class="swatch-role">Hover on red elements</div>
+        <div class="swatch-name">isf-red-light</div>
+        <div class="swatch-rgb">rgb(248, 198, 196)</div>
+        <div class="swatch-role">Error/danger tint backgrounds</div>
       </div>
     </div>
   </div>
@@ -460,7 +273,7 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.18);color:#1c2440;">#f5b800</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Gold Deep</div>
+        <div class="swatch-name">isf-gold-dark</div>
         <div class="swatch-rgb">rgb(245, 184, 0)</div>
         <div class="swatch-role">Gold hover states, borders</div>
       </div>
@@ -470,7 +283,7 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.2);color:#1c2440;">#f9c430</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Gold (Primary)</div>
+        <div class="swatch-name">isf-gold (Primary)</div>
         <div class="swatch-rgb">rgb(249, 196, 48)</div>
         <div class="swatch-role">Highlights, badges, hover</div>
       </div>
@@ -480,32 +293,57 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.15);color:#7a5f00;">#fde68a</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Gold Pale</div>
+        <div class="swatch-name">isf-gold-light</div>
         <div class="swatch-rgb">rgb(253, 230, 138)</div>
         <div class="swatch-role">Warning backgrounds, badges</div>
       </div>
     </div>
   </div>
 
-  <!-- OTHERS -->
-  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase;">Others</div>
-  <div class="color-grid">
+  <!-- GREENS -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:#196b3b; letter-spacing:0.12em; text-transform:uppercase;">Greens</div>
+  <div class="color-grid" style="margin-bottom:28px;">
     <div class="swatch-card">
-      <div class="swatch-block" style="background:#1c2440;">
-        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#1c2440</span>
+      <div class="swatch-block" style="background:#1a5c38;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#1a5c38</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Navy Black</div>
-        <div class="swatch-rgb">rgb(28, 36, 64)</div>
-        <div class="swatch-role">Body text, dark backgrounds</div>
+        <div class="swatch-name">isf-green-dark</div>
+        <div class="swatch-rgb">rgb(26, 92, 56)</div>
+        <div class="swatch-role">Pressed states, text on pale green, borders</div>
       </div>
     </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#2d8a55;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#2d8a55</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">isf-green (Primary)</div>
+        <div class="swatch-rgb">rgb(45, 138, 85)</div>
+        <div class="swatch-role">Completed / ok indicators, success accents</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#d9f0e4;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.12);color:#1a5c38;">#d9f0e4</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">isf-green-light</div>
+        <div class="swatch-rgb">rgb(217, 240, 228)</div>
+        <div class="swatch-role">Success alert backgrounds, completed item tints</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHERS -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--isf-slate); letter-spacing:0.12em; text-transform:uppercase;">Others</div>
+  <div class="color-grid">
     <div class="swatch-card">
       <div class="swatch-block" style="background:#6b7a99;">
         <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#6b7a99</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Slate / Muted</div>
+        <div class="swatch-name">isf-slate</div>
         <div class="swatch-rgb">rgb(107, 122, 153)</div>
         <div class="swatch-role">Captions, secondary text</div>
       </div>
@@ -515,7 +353,7 @@
         <span class="hex-badge" style="background:rgba(0,0,0,.1);color:#1c2440;">#e8edf5</span>
       </div>
       <div class="swatch-info">
-        <div class="swatch-name">Tinted BG</div>
+        <div class="swatch-name">isf-tinted</div>
         <div class="swatch-rgb">rgb(232, 237, 245)</div>
         <div class="swatch-role">Card backgrounds, table rows</div>
       </div>
@@ -540,23 +378,23 @@
   <div class="type-demo">
 
     <div class="type-row">
-      <div class="type-meta"><strong>Heading 1</strong>Playfair Display 900<br>48px / Deep Navy</div>
-      <h1 class="demo">Institutional Excellence</h1>
+      <div class="type-meta"><strong>Heading 1</strong>Playfair Display 900<br>48px / isf-blue-dark</div>
+      <h1 class="demo">12. Institutional Excellence</h1>
     </div>
 
     <div class="type-row">
-      <div class="type-meta"><strong>Heading 2</strong>Playfair Display 700<br>32px / Navy Black</div>
-      <h2 class="demo">Section Title Goes Here</h2>
+      <div class="type-meta"><strong>Heading 2</strong>Playfair Display 700<br>32px / isf-blue-dark</div>
+      <h2 class="demo">12.34 Section Title Goes Here</h2>
     </div>
 
     <div class="type-row">
-      <div class="type-meta"><strong>Heading 3</strong>Source Sans 3 700<br>22px / Blue</div>
-      <h3 class="demo">Subsection or Feature Name</h3>
+      <div class="type-meta"><strong>Heading 3</strong>Source Sans 3 700<br>22px / isf-blue</div>
+      <h3 class="demo">12.34.56 Subsection or Feature Name</h3>
     </div>
 
     <div class="type-row">
       <div class="type-meta"><strong>Heading 4 / Eyebrow</strong>Source Sans 3 700<br>16px / uppercase</div>
-      <h4 class="demo">Category Label</h4>
+      <h4 class="demo">12.34.56.7 Category Label</h4>
     </div>
 
     <div class="type-row">
@@ -601,8 +439,9 @@
       <div class="sep-label" style="margin-bottom:10px;">Filled variants</div>
       <div class="button-row">
         <button class="btn btn-primary">Primary</button>
-        <button class="btn btn-danger">Danger</button>
+        <button class="btn btn-red">Danger</button>
         <button class="btn btn-gold">Highlight</button>
+        <button class="btn btn-green">Completed</button>
         <button class="btn btn-dark">Dark</button>
       </div>
     </div>
@@ -610,7 +449,7 @@
     <div>
       <div class="sep-label" style="margin-bottom:10px;">Outline &amp; ghost</div>
       <div class="button-row">
-        <button class="btn btn-outline">Outline Blue</button>
+        <button class="btn btn-outline-blue">Outline Blue</button>
         <button class="btn btn-outline-red">Outline Red</button>
         <button class="btn btn-ghost">Ghost / Text →</button>
       </div>
@@ -624,7 +463,7 @@
 <section class="section">
   <div class="section-label">Links</div>
   <div class="links-demo">
-    <div><a href="#" class="link-default">Default body link — blue underline</a></div>
+    <div><a href="#" class="link">Default body link — blue underline</a></div>
     <div><a href="#" class="link-red">Destructive or alert link — red</a></div>
     <div><a href="#" class="link-nav">Navigation link with gold underline accent</a></div>
     <div><a href="#" class="link-muted">Muted secondary link for footnotes and captions</a></div>
@@ -671,10 +510,11 @@
     <span class="badge badge-blue">Primary</span>
     <span class="badge badge-red">Alert</span>
     <span class="badge badge-gold">Featured</span>
-    <span class="badge badge-dark">Official</span>
+    <span class="badge badge-green">Completed</span>
+    <span class="badge badge-blue-dark">Official</span>
     <span class="badge badge-muted">Draft</span>
-    <span class="badge badge-tinted">Info</span>
-    <span class="badge badge-pale">Pending</span>
+    <span class="badge badge-slate">Info</span>
+    <span class="badge badge-gold-light">Pending</span>
     <span class="badge badge-outline">Outline</span>
   </div>
 </section>
@@ -692,7 +532,7 @@
       <span class="alert-icon">⚠️</span>
       <div><strong>Warning:</strong> Your session is about to expire. Please save your work before continuing.</div>
     </div>
-    <div class="alert alert-danger">
+    <div class="alert alert-error">
       <span class="alert-icon">🚫</span>
       <div><strong>Error:</strong> Unable to submit your form. Please check required fields and try again.</div>
     </div>
@@ -700,7 +540,7 @@
       <span class="alert-icon">✅</span>
       <div><strong>Success:</strong> Your submission has been received and is being processed.</div>
     </div>
-    <div class="alert alert-dark">
+    <div class="alert alert-announcement">
       <span class="alert-icon">📢</span>
       <div><strong>Announcement:</strong> New policy guidelines take effect on March 1st. Review the documentation for details.</div>
     </div>
@@ -767,12 +607,12 @@
       <div class="card-footer"><button class="btn btn-gold btn-sm">View Details</button></div>
     </div>
     <div class="card">
-      <div class="card-header card-header-dark">
+      <div class="card-header card-header-blue-dark">
         <div class="card-title">Dark Card</div>
         <div class="card-sub">Structured or official</div>
       </div>
       <div class="card-body">Best for policy documents, official notices, or structured data presentation.</div>
-      <div class="card-footer"><button class="btn btn-outline btn-sm">Download</button></div>
+      <div class="card-footer"><button class="btn btn-outline-blue btn-sm">Download</button></div>
     </div>
   </div>
 </section>

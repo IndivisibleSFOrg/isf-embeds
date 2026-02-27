@@ -30,7 +30,7 @@
         <!-- Completion badge -->
         <div
           class="absolute bottom-2 right-2 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
-          :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
+          :class="isComplete(action.date) ? 'bg-isf-green' : 'bg-gray-400/80'"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12" />
@@ -73,7 +73,7 @@
             <!-- Completion badge (read-only; toggle via detail view) -->
             <div
               class="rounded-full w-7 h-7 flex items-center justify-center shadow"
-              :class="isComplete(action.date) ? 'bg-isf-success' : 'bg-gray-400/80'"
+              :class="isComplete(action.date) ? 'bg-isf-green' : 'bg-gray-400/80'"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12" />
