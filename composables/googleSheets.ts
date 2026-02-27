@@ -23,7 +23,7 @@ export interface CountdownCSVItem {
   headline: string;
   details: string;
   link_url: string;
-  link: string;
+  link_text: string;
   date: string;
   image: string;
 }
@@ -35,7 +35,7 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null =>
     action: item.headline,
     details: item.details || '',
     link_url: item.link_url || '#',
-    link_text: item.link || 'Learn more',
+    link_text: item.link_text || 'Learn more',
     date,
     image: item.image,
     headline: item.headline,
