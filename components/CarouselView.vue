@@ -31,7 +31,7 @@
           >
             <div class="relative">
               <img
-                :src="action.image || defaultImage"
+                :src="action.image_front_url || defaultImage"
                 :alt="action.headline"
                 class="w-full h-80 object-cover"
               />

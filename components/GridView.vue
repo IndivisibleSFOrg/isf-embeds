@@ -21,7 +21,7 @@
           <div class="card-front relative rounded-lg overflow-hidden">
             <!-- Background Image -->
             <img
-              :src="action.image || defaultImage"
+              :src="action.image_front_url || defaultImage"
               :alt="action.headline"
               class="absolute inset-0 w-full h-full object-cover"
             />
@@ -54,7 +54,7 @@
               <!-- Image header on back - flexible height, can shrink -->
               <div class="relative flex-1 overflow-hidden min-h-0">
                 <img
-                  :src="action.image || defaultImage"
+                  :src="action.image_back_url || defaultImage"
                   :alt="action.headline"
                   class="w-full h-full object-cover"
                 />
