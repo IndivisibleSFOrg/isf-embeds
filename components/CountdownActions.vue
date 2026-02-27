@@ -32,69 +32,7 @@
             </p>
           </div>
 
-          <!-- Layout Switcher -->
-          <div class="flex gap-2 bg-isf-tinted p-1 rounded-lg flex-wrap">
-            <button
-              @click="changeLayout('grid')"
-              :class="[
-                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'grid'
-                  ? 'bg-isf-blue text-white shadow-md'
-                  : 'text-isf-navy hover:bg-isf-tinted'
-              ]"
-            >
-              <Grid3x3 :size="16" />
-              <span class="hidden sm:inline">Grid</span>
-            </button>
-            <button
-              @click="changeLayout('wall')"
-              :class="[
-                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'wall'
-                  ? 'bg-isf-blue text-white shadow-md'
-                  : 'text-isf-navy hover:bg-isf-tinted'
-              ]"
-            >
-              <LayoutGrid :size="16" />
-              <span class="hidden sm:inline">Wall</span>
-            </button>
-            <button
-              @click="changeLayout('calendar')"
-              :class="[
-                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'calendar'
-                  ? 'bg-isf-blue text-white shadow-md'
-                  : 'text-isf-navy hover:bg-isf-tinted'
-              ]"
-            >
-              <Calendar :size="16" />
-              <span class="hidden sm:inline">Calendar</span>
-            </button>
-            <button
-              @click="changeLayout('carousel')"
-              :class="[
-                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'carousel'
-                  ? 'bg-isf-blue text-white shadow-md'
-                  : 'text-isf-navy hover:bg-isf-tinted'
-              ]"
-            >
-              <Image :size="16" />
-              <span class="hidden sm:inline">Carousel</span>
-            </button>
-            <button
-              @click="changeLayout('list')"
-              :class="[
-                'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
-                layout === 'list'
-                  ? 'bg-isf-blue text-white shadow-md'
-                  : 'text-isf-navy hover:bg-isf-tinted'
-              ]"
-            >
-              <List :size="16" />
-              <span class="hidden sm:inline">List</span>
-            </button>
-          </div>
+
         </div>
       </div>
     </header>
@@ -102,12 +40,7 @@
     <!-- Main Content -->
     <main class="py-8 md:py-12 max-w-7xl mx-auto px-4">
       <GridView v-if="effectiveLayout === 'grid'" :actions="actions" />
-      <MasonryWallView v-else-if="effectiveLayout === 'wall'" :actions="actions" />
-      <CalendarView v-else-if="effectiveLayout === 'calendar'" :actions="actions" />
-      <ListView v-else-if="effectiveLayout === 'list'" :actions="actions" />
-      <div v-else class="max-w-6xl mx-auto">
-        <CarouselView :key="'carousel'" :actions="actions" />
-      </div>
+      <CalendarView v-else :actions="actions" />
     </main>
 
     <!-- Footer -->
@@ -156,7 +89,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
-import { Grid3x3, Image, LayoutGrid, Calendar, List, Share2 } from 'lucide-vue-next';
+import { Share2 } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import { useActionCompletion } from '~/composables/useActionCompletion';
@@ -165,7 +98,6 @@ import PrivacyModal from './PrivacyModal.vue';
 
 interface Props {
   actions: CountdownItem[];
-  initialLayout?: LayoutType;
   fetchedAt?: Date | null;
 }
 
@@ -251,25 +183,18 @@ watch(
   { immediate: true },
 );
 
-type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel' | 'list';
-const layout = ref<LayoutType>(props.initialLayout || 'carousel');
+type LayoutType = 'grid' | 'calendar';
 
-// Track window width to auto-switch calendar → list on narrow screens
+// Track window width to auto-switch calendar → grid on narrow screens
 const CALENDAR_BREAKPOINT = 1200;
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280);
 const onResize = () => { windowWidth.value = window.innerWidth; };
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
 
-// When the user has chosen calendar but the viewport is too narrow, fall back to list.
 const effectiveLayout = computed<LayoutType>(() =>
-  layout.value === 'calendar' && windowWidth.value < CALENDAR_BREAKPOINT ? 'list' : layout.value
+  windowWidth.value < CALENDAR_BREAKPOINT ? 'grid' : 'calendar'
 );
-
-const changeLayout = (newLayout: LayoutType) => {
-  layout.value = newLayout;
-  router.push({ query: { layout: newLayout } });
-};
 
 const buildInfo = computed(() => {
   const sha = config.public.commitSha as string;
