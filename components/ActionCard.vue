@@ -60,36 +60,17 @@
               Details&hellip;
             </button>
 
-            <!-- Right side: share + complete -->
-            <div class="flex items-center gap-1">
-              <!-- Share via WebShare API -->
-              <button
-                v-if="canShare"
-                class="text-gray-500 hover:text-gray-800 rounded-full p-1 transition-colors"
-                title="Share"
-                @click.stop="share"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="18" cy="5" r="3" />
-                  <circle cx="6" cy="12" r="3" />
-                  <circle cx="18" cy="19" r="3" />
-                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                </svg>
-              </button>
-
-              <!-- Mark complete (stub) -->
-              <button
-                class="rounded-full p-1 transition-colors"
-                :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
-                title="Mark complete"
-                @click.stop="toggleComplete"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </button>
-            </div>
+            <!-- Mark complete (stub) -->
+            <button
+              class="rounded-full p-1 transition-colors"
+              :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
+              title="Mark complete"
+              @click.stop="toggleComplete"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -128,8 +109,6 @@ const isToday = computed(() => {
   );
 });
 
-const canShare = computed(() => typeof navigator !== 'undefined' && !!navigator.share);
-
 const flip = () => {
   isFlipped.value = !isFlipped.value;
 };
@@ -137,18 +116,6 @@ const flip = () => {
 const handleBackClick = (e: Event) => {
   // Flip back when clicking the back face directly (not on a button)
   isFlipped.value = false;
-};
-
-const share = async () => {
-  try {
-    await navigator.share({
-      title: props.action.headline,
-      text: props.action.details || props.action.headline,
-      url: props.action.link_url !== '#' ? props.action.link_url : window.location.href,
-    });
-  } catch {
-    // User cancelled or share not supported — silently ignore
-  }
 };
 
 const toggleComplete = () => {
