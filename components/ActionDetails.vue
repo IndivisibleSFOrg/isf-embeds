@@ -43,9 +43,27 @@
 
         <!-- Scrollable content -->
         <div class="aspect-square w-full flex-shrink-0 overflow-y-auto p-5 flex flex-col gap-4">
-          <h2 class="font-bold text-gray-900 text-lg leading-snug">
-            {{ action.headline }}
-          </h2>
+          <div class="flex items-start gap-2">
+            <h2 class="font-bold text-gray-900 text-lg leading-snug flex-1">
+              {{ action.headline }}
+            </h2>
+            <button
+              v-if="canShare || isDev"
+              class="flex-shrink-0 transition-colors p-0.5 mt-0.5"
+              :class="canShare ? 'text-gray-400 hover:text-red-600' : ''"
+              :style="!canShare ? { color: '#6b7a99' } : {}"
+              aria-label="Share"
+              @click="shareAction"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+          </div>
 
           <p v-if="action.details" class="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
             {{ action.details }}
@@ -88,6 +106,21 @@ const dateLabel = computed(() => {
   const d = props.action.date;
   return `${d.getMonth() + 1}/${d.getDate()}`;
 });
+
+const canShare = computed(() => typeof navigator !== 'undefined' && !!navigator.share);
+const isDev = import.meta.dev;
+
+const shareAction = async () => {
+  try {
+    await navigator.share({
+      title: `No Kings 3 Countdown: ${props.action.headline}`,
+      text: props.action.social_message || props.action.details,
+      url: window.location.href,
+    });
+  } catch (err) {
+    // User cancelled or share failed — silently ignore
+  }
+};
 
 const onKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') emit('close');

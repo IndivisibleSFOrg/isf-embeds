@@ -17,6 +17,7 @@ export interface CountdownItem {
   image_front_url: string;
   link_text: string;
   link_url: string;
+  social_message: string;
 }
 
 export interface CountdownCSVItem {
@@ -27,6 +28,7 @@ export interface CountdownCSVItem {
   image_front_url: string;
   link_text: string;
   link_url: string;
+  social_message: string;
 }
 
 export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
@@ -40,6 +42,7 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null =>
     image_front_url: item.image_front_url,
     link_text: item.link_text || 'Learn more',
     link_url: item.link_url || '#',
+    social_message: item.social_message || '',
   };
 };
 
