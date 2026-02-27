@@ -1,15 +1,15 @@
 <template>
   <div class="w-full">
     <div v-if="!isMounted" class="w-full h-96 flex items-center justify-center">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-isf-red"></div>
     </div>
     <div v-else class="calendar-view">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ calendarHeading }}</h2>
+      <h2 class="heading-2 mb-4">{{ calendarHeading }}</h2>
       <div class="calendar-grid">
         <!-- Day headers (Monday as week start) -->
         <div v-for="day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']" 
              :key="day"
-             class="text-center font-semibold text-gray-600 py-2">
+             class="text-center font-semibold text-isf-slate py-2">
           {{ day }}
         </div>
         
@@ -21,7 +21,7 @@
               :action="getActionForDate(dateInfo.date, dateInfo.month)!"
             />
             <div v-else class="calendar-cell-empty flex items-start p-1.5">
-              <span class="text-xs text-gray-400 font-medium leading-none">{{ dateInfo.month }}/{{ dateInfo.date }}</span>
+              <span class="text-xs text-isf-slate font-medium leading-none">{{ dateInfo.month }}/{{ dateInfo.date }}</span>
             </div>
           </template>
           <div v-else class="calendar-cell-empty"></div>

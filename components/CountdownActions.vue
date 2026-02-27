@@ -1,27 +1,27 @@
 <template>
   <div>
     <!-- Header -->
-    <header class="bg-white border-b-4 border-red-500 shadow-md">
+    <header class="bg-white border-b-4 border-isf-red shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-red-600 via-blue-600 to-red-600 bg-clip-text text-transparent">
+            <h1 class="font-display text-4xl font-bold bg-gradient-to-r from-isf-red via-isf-blue to-isf-red bg-clip-text text-transparent">
               30 Days Until No Kings March
             </h1>
-            <p class="mt-2 text-gray-600">
+            <p class="mt-2 text-isf-slate">
               30 ways to make a difference before then
             </p>
           </div>
 
           <!-- Layout Switcher -->
-          <div class="flex gap-2 bg-gray-100 p-1 rounded-lg flex-wrap">
+          <div class="flex gap-2 bg-isf-tinted p-1 rounded-lg flex-wrap">
             <button
               @click="changeLayout('grid')"
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'grid'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-700 hover:bg-gray-200'
+                  ? 'bg-isf-blue text-white shadow-md'
+                  : 'text-isf-navy hover:bg-isf-tinted'
               ]"
             >
               <Grid3x3 :size="16" />
@@ -32,8 +32,8 @@
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'wall'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-700 hover:bg-gray-200'
+                  ? 'bg-isf-blue text-white shadow-md'
+                  : 'text-isf-navy hover:bg-isf-tinted'
               ]"
             >
               <LayoutGrid :size="16" />
@@ -44,8 +44,8 @@
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'calendar'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-700 hover:bg-gray-200'
+                  ? 'bg-isf-blue text-white shadow-md'
+                  : 'text-isf-navy hover:bg-isf-tinted'
               ]"
             >
               <Calendar :size="16" />
@@ -56,8 +56,8 @@
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'carousel'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-700 hover:bg-gray-200'
+                  ? 'bg-isf-blue text-white shadow-md'
+                  : 'text-isf-navy hover:bg-isf-tinted'
               ]"
             >
               <Image :size="16" />
@@ -68,8 +68,8 @@
               :class="[
                 'flex items-center gap-2 px-4 py-2 rounded-md transition-all',
                 layout === 'list'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-700 hover:bg-gray-200'
+                  ? 'bg-isf-blue text-white shadow-md'
+                  : 'text-isf-navy hover:bg-isf-tinted'
               ]"
             >
               <List :size="16" />
@@ -92,7 +92,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-16 bg-gradient-to-r from-red-600 to-blue-600 text-white py-8">
+    <footer class="mt-16 bg-gradient-to-r from-isf-red to-isf-blue text-white py-8">
       <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4">
         <div class="flex-1 text-center">
           <p class="text-lg font-semibold">

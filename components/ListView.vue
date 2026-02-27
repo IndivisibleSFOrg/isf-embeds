@@ -5,7 +5,7 @@
       :key="week.label"
     >
       <!-- Week heading -->
-      <h2 class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3 px-1 border-b border-gray-200 pb-2">
+      <h2 class="text-sm font-bold uppercase tracking-widest text-isf-slate mb-3 px-1 border-b border-isf-tinted pb-2">
         {{ week.label }}
       </h2>
 
@@ -34,19 +34,19 @@
               <div
                 :class="[
                   'flex-1 flex items-center px-4 bg-white',
-                  isToday(action.date) ? 'border-l-4 border-blue-600' : 'border-l-4 border-red-500'
+                  isToday(action.date) ? 'border-l-4 border-isf-blue' : 'border-l-4 border-isf-red'
                 ]"
               >
                 <div>
-                  <div class="text-2xl font-bold text-gray-900 leading-none">
+                  <div class="text-2xl font-bold text-isf-navy leading-none">
                     {{ dayName(action.date) }}
                   </div>
-                  <div class="text-sm text-gray-500 mt-0.5">
+                  <div class="text-sm text-isf-slate mt-0.5">
                     {{ monthDay(action.date) }}
                   </div>
                   <div
                     v-if="isToday(action.date)"
-                    class="mt-1 inline-block bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-semibold"
+                    class="mt-1 inline-block bg-isf-blue text-white text-xs px-2 py-0.5 rounded-full font-semibold"
                   >
                     Today
                   </div>
@@ -67,11 +67,11 @@
                 />
                 <div class="absolute inset-0 bg-black/20"></div>
               </div>
-              <div class="flex-1 flex flex-col justify-center px-4 bg-white border-l-4 border-blue-600 overflow-hidden">
-                <p class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2">
+              <div class="flex-1 flex flex-col justify-center px-4 bg-white border-l-4 border-isf-blue overflow-hidden">
+                <p class="font-semibold text-isf-navy text-sm leading-tight line-clamp-2">
                   {{ action.headline }}
                 </p>
-                <div class="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-blue-600">
+                <div class="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-isf-blue">
                   <span>Take Action</span>
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />

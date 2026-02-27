@@ -22,7 +22,7 @@
         <!-- Today badge -->
         <div
           v-if="isToday"
-          class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full"
+          class="absolute top-2 right-2 bg-isf-blue text-white text-xs font-semibold px-2 py-0.5 rounded-full"
         >
           Today
         </div>
@@ -46,7 +46,7 @@
 
         <!-- Lower 50%: headline + actions -->
         <div class="h-1/2 flex-shrink-0 bg-white flex flex-col justify-between px-3 py-2">
-          <p class="font-bold text-gray-900 text-sm leading-snug line-clamp-4">
+          <p class="font-bold text-isf-navy text-sm leading-snug line-clamp-4">
             {{ action.headline }}
           </p>
 
@@ -54,7 +54,7 @@
           <div class="flex items-center justify-between mt-1">
             <!-- Details link -->
             <button
-              class="text-blue-600 hover:text-blue-800 text-xs font-medium underline underline-offset-2 transition-colors"
+              class="text-isf-blue hover:text-isf-blue-dark text-xs font-medium underline underline-offset-2 transition-colors"
               @click.stop="openDetail(props.action)"
             >
               Details&hellip;
@@ -63,7 +63,7 @@
             <!-- Mark complete (stub) -->
             <button
               class="rounded-full p-1 transition-colors"
-              :class="isComplete ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'"
+              :class="isComplete ? 'text-isf-success hover:opacity-80' : 'text-isf-slate hover:text-isf-navy'"
               title="Mark complete"
               @click.stop="toggleComplete"
             >

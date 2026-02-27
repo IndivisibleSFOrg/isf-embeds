@@ -44,14 +44,13 @@
         <!-- Scrollable content -->
         <div class="aspect-square w-full flex-shrink-0 overflow-y-auto p-5 flex flex-col gap-4">
           <div class="flex items-start gap-2">
-            <h2 class="font-bold text-gray-900 text-lg leading-snug flex-1">
+            <h2 class="font-bold text-isf-navy text-lg leading-snug flex-1">
               {{ action.headline }}
             </h2>
             <button
               v-if="canShare || isDev"
               class="flex-shrink-0 transition-colors p-0.5 mt-0.5"
-              :class="canShare ? 'text-gray-400 hover:text-red-600' : ''"
-              :style="!canShare ? { color: '#6b7a99' } : {}"
+              :class="canShare ? 'text-isf-slate hover:text-isf-red' : 'text-isf-slate'"
               aria-label="Share"
               @click="shareAction"
             >
@@ -65,7 +64,7 @@
             </button>
           </div>
 
-          <p v-if="action.details" class="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+          <p v-if="action.details" class="text-isf-navy text-sm leading-relaxed whitespace-pre-line">
             {{ action.details }}
           </p>
 
@@ -75,7 +74,7 @@
             :href="action.link_url"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
+            class="inline-flex items-center justify-center gap-2 bg-isf-red hover:bg-isf-red-dark text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
           >
             {{ action.link_text || 'Learn more' }}
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

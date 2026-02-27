@@ -94,7 +94,7 @@ onMounted(() => {
 
 .carousel-container :deep(.swiper-button-next),
 .carousel-container :deep(.swiper-button-prev) {
-  color: #dc2626;
+  color: var(--isf-red);
   width: 40px;
   height: 40px;
 }

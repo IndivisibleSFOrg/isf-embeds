@@ -18,7 +18,7 @@
           <div class="text-3xl font-bold text-white drop-shadow-lg">
             {{ month }}/{{ date }}
           </div>
-          <div v-if="isToday" class="mt-1 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+          <div v-if="isToday" class="mt-1 bg-isf-blue text-white px-2 py-1 rounded-full text-xs font-semibold">
             Today
           </div>
         </div>
@@ -41,17 +41,17 @@
           </div>
           
           <div class="p-3 bg-white flex-shrink-0">
-            <div class="text-xs font-bold text-gray-900 mb-1 line-clamp-2">
+            <div class="text-xs font-bold text-isf-navy mb-1 line-clamp-2">
               {{ action.headline }}
             </div>
-            <div class="text-xs text-blue-600 hover:text-blue-800 font-semibold">
+            <div class="text-xs text-isf-blue hover:text-isf-blue-dark font-semibold">
               Take Action →
             </div>
           </div>
         </div>
       </div>
-      <div v-else class="card-back bg-gray-100 flex items-center justify-center h-full rounded-lg">
-        <div class="text-gray-400 text-sm">No event</div>
+      <div v-else class="card-back bg-isf-tinted flex items-center justify-center h-full rounded-lg">
+        <div class="text-isf-slate text-sm">No event</div>
       </div>
     </div>
   </div>

@@ -3,21 +3,112 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-geist-sans: Arial, Helvetica, sans-serif;
-  --font-geist-mono: monospace;
-}
+  /* Color tokens */
+  --isf-blue-dark:    #1a3570;
+  --isf-blue:         #2547a0;
+  --isf-blue-light:   #3a6bbf;
+  --isf-red-dark:     #a8180f;
+  --isf-red:          #c1211f;
+  --isf-red-bright:   #e8463f;
+  --isf-gold-deep:    #f5b800;
+  --isf-gold:         #f9c430;
+  --isf-gold-pale:    #fde68a;
+  --isf-navy:         #1c2440;
+  --isf-slate:        #6b7a99;
+  --isf-tinted:       #e8edf5;
+  --isf-success:      #2d8a55;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Font stacks */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Source Sans 3', system-ui, sans-serif;
+  --font-mono:    'Source Code Pro', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans);
+  background: #ffffff;
+  color: var(--isf-navy);
+  font-family: var(--font-body);
+}
+
+@layer components {
+  /* ── Buttons ──────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded transition-colors duration-150 cursor-pointer;
+    border-radius: 4px;
+  }
+  .btn-primary  { @apply btn bg-isf-blue text-white hover:bg-isf-blue-dark; }
+  .btn-red      { @apply btn bg-isf-red text-white hover:bg-isf-red-dark; }
+  .btn-gold     { @apply btn bg-isf-gold text-isf-navy hover:bg-isf-gold-deep; }
+  .btn-dark     { @apply btn bg-isf-navy text-white hover:bg-isf-blue-dark; }
+  .btn-outline-blue { @apply btn border border-isf-blue text-isf-blue hover:bg-isf-blue hover:text-white; }
+  .btn-outline-red  { @apply btn border border-isf-red text-isf-red hover:bg-isf-red hover:text-white; }
+  .btn-ghost    { @apply btn text-isf-blue hover:bg-isf-tinted; }
+
+  /* ── Typography ──────────────────────────── */
+  .heading-1 {
+    font-family: var(--font-display);
+    @apply text-5xl font-black leading-tight text-isf-blue-dark;
+  }
+  .heading-2 {
+    font-family: var(--font-display);
+    @apply text-3xl font-bold leading-snug text-isf-navy;
+  }
+  .heading-3 {
+    font-family: var(--font-body);
+    @apply text-[22px] font-bold text-isf-blue tracking-tight;
+  }
+  .eyebrow {
+    font-family: var(--font-body);
+    @apply text-base font-bold uppercase tracking-widest text-isf-navy;
+  }
+  .text-secondary {
+    font-family: var(--font-body);
+    @apply text-[13px] font-light text-isf-slate;
+  }
+  .mono-label {
+    font-family: var(--font-mono);
+    @apply text-xs uppercase tracking-widest text-isf-slate;
+  }
+  .caption {
+    font-family: var(--font-body);
+    @apply text-xs italic text-isf-slate;
+  }
+
+  /* ── Links ───────────────────────────────── */
+  .link       { @apply text-isf-blue underline hover:text-isf-blue-dark; }
+  .link-red   { @apply text-isf-red underline hover:text-isf-red-dark; }
+  .link-nav   { @apply text-isf-navy hover:text-isf-blue underline decoration-isf-gold; }
+  .link-muted { @apply text-isf-slate underline hover:text-isf-navy; }
+
+  /* ── Badges ──────────────────────────────── */
+  .badge {
+    font-family: var(--font-mono);
+    @apply inline-block text-[11px] font-medium uppercase tracking-wider px-2 py-0.5 rounded;
+  }
+  .badge-blue  { @apply badge bg-isf-blue text-white; }
+  .badge-red   { @apply badge bg-isf-red text-white; }
+  .badge-gold  { @apply badge bg-isf-gold text-isf-navy; }
+  .badge-navy  { @apply badge bg-isf-navy text-white; }
+  .badge-slate { @apply badge bg-isf-tinted text-isf-slate; }
+
+  /* ── Alerts ──────────────────────────────── */
+  .alert {
+    @apply flex gap-3 px-4 py-3 border-l-4 rounded text-sm;
+    border-radius: 4px;
+  }
+  .alert-info         { @apply alert border-isf-blue bg-isf-tinted text-isf-navy; }
+  .alert-warning      { @apply alert border-isf-gold-deep bg-isf-gold-pale text-isf-navy; }
+  .alert-error        { @apply alert border-isf-red bg-red-50 text-isf-red-dark; }
+  .alert-success      { @apply alert border-isf-success bg-green-50 text-isf-success; }
+  .alert-announcement { @apply alert border-isf-gold bg-isf-navy text-white; }
+
+  /* ── Cards ───────────────────────────────── */
+  .card {
+    @apply bg-white rounded-md overflow-hidden;
+    box-shadow: 0 1px 4px rgba(28, 36, 64, 0.10);
+    border-radius: 6px;
+  }
+  .card-header-blue  { @apply bg-isf-blue text-white; }
+  .card-header-gold  { @apply bg-isf-gold text-isf-navy; }
+  .card-header-navy  { @apply bg-isf-navy text-white; }
 }
