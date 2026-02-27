@@ -36,7 +36,7 @@
                   {{ `${action.date.getMonth() + 1}/${action.date.getDate()}` }}
                 </div>
                 <div
-                  v-if="action.date.getDate() === currentDay"
+                  v-if="isToday(action.date)"
                   class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg mt-2 inline-block"
                 >
                   Today
@@ -90,7 +90,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getCurrentDay } from '~/composables/dateHelpers';
 import { defaultImage } from '~/composables/constants';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -121,9 +120,15 @@ const overlayClasses = [
 ];
 
 const shuffledActions = ref<any[]>([]);
-const currentDay = ref<number>(0);
 const flippedCards = ref<Set<string>>(new Set());
 const isMounted = ref(false);
+
+const isToday = (date: Date): boolean => {
+  const today = new Date();
+  return date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate();
+};
 
 const handleCardClick = (key: string, e: Event) => {
   e.preventDefault();
@@ -148,9 +153,6 @@ const handleLinkClick = (link: string, key: string, e: Event) => {
 };
 
 onMounted(() => {
-  // Determine current day only on client
-  currentDay.value = getCurrentDay();
-
   // Shuffle and assign properties only on client to ensure deterministic render match
   const shuffled = shuffleArray(props.actions).map((action, index) => {
     const overlayClass =

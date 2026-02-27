@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { getCurrentDay } from '~/composables/dateHelpers';
 import type { CountdownItem } from '~/composables/googleSheets';
 import CalendarCard from './CalendarCard.vue';
 

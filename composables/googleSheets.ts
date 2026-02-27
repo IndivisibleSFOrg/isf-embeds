@@ -1,11 +1,13 @@
 import Papa from 'papaparse';
+import { parseCsvDate } from '~/composables/dateHelpers';
 
 // CountdownItem represents the structured data used in the application, while
 // CountdownCSVItem represents the raw data format from the CSV. The
 // toCountdownItem function transforms the raw CSV data into the structured
-// format, including parsing the date field appropriately. The
-// fetchCountdownItems function retrieves the CSV data from the Google Sheet,
-// parses it, and returns an array of CountdownItem objects.
+// format, including parsing the date field; rows with an unrecognised date
+// format are dropped (logged to console). The fetchCountdownItems function
+// retrieves the CSV data from the Google Sheet, parses it, and returns an
+// array of CountdownItem objects.
 
 export interface CountdownItem {
   action: string;
@@ -22,41 +24,25 @@ export interface CountdownCSVItem {
   details: string;
   link_url: string;
   link: string;
-  date: number | string;
+  date: string;
   image: string;
 }
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv';
 
-// Input: CSV `date` field as number/string (either day-of-month like "5"/5 or a full date string).
-// Output: JavaScript `Date`.
-// Transform: if input is a day-of-month, use today's year/month at midnight and set that day; otherwise parse the string; fallback is `new Date()`.
-const parseCsvDate = (value: CountdownCSVItem["date"]): Date => {
-  const day = typeof value === "number" ? value : Number.parseInt(value, 10);
-  if (Number.isFinite(day)) {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-    date.setDate(day);
-    return date;
-  }
-
-  const parsed = new Date(value);
-  if (!Number.isNaN(parsed.getTime())) {
-    return parsed;
-  }
-
-  return new Date();
+export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
+  const date = parseCsvDate(item.date);
+  if (date === null) return null;
+  return {
+    action: item.headline,
+    details: item.details || '',
+    link_url: item.link_url || '#',
+    link_text: item.link || 'Learn more',
+    date,
+    image: item.image,
+    headline: item.headline,
+  };
 };
-
-export const toCountdownItem = (item: CountdownCSVItem): CountdownItem => ({
-  action: item.headline,
-  details: item.details || '',
-  link_url: item.link_url || '#',
-  link_text: item.link || 'Learn more',
-  date: parseCsvDate(item.date),
-  image: item.image,
-  headline: item.headline,
-});
 
 export async function fetchCountdownItems(): Promise<CountdownItem[]> {
   try {
@@ -76,7 +62,11 @@ export async function fetchCountdownItems(): Promise<CountdownItem[]> {
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
-          resolve(results.data.map((item) => toCountdownItem(item)));
+          resolve(
+            results.data
+              .map((item) => toCountdownItem(item))
+              .filter((item): item is CountdownItem => item !== null)
+          );
         },
         error: (error: Error) => {
           reject(error);

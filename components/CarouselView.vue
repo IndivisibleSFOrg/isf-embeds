@@ -22,9 +22,9 @@
             rel="noopener noreferrer"
             :class="[
               'block overflow-hidden rounded-xl border-4 transition-all duration-300 hover:shadow-2xl mx-2',
-              isToday(action.date.getDate())
+              isToday(action.date)
                 ? 'border-blue-600 shadow-xl'
-                : isPast(action.date.getDate())
+                : isPast(action.date)
                   ? 'border-gray-300'
                   : 'border-red-500'
             ]"
@@ -38,9 +38,9 @@
               <div
                 :class="[
                   'absolute top-4 right-4 w-16 h-16 rounded-full flex items-center justify-center font-bold text-white text-xl shadow-lg',
-                  isToday(action.date.getDate())
+                  isToday(action.date)
                     ? 'bg-blue-600'
-                    : isPast(action.date.getDate())
+                    : isPast(action.date)
                       ? 'bg-gray-400'
                       : 'bg-red-500'
                 ]"
@@ -48,7 +48,7 @@
                 {{ `${action.date.getMonth() + 1}/${action.date.getDate()}` }}
               </div>
               <div
-                v-if="isToday(action.date.getDate())"
+                v-if="isToday(action.date)"
                 class="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg"
               >
                 Today's Action
@@ -75,7 +75,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { getCurrentDay } from '~/composables/dateHelpers';
 import { defaultImage } from '~/composables/constants';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -85,12 +84,20 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const currentDay = ref<number>(0);
 const swiperInstance = ref<any>(null);
 const modules = [Navigation];
 
-const isToday = (day: number) => day === currentDay.value;
-const isPast = (day: number) => day < currentDay.value;
+const isToday = (date: Date): boolean => {
+  const today = new Date();
+  return date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate();
+};
+const isPast = (date: Date): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
+};
 
 const breakpoints = {
   320: {
@@ -112,11 +119,9 @@ const onSwiper = (swiper: any) => {
 };
 
 onMounted(() => {
-  currentDay.value = getCurrentDay();
-  
-  // Navigate to current day's slide
+  // Navigate to today's slide
   if (swiperInstance.value && props.actions.length > 0) {
-    const currentIndex = props.actions.findIndex((a) => a.date.getDate() === currentDay.value);
+    const currentIndex = props.actions.findIndex((a) => isToday(a.date));
     if (currentIndex >= 0) {
       setTimeout(() => {
         swiperInstance.value?.slideTo(currentIndex);

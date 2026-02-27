@@ -30,7 +30,7 @@
                       {{ `${item.date.getMonth() + 1}/${item.date.getDate()}` }}
                     </div>
                     <div
-                      v-if="item.date.getDate() === currentDay"
+                      v-if="isToday(item.date)"
                       class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg mt-2 inline-block"
                     >
                       Today
@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import MasonryWall from '@yeger/vue-masonry-wall';
-import { getCurrentDay } from '~/composables/dateHelpers';
 import { defaultImage } from '~/composables/constants';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -97,8 +96,14 @@ interface Props {
 
 defineProps<Props>();
 
-const currentDay = ref<number>(0);
 const flippedCards = ref<Set<string>>(new Set());
+
+const isToday = (date: Date): boolean => {
+  const today = new Date();
+  return date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate();
+};
 
 // Random heights for variety
 const heights = [250, 300, 350, 400, 320, 360, 280];
@@ -133,7 +138,6 @@ const handleLinkClick = (link: string, key: string, e: Event) => {
 };
 
 onMounted(() => {
-  currentDay.value = getCurrentDay();
 });
 </script>
 
