@@ -16,53 +16,9 @@
           v-for="action in actions"
           :key="action.date.toISOString()"
         >
-          <a
-            :href="action.link_url"
-            target="_blank"
-            rel="noopener noreferrer"
-            :class="[
-              'block overflow-hidden rounded-xl border-4 transition-all duration-300 hover:shadow-2xl mx-2',
-              isToday(action.date)
-                ? 'border-blue-600 shadow-xl'
-                : isPast(action.date)
-                  ? 'border-gray-300'
-                  : 'border-red-500'
-            ]"
-          >
-            <div class="relative">
-              <img
-                :src="action.image_front_url || defaultImage"
-                :alt="action.headline"
-                class="w-full h-80 object-cover"
-              />
-              <div
-                :class="[
-                  'absolute top-4 right-4 w-16 h-16 rounded-full flex items-center justify-center font-bold text-white text-xl shadow-lg',
-                  isToday(action.date)
-                    ? 'bg-blue-600'
-                    : isPast(action.date)
-                      ? 'bg-gray-400'
-                      : 'bg-red-500'
-                ]"
-              >
-                {{ `${action.date.getMonth() + 1}/${action.date.getDate()}` }}
-              </div>
-              <div
-                v-if="isToday(action.date)"
-                class="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg"
-              >
-                Today's Action
-              </div>
-            </div>
-            <div class="p-6 bg-white card-content">
-              <h3 class="text-xl font-semibold text-gray-900">
-                {{ action.headline }}
-              </h3>
-              <p class="mt-2 text-sm text-gray-600">
-                Click to learn more →
-              </p>
-            </div>
-          </a>
+          <div class="mx-2">
+            <ActionCard :action="action" />
+          </div>
         </SwiperSlide>
       </Swiper>
     </ClientOnly>
@@ -75,7 +31,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
+import ActionCard from './ActionCard.vue';
 import type { CountdownItem } from '~/composables/googleSheets';
 
 interface Props {
@@ -86,18 +42,6 @@ const props = defineProps<Props>();
 
 const swiperInstance = ref<any>(null);
 const modules = [Navigation];
-
-const isToday = (date: Date): boolean => {
-  const today = new Date();
-  return date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate();
-};
-const isPast = (date: Date): boolean => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date < today;
-};
 
 const breakpoints = {
   320: {
@@ -119,9 +63,13 @@ const onSwiper = (swiper: any) => {
 };
 
 onMounted(() => {
-  // Navigate to today's slide
   if (swiperInstance.value && props.actions.length > 0) {
-    const currentIndex = props.actions.findIndex((a) => isToday(a.date));
+    const today = new Date();
+    const currentIndex = props.actions.findIndex((a) =>
+      a.date.getFullYear() === today.getFullYear() &&
+      a.date.getMonth() === today.getMonth() &&
+      a.date.getDate() === today.getDate()
+    );
     if (currentIndex >= 0) {
       setTimeout(() => {
         swiperInstance.value?.slideTo(currentIndex);
@@ -170,23 +118,6 @@ onMounted(() => {
   .carousel-container :deep(.swiper-button-prev) {
     width: 30px;
     height: 30px;
-  }
-  
-  /* Hide text on side cards on mobile */
-  .carousel-container :deep(.swiper-slide) .card-content {
-    max-height: 0;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    overflow: hidden;
-    transition: all 0.5s ease;
-  }
-  
-  .carousel-container :deep(.swiper-slide-active) .card-content {
-    max-height: 300px;
-    opacity: 1;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
   }
 }
 </style>

@@ -15,14 +15,15 @@
         
         <!-- Calendar cells -->
         <div v-for="(dateInfo, index) in allDates" :key="`${dateInfo.month}-${dateInfo.date}-${index}`" class="calendar-cell">
-          <CalendarCard
-            v-if="dateInfo.date !== null && dateInfo.month !== null"
-            :date="dateInfo.date"
-            :month="dateInfo.month"
-            :action="getActionForDate(dateInfo.date, dateInfo.month)"
-            :is-today="isToday(dateInfo.date, dateInfo.month)"
-            @flip="handleCardFlip"
-          />
+          <template v-if="dateInfo.date !== null && dateInfo.month !== null">
+            <ActionCard
+              v-if="getActionForDate(dateInfo.date, dateInfo.month)"
+              :action="getActionForDate(dateInfo.date, dateInfo.month)!"
+            />
+            <div v-else class="calendar-cell-empty flex items-start p-1.5">
+              <span class="text-xs text-gray-400 font-medium leading-none">{{ dateInfo.month }}/{{ dateInfo.date }}</span>
+            </div>
+          </template>
           <div v-else class="calendar-cell-empty"></div>
         </div>
       </div>
@@ -33,7 +34,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import type { CountdownItem } from '~/composables/googleSheets';
-import CalendarCard from './CalendarCard.vue';
+import ActionCard from './ActionCard.vue';
 
 interface Props {
   actions: CountdownItem[];
@@ -41,8 +42,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const currentDay = ref<number>(0);
-const currentMonth = ref<number>(0);
 const isMounted = ref(false);
 
 // Derive the calendar date range from the data
@@ -94,18 +93,7 @@ const getActionForDate = (day: number, month: number) => {
   });
 };
 
-const isToday = (day: number, month: number) => {
-  return day === currentDay.value && month === currentMonth.value;
-};
-
-const handleCardFlip = (key: string) => {
-  // Cards manage their own flip state
-};
-
 onMounted(() => {
-  const today = new Date();
-  currentDay.value = today.getDate();
-  currentMonth.value = today.getMonth() + 1;
   isMounted.value = true;
 });
 </script>
