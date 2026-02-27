@@ -10,38 +10,36 @@ import { parseCsvDate } from '~/composables/dateHelpers';
 // array of CountdownItem objects.
 
 export interface CountdownItem {
-  action: string;
-  details: string;
-  link_url: string;
-  link_text: string;
   date: Date;
-  image_front_url: string;
-  image_back_url: string;
+  details: string;
   headline: string;
+  image_back_url: string;
+  image_front_url: string;
+  link_text: string;
+  link_url: string;
 }
 
 export interface CountdownCSVItem {
-  headline: string;
-  details: string;
-  link_url: string;
-  link_text: string;
   date: string;
-  image_front_url: string;
+  details: string;
+  headline: string;
   image_back_url: string;
+  image_front_url: string;
+  link_text: string;
+  link_url: string;
 }
 
 export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
   const date = parseCsvDate(item.date);
   if (date === null) return null;
   return {
-    action: item.headline,
-    details: item.details || '',
-    link_url: item.link_url || '#',
-    link_text: item.link_text || 'Learn more',
     date,
-    image_front_url: item.image_front_url,
-    image_back_url: item.image_back_url || item.image_front_url,
+    details: item.details || '',
     headline: item.headline,
+    image_back_url: item.image_back_url || item.image_front_url,
+    image_front_url: item.image_front_url,
+    link_text: item.link_text || 'Learn more',
+    link_url: item.link_url || '#',
   };
 };
 
