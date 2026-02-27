@@ -2,7 +2,7 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-colors.pdf: colors.html
+%.pdf: %.html
 	google-chrome \
 		--headless \
 		--disable-gpu \
