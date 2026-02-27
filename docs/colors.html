@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:        #2547a0;
+    --red:         #c1211f;
+    --gold:        #f9c430;
+    --white:       #ffffff;
+    --blue-dark:   #1a3570;
+    --blue-light:  #3a6bbf;
+    --red-bright:  #e8463f;
+    --red-dark:    #a8180f;
+    --gold-deep:   #f5b800;
+    --gold-pale:   #fde68a;
+    --navy-black:  #1c2440;
+    --bg-tinted:   #e8edf5;
+    --muted:       #6b7a99;
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', system-ui, sans-serif;
+    --font-mono: 'Source Code Pro', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f2f5fb;
+    font-family: var(--font-body);
+    color: var(--navy-black);
+    padding: 48px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Section headers ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bg-tinted);
+  }
+
+  .section { margin-bottom: 60px; }
+
+  /* ══════════════════════════════════════
+     COLOR TABLE
+  ══════════════════════════════════════ */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .swatch-card {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(28,36,64,.10);
+    background: white;
+  }
+
+  .swatch-block {
+    height: 80px;
+    width: 100%;
+    position: relative;
+  }
+
+  .swatch-block .hex-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .swatch-info {
+    padding: 10px 12px;
+  }
+
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-black);
+    margin-bottom: 2px;
+  }
+
+  .swatch-rgb {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .swatch-role {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════════
+     TYPOGRAPHY
+  ══════════════════════════════════════ */
+  .type-demo { display: flex; flex-direction: column; gap: 24px; }
+
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--bg-tinted);
+  }
+
+  .type-meta {
+    min-width: 160px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .type-meta strong { display: block; color: var(--navy-black); margin-bottom: 2px; }
+
+  h1.demo { font-family: var(--font-display); font-size: 48px; color: var(--blue-dark); line-height: 1.1; font-weight: 900; }
+  h2.demo { font-family: var(--font-display); font-size: 32px; color: var(--navy-black); line-height: 1.2; font-weight: 700; }
+  h3.demo { font-family: var(--font-body); font-size: 22px; color: var(--blue); font-weight: 700; letter-spacing: -0.01em; }
+  h4.demo { font-family: var(--font-body); font-size: 16px; color: var(--navy-black); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .body-demo { font-size: 16px; color: var(--navy-black); line-height: 1.7; max-width: 520px; }
+  .small-demo { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 480px; }
+  .label-demo { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .caption-demo { font-size: 12px; color: var(--muted); font-style: italic; }
+
+  /* ══════════════════════════════════════
+     BUTTONS
+  ══════════════════════════════════════ */
+  .button-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary   { background: var(--blue);      color: var(--white); }
+  .btn-primary:hover { background: var(--blue-dark); }
+
+  .btn-danger    { background: var(--red);       color: var(--white); }
+  .btn-danger:hover { background: var(--red-dark); }
+
+  .btn-gold      { background: var(--gold);      color: var(--navy-black); }
+  .btn-gold:hover { background: var(--gold-deep); }
+
+  .btn-outline   { background: transparent; border-color: var(--blue); color: var(--blue); }
+  .btn-outline:hover { background: var(--blue); color: white; }
+
+  .btn-outline-red { background: transparent; border-color: var(--red); color: var(--red); }
+  .btn-outline-red:hover { background: var(--red); color: white; }
+
+  .btn-ghost     { background: transparent; border-color: transparent; color: var(--blue); padding-left: 0; }
+  .btn-ghost:hover { color: var(--blue-dark); text-decoration: underline; }
+
+  .btn-dark      { background: var(--navy-black); color: var(--white); }
+  .btn-dark:hover { background: #111827; }
+
+  .btn-sm { padding: 6px 14px; font-size: 12px; }
+  .btn-lg { padding: 14px 30px; font-size: 16px; }
+
+  /* ══════════════════════════════════════
+     LINKS
+  ══════════════════════════════════════ */
+  .links-demo { display: flex; flex-direction: column; gap: 16px; }
+
+  a.link-default { color: var(--blue); text-decoration: underline; }
+  a.link-default:hover { color: var(--blue-dark); }
+
+  a.link-red { color: var(--red); text-decoration: underline; }
+
+  a.link-nav {
+    color: var(--navy-black);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 1px;
+  }
+  a.link-nav:hover { color: var(--blue); }
+
+  a.link-muted { color: var(--muted); font-size: 13px; text-decoration: underline; }
+
+  /* ══════════════════════════════════════
+     SEPARATORS
+  ══════════════════════════════════════ */
+  .sep-demo { display: flex; flex-direction: column; gap: 24px; }
+  .sep-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+
+  hr.sep-default { border: none; border-top: 1px solid var(--bg-tinted); }
+  hr.sep-bold    { border: none; border-top: 2px solid var(--blue); }
+  hr.sep-gold    { border: none; border-top: 3px solid var(--gold); }
+  hr.sep-red     { border: none; border-top: 2px solid var(--red); }
+  hr.sep-dash    { border: none; border-top: 2px dashed var(--muted); opacity: 0.4; }
+
+  .sep-ornament {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gold);
+    font-size: 18px;
+  }
+  .sep-ornament::before,
+  .sep-ornament::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  /* ══════════════════════════════════════
+     BADGES & LABELS
+  ══════════════════════════════════════ */
+  .badges-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  .badge-blue   { background: var(--blue);      color: white; }
+  .badge-red    { background: var(--red);        color: white; }
+  .badge-gold   { background: var(--gold);       color: var(--navy-black); }
+  .badge-tinted { background: var(--bg-tinted);  color: var(--blue); }
+  .badge-dark   { background: var(--navy-black); color: white; }
+  .badge-muted  { background: var(--muted);      color: white; }
+  .badge-pale   { background: var(--gold-pale);  color: #7a5f00; }
+  .badge-outline { border: 1.5px solid var(--blue); color: var(--blue); background: transparent; }
+
+  /* ══════════════════════════════════════
+     ALERTS / CALLOUTS
+  ══════════════════════════════════════ */
+  .alert-demo { display: flex; flex-direction: column; gap: 12px; }
+
+  .alert {
+    padding: 14px 18px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-left: 4px solid;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .alert-info    { background: #dce6f7; border-color: var(--blue);   color: var(--blue-dark); }
+  .alert-warning { background: var(--gold-pale); border-color: var(--gold-deep); color: #6b4d00; }
+  .alert-danger  { background: #fde0df; border-color: var(--red);   color: var(--red-dark); }
+  .alert-success { background: #d9f0e4; border-color: #2d8a55;      color: #1a5c38; }
+  .alert-dark    { background: var(--navy-black); border-color: var(--gold); color: white; }
+
+  /* ══════════════════════════════════════
+     FORM ELEMENTS
+  ══════════════════════════════════════ */
+  .form-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 700px; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 700; color: var(--navy-black); letter-spacing: 0.02em; }
+  .field input, .field select, .field textarea {
+    padding: 9px 12px;
+    border: 1.5px solid #c9d4e8;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--navy-black);
+    background: white;
+    transition: border 0.15s;
+    outline: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37,71,160,.12);
+  }
+  .field input.error { border-color: var(--red); }
+  .field .hint { font-size: 12px; color: var(--muted); }
+  .field .error-msg { font-size: 12px; color: var(--red); }
+
+  /* ══════════════════════════════════════
+     CARDS
+  ══════════════════════════════════════ */
+  .cards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  .card {
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(28,36,64,.10);
+  }
+
+  .card-header {
+    padding: 16px 20px 14px;
+    background: var(--blue);
+    color: white;
+  }
+
+  .card-header-gold { background: var(--gold); color: var(--navy-black); }
+  .card-header-red  { background: var(--red);  color: white; }
+  .card-header-dark { background: var(--navy-black); color: white; }
+
+  .card-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+  .card-sub   { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+  .card-body  { padding: 16px 20px; font-size: 14px; color: #444; line-height: 1.6; }
+  .card-footer { padding: 10px 20px 14px; display: flex; justify-content: flex-end; }
+
+  /* ══════════════════════════════════════
+     PAGE TITLE BANNER
+  ══════════════════════════════════════ */
+  .page-title {
+    background: var(--blue-dark);
+    color: white;
+    padding: 40px 48px 36px;
+    margin: -48px -32px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--blue-light) 100%);
+  }
+
+  .page-title h1 {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .page-title p {
+    font-size: 14px;
+    opacity: 0.65;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>Design Library</h1>
+</div>
+
+
+<!-- ═══════════════ COLOR TABLE ═══════════════ -->
+<section class="section">
+  <div class="section-label">Color Palette</div>
+
+  <!-- BLUES -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--blue); letter-spacing:0.12em; text-transform:uppercase;">Blues</div>
+  <div class="color-grid" style="margin-bottom:28px;">
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#1a3570;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#1a3570</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Deep Navy</div>
+        <div class="swatch-rgb">rgb(26, 53, 112)</div>
+        <div class="swatch-role">Hover states, headers, footer</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#2547a0;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#2547a0</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Blue (Primary)</div>
+        <div class="swatch-rgb">rgb(37, 71, 160)</div>
+        <div class="swatch-role">Primary buttons, links, brand</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#3a6bbf;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#3a6bbf</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Blue Light</div>
+        <div class="swatch-rgb">rgb(58, 107, 191)</div>
+        <div class="swatch-role">Secondary buttons, link text</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REDS -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--red); letter-spacing:0.12em; text-transform:uppercase;">Reds</div>
+  <div class="color-grid" style="margin-bottom:28px;">
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#a8180f;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#a8180f</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Red Dark / Crimson</div>
+        <div class="swatch-rgb">rgb(168, 24, 15)</div>
+        <div class="swatch-role">Pressed states, red borders</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#c1211f;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#c1211f</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Red (Primary)</div>
+        <div class="swatch-rgb">rgb(193, 33, 31)</div>
+        <div class="swatch-role">Alerts, CTAs, highlights</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#e8463f;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#e8463f</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Red Bright</div>
+        <div class="swatch-rgb">rgb(232, 70, 63)</div>
+        <div class="swatch-role">Hover on red elements</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YELLOWS / GOLDS -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:#a07800; letter-spacing:0.12em; text-transform:uppercase;">Yellows</div>
+  <div class="color-grid" style="margin-bottom:28px;">
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#f5b800;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.18);color:#1c2440;">#f5b800</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold Deep</div>
+        <div class="swatch-rgb">rgb(245, 184, 0)</div>
+        <div class="swatch-role">Gold hover states, borders</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#f9c430;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.2);color:#1c2440;">#f9c430</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold (Primary)</div>
+        <div class="swatch-rgb">rgb(249, 196, 48)</div>
+        <div class="swatch-role">Highlights, badges, hover</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#fde68a;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.15);color:#7a5f00;">#fde68a</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold Pale</div>
+        <div class="swatch-rgb">rgb(253, 230, 138)</div>
+        <div class="swatch-role">Warning backgrounds, badges</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHERS -->
+  <div style="margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase;">Others</div>
+  <div class="color-grid">
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#1c2440;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.3);color:white;">#1c2440</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Navy Black</div>
+        <div class="swatch-rgb">rgb(28, 36, 64)</div>
+        <div class="swatch-role">Body text, dark backgrounds</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#6b7a99;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.25);color:white;">#6b7a99</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Slate / Muted</div>
+        <div class="swatch-rgb">rgb(107, 122, 153)</div>
+        <div class="swatch-role">Captions, secondary text</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#e8edf5;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.1);color:#1c2440;">#e8edf5</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Tinted BG</div>
+        <div class="swatch-rgb">rgb(232, 237, 245)</div>
+        <div class="swatch-role">Card backgrounds, table rows</div>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-block" style="background:#ffffff; border-bottom:1px solid #e8edf5;">
+        <span class="hex-badge" style="background:rgba(0,0,0,.08);color:#1c2440;">#ffffff</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">White</div>
+        <div class="swatch-rgb">rgb(255, 255, 255)</div>
+        <div class="swatch-role">Backgrounds, text on dark</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>
