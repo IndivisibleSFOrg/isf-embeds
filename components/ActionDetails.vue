@@ -44,9 +44,10 @@
         <!-- Scrollable content -->
         <div class="aspect-square w-full flex-shrink-0 overflow-y-auto p-5 flex flex-col gap-4">
           <div class="flex items-start gap-2">
-            <h2 class="font-bold text-isf-navy text-lg leading-snug flex-1">
-              {{ action.headline }}
-            </h2>
+            <h2
+              class="font-bold text-isf-navy text-lg leading-snug flex-1"
+              v-html="renderInlineMarkdown(action.headline)"
+            />
             <!-- Completion toggle -->
             <button
               class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
@@ -76,9 +77,11 @@
             </button>
           </div>
 
-          <p v-if="action.details" class="text-isf-navy text-sm leading-relaxed whitespace-pre-line">
-            {{ action.details }}
-          </p>
+          <div
+            v-if="action.details"
+            class="markdown-content text-isf-navy text-sm leading-relaxed"
+            v-html="renderMarkdown(action.details)"
+          />
 
           <!-- CTA link -->
           <a
@@ -104,6 +107,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
+import { renderMarkdown, renderInlineMarkdown } from '~/composables/useMarkdown';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
@@ -143,3 +147,45 @@ const onKeydown = (e: KeyboardEvent) => {
 onMounted(() => document.addEventListener('keydown', onKeydown));
 onUnmounted(() => document.removeEventListener('keydown', onKeydown));
 </script>
+
+<style scoped>
+.markdown-content :deep(p) {
+  margin-bottom: 0.5rem;
+}
+.markdown-content :deep(p:last-child) {
+  margin-bottom: 0;
+}
+.markdown-content :deep(strong) {
+  font-weight: 700;
+}
+.markdown-content :deep(em) {
+  font-style: italic;
+}
+.markdown-content :deep(a) {
+  color: var(--color-isf-blue, #1b5fa3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown-content :deep(a:hover) {
+  color: var(--color-isf-blue-dark, #134880);
+}
+.markdown-content :deep(ul) {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.markdown-content :deep(ol) {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.markdown-content :deep(li) {
+  margin-bottom: 0.25rem;
+}
+.markdown-content :deep(code) {
+  background: #f3f4f6;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+</style>

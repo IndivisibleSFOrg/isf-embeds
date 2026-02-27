@@ -73,9 +73,10 @@
 
         <!-- Lower 50%: headline + actions -->
         <div class="h-1/2 flex-shrink-0 bg-white flex flex-col justify-between px-3 py-2">
-          <p class="font-bold text-isf-navy text-sm leading-snug line-clamp-4">
-            {{ action.headline }}
-          </p>
+          <p
+            class="font-bold text-isf-navy text-sm leading-snug line-clamp-4"
+            v-html="renderInlineMarkdown(action.headline)"
+          />
 
           <!-- Bottom row: details (left) + share + complete (right) -->
           <div class="flex items-center justify-between mt-1">
@@ -117,6 +118,7 @@
 <script setup lang="ts">
 import { ref, computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
+import { renderInlineMarkdown } from '~/composables/useMarkdown';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
