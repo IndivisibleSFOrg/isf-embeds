@@ -82,10 +82,10 @@
 
     <!-- Main Content -->
     <main class="py-8 md:py-12 max-w-7xl mx-auto px-4">
-      <GridView v-if="layout === 'grid'" :actions="actions" />
-      <MasonryWallView v-else-if="layout === 'wall'" :actions="actions" />
-      <CalendarView v-else-if="layout === 'calendar'" :actions="actions" />
-      <ListView v-else-if="layout === 'list'" :actions="actions" />
+      <GridView v-if="effectiveLayout === 'grid'" :actions="actions" />
+      <MasonryWallView v-else-if="effectiveLayout === 'wall'" :actions="actions" />
+      <CalendarView v-else-if="effectiveLayout === 'calendar'" :actions="actions" />
+      <ListView v-else-if="effectiveLayout === 'list'" :actions="actions" />
       <div v-else class="max-w-6xl mx-auto">
         <CarouselView :key="'carousel'" :actions="actions" />
       </div>
@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Grid3x3, Image, LayoutGrid, Calendar, List } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -137,6 +137,18 @@ const config = useRuntimeConfig();
 
 type LayoutType = 'grid' | 'wall' | 'calendar' | 'carousel' | 'list';
 const layout = ref<LayoutType>(props.initialLayout || 'carousel');
+
+// Track window width to auto-switch calendar → list on narrow screens
+const CALENDAR_BREAKPOINT = 1200;
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280);
+const onResize = () => { windowWidth.value = window.innerWidth; };
+onMounted(() => window.addEventListener('resize', onResize));
+onUnmounted(() => window.removeEventListener('resize', onResize));
+
+// When the user has chosen calendar but the viewport is too narrow, fall back to list.
+const effectiveLayout = computed<LayoutType>(() =>
+  layout.value === 'calendar' && windowWidth.value < CALENDAR_BREAKPOINT ? 'list' : layout.value
+);
 
 const changeLayout = (newLayout: LayoutType) => {
   layout.value = newLayout;
