@@ -9,6 +9,14 @@ const gitDescribe = (() => {
   }
 })();
 
+const gitBranch = (() => {
+  try {
+    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+  } catch {
+    return 'local';
+  }
+})();
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -57,7 +65,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       commitSha: process.env.NUXT_PUBLIC_COMMIT_SHA || gitDescribe,
-      commitRef: process.env.NUXT_PUBLIC_COMMIT_REF || 'local',
+      commitRef: process.env.NUXT_PUBLIC_COMMIT_REF || gitBranch,
       buildDate: process.env.NUXT_PUBLIC_BUILD_DATE || new Date().toISOString(),
       sheetUrl: process.env.NUXT_PUBLIC_SHEET_URL || 'https://docs.google.com/spreadsheets/d/1kG5tVKYaz6Wny2wIZKmbhloD_3Bwl5NeqsPNNGxcHIA/export?format=csv'
     }
