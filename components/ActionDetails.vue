@@ -71,9 +71,8 @@
             </button>
             <!-- Share -->
             <button
-              v-if="(canShare && isComplete(action.date)) || isDev"
-              class="flex-shrink-0 transition-colors p-0.5 mt-0.5"
-              :class="canShare ? 'text-isf-slate hover:text-isf-red' : 'text-isf-slate'"
+              v-if="isComplete(action.date) || isDev"
+              class="flex-shrink-0 text-isf-slate hover:text-isf-red transition-colors p-0.5 mt-0.5"
               aria-label="Share"
               @click="shareAction"
             >
@@ -109,13 +108,28 @@
             </svg>
           </a>
         </div>
+
+        <!-- Clipboard share notice -->
+        <Transition
+          enter-active-class="transition-all duration-300 ease-out"
+          leave-active-class="transition-all duration-300 ease-in"
+          enter-from-class="opacity-0 translate-y-2"
+          leave-to-class="opacity-0 translate-y-2"
+        >
+          <div
+            v-if="shareNotice"
+            class="absolute bottom-4 left-4 right-4 bg-isf-navy text-white text-xs text-center px-4 py-2.5 rounded-lg shadow-lg"
+          >
+            {{ shareNotice }}
+          </div>
+        </Transition>
       </div>
     </div>
   </Teleport>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderMarkdown, renderInlineMarkdown } from '~/composables/useMarkdown';
 import type { CountdownItem } from '~/composables/googleSheets';
@@ -135,18 +149,34 @@ const dateLabel = computed(() => {
   return `${d.getMonth() + 1}/${d.getDate()}`;
 });
 
-const canShare = computed(() => typeof navigator !== 'undefined' && !!navigator.share);
 const { isDevMode: isDev } = useDevMode();
 
+const shareNotice = ref<string | null>(null);
+let shareNoticeTimer: ReturnType<typeof setTimeout> | null = null;
+
 const shareAction = async () => {
-  try {
-    await navigator.share({
-      title: `No Kings 3 Countdown: ${props.action.headline}`,
-      text: props.action.social_message || props.action.details,
-      url: window.location.href,
-    });
-  } catch (err) {
-    // User cancelled or share failed — silently ignore
+  const shareTitle = `No Kings 3 Countdown: ${props.action.headline}`;
+  const shareText = props.action.social_message || props.action.details || '';
+  const shareUrl = window.location.href;
+
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+    } catch {
+      // User cancelled — ignore
+    }
+  } else {
+    const fullText = [shareTitle, shareText, shareUrl].filter(Boolean).join('\n');
+    try {
+      await navigator.clipboard.writeText(fullText);
+    } catch {
+      // Clipboard blocked — still show notice
+    }
+    if (shareNoticeTimer) clearTimeout(shareNoticeTimer);
+    shareNotice.value = 'Copied to clipboard! Paste on social media or in a text to share.';
+    shareNoticeTimer = setTimeout(() => {
+      shareNotice.value = null;
+    }, 6000);
   }
 };
 

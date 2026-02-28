@@ -14,7 +14,7 @@
           </div>
 
           <!-- Score + Share -->
-          <div class="flex flex-col items-start md:items-end gap-2">
+          <div class="relative flex flex-col items-start md:items-end gap-2">
             <div v-if="totalCount > 0" class="flex items-center gap-3">
               <span class="font-display text-lg font-bold text-isf-navy">
                 {{ completedCount }}<span class="text-isf-slate font-normal">/{{ totalCount }}</span> completed
@@ -27,9 +27,21 @@
                 Share
               </button>
             </div>
-            <p v-if="shareNotice" class="text-xs text-isf-slate max-w-xs text-right">
-              {{ shareNotice }}
-            </p>
+
+            <!-- Clipboard share notice bubble -->
+            <Transition
+              enter-active-class="transition-all duration-300 ease-out"
+              leave-active-class="transition-all duration-300 ease-in"
+              enter-from-class="opacity-0 translate-y-2"
+              leave-to-class="opacity-0 translate-y-2"
+            >
+              <div
+                v-if="shareNotice"
+                class="absolute top-full mt-2 right-0 bg-isf-navy text-white text-xs text-center px-4 py-2.5 rounded-lg shadow-lg whitespace-nowrap z-10"
+              >
+                {{ shareNotice }}
+              </div>
+            </Transition>
           </div>
 
 
