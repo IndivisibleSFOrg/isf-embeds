@@ -58,21 +58,10 @@
               class="font-bold text-isf-navy text-lg leading-snug flex-1"
               v-html="renderInlineMarkdown(action.headline)"
             />
-            <!-- Completion toggle -->
-            <button
-              class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
-              :class="isComplete(action.date) ? 'bg-isf-green hover:bg-isf-green-dark' : 'bg-gray-400/80 hover:bg-gray-500'"
-              :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
-              @click="toggleComplete(action.date)"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </button>
             <!-- Share -->
             <button
-              v-if="isComplete(action.date) || isDev"
               class="flex-shrink-0 text-isf-slate hover:text-isf-red transition-colors p-0.5 mt-0.5"
+              :class="(isComplete(action.date) || isDev) ? '' : 'invisible pointer-events-none'"
               aria-label="Share"
               @click="shareAction"
             >
@@ -82,6 +71,17 @@
                 <circle cx="18" cy="19" r="3" />
                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <!-- Completion toggle -->
+            <button
+              class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
+              :class="isComplete(action.date) ? 'bg-isf-green hover:bg-isf-green-dark' : 'bg-gray-400/80 hover:bg-gray-500'"
+              :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
+              @click="toggleComplete(action.date)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
               </svg>
             </button>
           </div>
