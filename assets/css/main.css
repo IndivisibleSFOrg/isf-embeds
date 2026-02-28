@@ -27,7 +27,7 @@
 
 body {
   background: #ffffff;
-  color: var(--isf-blue-dark);
+  color: var(--isf-blue);
   font-family: var(--font-body);
 }
 
@@ -39,7 +39,7 @@ body {
   }
   .btn-primary  { @apply btn bg-isf-blue text-white hover:bg-isf-blue-dark; }
   .btn-red      { @apply btn bg-isf-red text-white hover:bg-isf-red-dark; }
-  .btn-gold     { @apply btn bg-isf-gold text-isf-blue-dark hover:bg-isf-gold-dark; }
+  .btn-gold     { @apply btn bg-isf-gold text-isf-blue hover:bg-isf-gold-dark; }
   .btn-green    { @apply btn bg-isf-green text-white hover:bg-isf-green-dark; }
   .btn-dark     { @apply btn bg-isf-blue-dark text-white hover:bg-isf-blue; }
   .btn-outline-blue { @apply btn border border-isf-blue text-isf-blue hover:bg-isf-blue hover:text-white; }
@@ -51,11 +51,11 @@ body {
   /* ── Typography ──────────────────────────── */
   .heading-1 {
     font-family: var(--font-display);
-    @apply text-5xl font-black leading-tight text-isf-blue-dark;
+    @apply text-5xl font-black leading-tight text-isf-blue;
   }
   .heading-2 {
     font-family: var(--font-display);
-    @apply text-3xl font-bold leading-snug text-isf-blue-dark;
+    @apply text-3xl font-bold leading-snug text-isf-blue;
   }
   .heading-3 {
     font-family: var(--font-body);
@@ -63,7 +63,7 @@ body {
   }
   .eyebrow {
     font-family: var(--font-body);
-    @apply text-base font-bold uppercase tracking-widest text-isf-blue-dark;
+    @apply text-base font-bold uppercase tracking-widest text-isf-blue;
   }
   .text-secondary {
     font-family: var(--font-body);
@@ -79,10 +79,10 @@ body {
   }
 
   /* ── Links ───────────────────────────────── */
-  .link       { @apply text-isf-blue underline hover:text-isf-blue-dark; }
+  .link       { @apply text-isf-blue underline hover:text-isf-blue; }
   .link-red   { @apply text-isf-red underline hover:text-isf-red-dark; }
-  .link-nav   { @apply text-isf-blue-dark hover:text-isf-blue underline decoration-isf-gold; }
-  .link-muted { @apply text-isf-slate underline hover:text-isf-blue-dark; }
+  .link-nav   { @apply text-isf-blue hover:text-isf-blue underline decoration-isf-gold; }
+  .link-muted { @apply text-isf-slate underline hover:text-isf-blue; }
 
   /* ── Badges ──────────────────────────────── */
   .badge {
@@ -91,7 +91,7 @@ body {
   }
   .badge-blue  { @apply badge bg-isf-blue text-white; }
   .badge-red   { @apply badge bg-isf-red text-white; }
-  .badge-gold  { @apply badge bg-isf-gold text-isf-blue-dark; }
+  .badge-gold  { @apply badge bg-isf-gold text-isf-blue; }
   .badge-green { @apply badge bg-isf-green text-white; }
   .badge-blue-dark  { @apply badge bg-isf-blue-dark text-white; }
   .badge-slate      { @apply badge bg-isf-tinted text-isf-slate; }
@@ -104,8 +104,8 @@ body {
     @apply flex gap-3 px-4 py-3 border-l-4 rounded text-sm;
     border-radius: 4px;
   }
-  .alert-info         { @apply alert border-isf-blue bg-isf-tinted text-isf-blue-dark; }
-  .alert-warning      { @apply alert border-isf-gold-dark bg-isf-gold-light text-isf-blue-dark; }
+  .alert-info         { @apply alert border-isf-blue bg-isf-tinted text-isf-blue; }
+  .alert-warning      { @apply alert border-isf-gold-dark bg-isf-gold-light text-isf-blue; }
   .alert-error        { @apply alert border-isf-red bg-red-50 text-isf-red-dark; }
   .alert-success      { @apply alert border-isf-green bg-isf-green-light text-isf-green-dark; }
   .alert-announcement { @apply alert border-isf-gold-dark bg-isf-blue-dark text-white; }
@@ -119,7 +119,7 @@ body {
   .card-header          { @apply px-5 py-4 bg-isf-blue text-white; }
   .card-header-blue     { @apply bg-isf-blue text-white; }
   .card-header-red      { @apply bg-isf-red text-white; }
-  .card-header-gold     { @apply bg-isf-gold text-isf-blue-dark; }
+  .card-header-gold     { @apply bg-isf-gold text-isf-blue; }
   .card-header-blue-dark { @apply bg-isf-blue-dark text-white; }
   .card-title { font-family: var(--font-display); @apply text-lg font-bold; }
   .card-sub   { @apply text-xs opacity-80 mt-0.5; }

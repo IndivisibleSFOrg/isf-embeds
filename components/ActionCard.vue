@@ -102,7 +102,7 @@
           <div class="flex items-center justify-between mt-1">
             <!-- Details link -->
             <button
-              class="text-isf-blue hover:text-isf-blue-dark text-xs font-medium underline underline-offset-2 transition-colors"
+              class="text-isf-blue hover:text-isf-blue text-xs font-medium underline underline-offset-2 transition-colors"
               @click.stop="openDetail(props.action)"
             >
               Details&hellip;

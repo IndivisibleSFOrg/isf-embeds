@@ -44,7 +44,7 @@
             <div class="text-xs font-bold text-isf-navy mb-1 line-clamp-2">
               {{ action.headline }}
             </div>
-            <div class="text-xs text-isf-blue hover:text-isf-blue-dark font-semibold">
+            <div class="text-xs text-isf-blue hover:text-isf-blue font-semibold">
               Take Action →
             </div>
           </div>
