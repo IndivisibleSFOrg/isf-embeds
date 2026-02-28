@@ -1,17 +1,22 @@
 <template>
   <div class="w-full">
     <div class="grid-view">
-      <ActionCard
+      <div
         v-for="action in sortedActions"
         :key="action.date.toISOString()"
-        :action="action"
-      />
+        :ref="(el) => setTodayRef(el, action.date)"
+        :class="{ 'today-card': isTodayDate(action.date) }"
+        style="border-radius: 0.75rem;"
+      >
+        <ActionCard :action="action" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted, nextTick } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
 import ActionCard from './ActionCard.vue';
 import type { CountdownItem } from '~/composables/googleSheets';
 
@@ -24,6 +29,42 @@ const props = defineProps<Props>();
 const sortedActions = computed(() =>
   [...props.actions].sort((a, b) => a.date.getTime() - b.date.getTime())
 );
+
+let todayCardEl: HTMLElement | null = null;
+
+const isTodayDate = (date: Date): boolean => {
+  const now = new Date();
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate()
+  );
+};
+
+const setTodayRef = (el: Element | ComponentPublicInstance | null, date: Date) => {
+  if (isTodayDate(date)) todayCardEl = el as HTMLElement | null;
+};
+
+const scrollToToday = () => {
+  if (todayCardEl) todayCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+const onResize = () => {
+  if (resizeTimer) clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(scrollToToday, 300);
+};
+
+onMounted(async () => {
+  await nextTick();
+  scrollToToday();
+  window.addEventListener('resize', onResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', onResize);
+  if (resizeTimer) clearTimeout(resizeTimer);
+});
 </script>
 
 <style scoped>
@@ -63,6 +104,16 @@ const sortedActions = computed(() =>
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
+}
+
+.today-card {
+  animation: today-ring 2.4s ease-out forwards;
+}
+
+@keyframes today-ring {
+  0%   { box-shadow: 0 0 0 0   rgba(59, 130, 246, 0.7); }
+  40%  { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.4); }
+  100% { box-shadow: 0 0 0 14px rgba(59, 130, 246, 0); }
 }
 
 @media (min-width: 640px) {
