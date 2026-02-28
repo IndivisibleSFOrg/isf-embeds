@@ -52,10 +52,6 @@ export default defineNuxtConfig({
   ssr: false,
 
   nitro: {
-    prerender: {
-      crawlLinks: false,  // disable crawling; explicitly list routes instead
-      routes: ['/nk3-countdown'],
-    },
     preset: 'static',
     output: {
       publicDir: 'out'

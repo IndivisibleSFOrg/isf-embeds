@@ -64,7 +64,6 @@ jobs:
       - name: Generate static site
         run: pnpm generate
         env:
-          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
           NUXT_PUBLIC_COMMIT_REF: ${{ github.ref_name }}
           NUXT_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
       
