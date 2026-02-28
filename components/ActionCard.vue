@@ -6,7 +6,6 @@
       { 'cursor-pointer': !isFuture || isDev },
       { 'cursor-default': isFuture && !isDev },
       isToday ? 'ring-4 ring-isf-blue ring-offset-2' : '',
-      isFuture ? 'opacity-50' : '',
     ]"
     @click="flip"
   >
@@ -42,6 +41,27 @@
           class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
           @click.stop
         >{{ action.image_attributions[0].name || '©' }}</a>
+
+        <!-- Lock overlay for future cards -->
+        <div
+          v-if="isFuture && !isDev"
+          class="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-12 h-12 text-isf-blue"
+            style="filter: drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 2px rgba(255,255,255,0.9))"
+            aria-label="Locked"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
 
         <!-- Completion badge (clickable → opens detail) -->
         <button
