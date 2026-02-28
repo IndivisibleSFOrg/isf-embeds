@@ -146,7 +146,7 @@ const handleShare = async () => {
     }
     if (shareNoticeTimer) clearTimeout(shareNoticeTimer);
     shareNotice.value =
-      'Device does not support WebShare API. You must share manually. Message has been copied to the clipboard.';
+      'Message copied to clipboard! Paste it on social media or in a text to share.';
     shareNoticeTimer = setTimeout(() => {
       shareNotice.value = null;
     }, 6000);
