@@ -1,20 +1,20 @@
 import Papa from 'papaparse';
 import { parseCsvDate } from '~/composables/dateHelpers';
 
-// CountdownItem represents the structured data used in the application, while
-// CountdownCSVItem represents the raw data format from the CSV. The
+// ActionItem represents the structured data used in the application, while
+// ActionCSVItem represents the raw data format from the CSV. The
 // toCountdownItem function transforms the raw CSV data into the structured
 // format, including parsing the date field; rows with an unrecognised date
 // format are dropped (logged to console). The fetchCountdownItems function
 // retrieves the CSV data from the Google Sheet, parses it, and returns an
-// array of CountdownItem objects.
+// array of ActionItem objects.
 
 export interface ImageAttribution {
   name: string;
   url: string;
 }
 
-export interface CountdownItem {
+export interface ActionItem {
   date: Date;
   details: string;
   headline: string;
@@ -27,7 +27,7 @@ export interface CountdownItem {
   social_message: string;
 }
 
-export interface CountdownCSVItem {
+export interface ActionCSVItem {
   date: string;
   details: string;
   headline: string;
@@ -57,7 +57,7 @@ const parseImageAttributions = (raw: string): ImageAttribution[] => {
     });
 };
 
-export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null => {
+export const toCountdownItem = (item: ActionCSVItem): ActionItem | null => {
   const date = parseCsvDate(item.date);
   if (date === null) return null;
   return {
@@ -74,7 +74,7 @@ export const toCountdownItem = (item: CountdownCSVItem): CountdownItem | null =>
   };
 };
 
-export async function fetchCountdownItems(): Promise<CountdownItem[]> {
+export async function fetchCountdownItems(): Promise<ActionItem[]> {
   const { public: { sheetUrl } } = useRuntimeConfig();
   try {
     const response = await fetch(sheetUrl, { 
@@ -89,14 +89,14 @@ export async function fetchCountdownItems(): Promise<CountdownItem[]> {
     const csvText = await response.text();
 
     return new Promise((resolve, reject) => {
-      Papa.parse<CountdownCSVItem>(csvText, {
+      Papa.parse<ActionCSVItem>(csvText, {
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
           resolve(
             results.data
               .map((item) => toCountdownItem(item))
-              .filter((item): item is CountdownItem => item !== null)
+              .filter((item): item is ActionItem => item !== null)
           );
         },
         error: (error: Error) => {

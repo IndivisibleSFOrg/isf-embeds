@@ -33,11 +33,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import ActionCard from './ActionCard.vue';
 
 interface Props {
-  actions: CountdownItem[];
+  actions: ActionItem[];
 }
 
 const props = defineProps<Props>();

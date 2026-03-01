@@ -132,11 +132,11 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderMarkdown, renderInlineMarkdown } from '~/composables/useMarkdown';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
-  action: CountdownItem;
+  action: ActionItem;
 }
 
 const props = defineProps<Props>();

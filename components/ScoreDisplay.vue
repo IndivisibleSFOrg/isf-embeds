@@ -71,18 +71,18 @@
 <script setup lang="ts">
 import { computed, ref, inject } from 'vue';
 import { Share2 } from 'lucide-vue-next';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
-  actions: CountdownItem[];
+  actions: ActionItem[];
 }
 
 const props = defineProps<Props>();
 const { completedKeys } = useActionCompletion();
 const { isDevMode } = useDevMode();
-const openDetail = inject<(action: CountdownItem) => void>('openDetail', () => {});
+const openDetail = inject<(action: ActionItem) => void>('openDetail', () => {});
 
 const DOW_LABELS = ['M', 'T', 'W', 'R', 'F', 'S', 'X'];
 
@@ -136,7 +136,7 @@ const calendarDots = computed(() => {
   const first = campaignActions.value[0].date;
   const last = campaignActions.value[campaignActions.value.length - 1].date;
 
-  const cells: Array<{ key: string; action: CountdownItem | null; label: string; isCompleted: boolean; isAvailable: boolean; isToday: boolean; cls: string; empty: boolean }> = [];
+  const cells: Array<{ key: string; action: ActionItem | null; label: string; isCompleted: boolean; isAvailable: boolean; isToday: boolean; cls: string; empty: boolean }> = [];
   const cur = new Date(first);
   while (cur <= last) {
     const key = formatDateKey(cur);

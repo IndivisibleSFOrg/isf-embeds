@@ -87,14 +87,14 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import ActionDetails from './ActionDetails.vue';
 import PrivacyModal from './PrivacyModal.vue';
 import ScoreDisplay from './ScoreDisplay.vue';
 
 interface Props {
-  actions: CountdownItem[];
+  actions: ActionItem[];
   fetchedAt?: Date | null;
 }
 
@@ -106,16 +106,16 @@ const route = useRoute();
 const showPrivacyModal = ref(false);
 
 // --- Detail overlay ---
-const selectedAction = ref<CountdownItem | null>(null);
+const selectedAction = ref<ActionItem | null>(null);
 const { isDevMode: isDev } = useDevMode();
 
-const isActionFuture = (action: CountdownItem) => {
+const isActionFuture = (action: ActionItem) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return action.date > today;
 };
 
-const openDetail = (action: CountdownItem) => {
+const openDetail = (action: ActionItem) => {
   if (isActionFuture(action) && !isDev.value) return;
   selectedAction.value = action;
   router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });

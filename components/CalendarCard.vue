@@ -60,12 +60,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 
 interface Props {
   date: number;
   month: number;
-  action: CountdownItem | undefined;
+  action: ActionItem | undefined;
   isToday: boolean;
 }
 

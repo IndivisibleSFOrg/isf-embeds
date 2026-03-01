@@ -10,10 +10,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { fetchCountdownItems } from '~/composables/googleSheets';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import { useVisibleActions } from '~/composables/useVisibleActions';
 
-const communityActions = ref<CountdownItem[] | null>(null);
+const communityActions = ref<ActionItem[] | null>(null);
 const visibleActions = useVisibleActions(communityActions);
 const fetchedAt = ref<Date | null>(null);
 

@@ -18,10 +18,10 @@
 import { computed, onMounted, onUnmounted, nextTick } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 import ActionCard from './ActionCard.vue';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 
 interface Props {
-  actions: CountdownItem[];
+  actions: ActionItem[];
 }
 
 const props = defineProps<Props>();

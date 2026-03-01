@@ -186,16 +186,16 @@
 import { ref, computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderInlineMarkdown, renderMarkdown } from '~/composables/useMarkdown';
-import type { CountdownItem } from '~/composables/googleSheets';
+import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
 interface Props {
-  action: CountdownItem;
+  action: ActionItem;
 }
 
 const props = defineProps<Props>();
 
-const openDetail = inject<(action: CountdownItem) => void>('openDetail', () => {});
+const openDetail = inject<(action: ActionItem) => void>('openDetail', () => {});
 
 const isFlipped = ref(false);
 const { isComplete } = useActionCompletion();
