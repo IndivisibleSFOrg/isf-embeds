@@ -131,6 +131,7 @@ watch(
       const match = actions.find(a => formatDateKey(a.date) === key);
       if (match && (!isActionFuture(match) || isDev.value)) {
         selectedAction.value = match;
+        trackViewDetail(formatDateKey(match.date));
       } else if (match && isActionFuture(match) && !isDev.value) {
         // Strip the blocked future detail param from the URL silently
         const q = { ...route.query };
