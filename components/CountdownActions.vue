@@ -104,9 +104,12 @@ const isActionFuture = (action: ActionItem) => {
   return action.date > today;
 };
 
+const { trackViewDetail } = useAnalytics();
+
 const openDetail = (action: ActionItem) => {
   if (isActionFuture(action) && !isDev.value) return;
   selectedAction.value = action;
+  trackViewDetail(formatDateKey(action.date));
   router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });
 };
 
@@ -128,6 +131,7 @@ watch(
       const match = actions.find(a => formatDateKey(a.date) === key);
       if (match && (!isActionFuture(match) || isDev.value)) {
         selectedAction.value = match;
+        trackViewDetail(formatDateKey(match.date));
       } else if (match && isActionFuture(match) && !isDev.value) {
         // Strip the blocked future detail param from the URL silently
         const q = { ...route.query };

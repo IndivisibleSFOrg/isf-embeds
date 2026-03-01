@@ -190,6 +190,7 @@ import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderInlineMarkdown, renderMarkdown } from '~/composables/useMarkdown';
 import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
+import { formatDateKey } from '~/composables/dateHelpers';
 
 interface Props {
   action: ActionItem;
@@ -225,10 +226,12 @@ const isFuture = computed(() => {
 
 // Allow flipping future cards in dev for testing; block in production.
 const { isDevMode: isDev } = useDevMode();
+const { trackCardFlip } = useAnalytics();
 
 const flip = () => {
   if (isFuture.value && !isDev.value) return;
   isFlipped.value = !isFlipped.value;
+  if (isFlipped.value) trackCardFlip(formatDateKey(props.action.date));
 };
 
 const handleBackClick = (e: Event) => {

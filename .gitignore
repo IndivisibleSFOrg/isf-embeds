@@ -10,6 +10,7 @@ out
 node_modules
 /.pnp
 .pnp.*
+package-lock.json
 
 # Logs
 logs

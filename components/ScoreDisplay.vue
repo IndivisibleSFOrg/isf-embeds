@@ -196,8 +196,10 @@ const shareText = computed(() =>
 // ── Share handler ─────────────────────────────────────────────────────────
 const shareNotice = ref<string | null>(null);
 let shareNoticeTimer: ReturnType<typeof setTimeout> | null = null;
+const { trackShareProgress } = useAnalytics();
 
 const handleShare = async () => {
+  trackShareProgress();
   if (navigator.share) {
     try {
       await navigator.share({ text: shareText.value });
