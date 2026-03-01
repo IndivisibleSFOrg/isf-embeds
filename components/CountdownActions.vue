@@ -11,6 +11,9 @@
             <p class="mt-2 text-isf-slate">
               A daily action calendar counting down to the <a href="https://nokings.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on March 28, 2026.
               Each day unlocks one civic action you can complete in under 15 minutes.
+              <strong>Every action counts &mdash; start building the community that you want, today!</strong>
+            </p>
+            <p class="mt-1 text-isf-slate">
               <button class="underline hover:text-isf-blue transition-colors" @click="showPrivacyModal = true">Privacy Statement</button>
             </p>
           </div>
@@ -58,36 +61,45 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-16 bg-isf-blue text-white py-8">
-      <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4">
-        <div class="flex-1 text-center">
-          <p class="text-lg font-semibold">
-            Every action counts. Start making a difference today!
-          </p>
-          <p class="mt-2 text-sm text-white/80">
-            Together, we can build stronger, more connected communities.
-          </p>
+    <footer class="mt-16 bg-isf-blue text-white py-5">
+      <div class="max-w-7xl mx-auto px-4">
+        <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
           <button
-            class="mt-3 text-xs text-white/60 hover:text-white underline transition-colors"
+            class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
             @click="showPrivacyModal = true"
           >
             Privacy Statement
           </button>
-        </div>
-        <div class="text-xs text-white/60 text-right">
-          <div class="font-mono">
-            {{ buildInfo.ref }} @ {{ buildInfo.shortSha }}
-          </div>
-          <div class="text-[10px]">
-            built {{ buildInfo.date }}
-          </div>
-          <hr/>
-          <div v-if="fetchedAt" class="text-[10px] mt-1 cursor-pointer hover:text-white/90 transition-colors" title="Click to refresh data" @click="emit('refresh')">
-            data as of<br/>{{ dataFreshnessLabel }}
-          </div>
-        </div>
+          <a
+            href="https://github.com/IndivisibleSFOrg/no-kings-countdown"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
+          >
+            GitHub Repo
+          </a>
+          <a
+            href="https://github.com/IndivisibleSFOrg/no-kings-countdown/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
+          >
+            Report an Issue
+          </a>
+          <a
+            href="https://forms.gle/2Zic21S9eiaLqVPR7"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
+          >
+            Suggest an Action
+          </a>
+        </nav>
       </div>
     </footer>
+
+    <!-- Dev mode toggle (lower-left) -->
+    <DevModeToggle :fetched-at="fetchedAt" @refresh="emit('refresh')" />
 
     <!-- Action detail overlay -->
     <ActionDetails
@@ -119,7 +131,6 @@ const props = defineProps<Props>();
 const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
 const route = useRoute();
-const config = useRuntimeConfig();
 
 const showPrivacyModal = ref(false);
 
@@ -225,28 +236,5 @@ const effectiveLayout = computed<LayoutType>(() =>
   windowWidth.value < CALENDAR_BREAKPOINT ? 'grid' : 'calendar'
 );
 
-const buildInfo = computed(() => {
-  const sha = config.public.commitSha as string;
-  const ref = config.public.commitRef as string;
-  const date = config.public.buildDate as string;
-  
-  return {
-    shortSha: sha,
-    ref: ref,
-    date: new Date(date).toISOString().split('T')[0]
-  };
-});
 
-const dataFreshnessLabel = computed(() => {
-  if (!props.fetchedAt) return '';
-  return props.fetchedAt.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).replace(/(\d+)\/(\d+)\/(\d+),\s*/, '$3-$1-$2 '); // + ' PT';
-});
 </script>

@@ -2,7 +2,6 @@
   <Html lang="en">
     <Body class="antialiased">
       <NuxtPage />
-      <DevModeToggle />
     </Body>
   </Html>
 </template>
