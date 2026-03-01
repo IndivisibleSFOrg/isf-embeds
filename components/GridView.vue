@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { computed, onMounted, nextTick } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 import ActionCard from './ActionCard.vue';
 import type { ActionItem } from '~/composables/googleSheets';
@@ -49,21 +49,9 @@ const scrollToToday = () => {
   if (todayCardEl) todayCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
-let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-const onResize = () => {
-  if (resizeTimer) clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(scrollToToday, 300);
-};
-
 onMounted(async () => {
   await nextTick();
   scrollToToday();
-  window.addEventListener('resize', onResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', onResize);
-  if (resizeTimer) clearTimeout(resizeTimer);
 });
 </script>
 
