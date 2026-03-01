@@ -79,7 +79,7 @@
               class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
               :class="isComplete(action.date) ? 'bg-isf-green hover:bg-isf-green-dark' : 'bg-gray-400/80 hover:bg-gray-500'"
               :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
-              @click="toggleComplete(action.date)"
+              @click="handleToggleComplete(action.date)"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12" />
@@ -135,6 +135,7 @@ import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderMarkdown, renderInlineMarkdown } from '~/composables/useMarkdown';
 import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
+import { formatDateKey } from '~/composables/dateHelpers';
 
 interface Props {
   action: ActionItem;
@@ -144,18 +145,26 @@ const props = defineProps<Props>();
 const emit = defineEmits<{ close: [] }>();
 
 const { isComplete, toggleComplete } = useActionCompletion();
+const { isDevMode: isDev } = useDevMode();
+const { trackShareDetail, trackCompleteAction } = useAnalytics();
+
+const handleToggleComplete = (date: Date) => {
+  const wasComplete = isComplete(date);
+  toggleComplete(date);
+  // Only track the completion event, not un-completion
+  if (!wasComplete) trackCompleteAction(formatDateKey(date));
+};
 
 const dateLabel = computed(() => {
   const d = props.action.date;
   return `${d.getMonth() + 1}/${d.getDate()}`;
 });
 
-const { isDevMode: isDev } = useDevMode();
-
 const shareNotice = ref<string | null>(null);
 let shareNoticeTimer: ReturnType<typeof setTimeout> | null = null;
 
 const shareAction = async () => {
+  trackShareDetail(formatDateKey(props.action.date));
   const shareTitle = `No Kings 3 Countdown: ${props.action.headline}`;
   const shareText = props.action.social_message || props.action.details || '';
   const shareUrl = window.location.href;

@@ -104,9 +104,12 @@ const isActionFuture = (action: ActionItem) => {
   return action.date > today;
 };
 
+const { trackViewDetail } = useAnalytics();
+
 const openDetail = (action: ActionItem) => {
   if (isActionFuture(action) && !isDev.value) return;
   selectedAction.value = action;
+  trackViewDetail(formatDateKey(action.date));
   router.push({ query: { ...route.query, detail: formatDateKey(action.date) } });
 };
 
