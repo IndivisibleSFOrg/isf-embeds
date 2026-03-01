@@ -39,7 +39,7 @@
             Analytics data is sent to Google and governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's Privacy Policy</a>. You can opt out of Google Analytics entirely using <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's opt-out tool</a>.
           </p>
           <p class="text-isf-navy text-sm leading-relaxed">
-            Your action progress is saved locally on your device only and is never transmitted anywhere.
+            Your action progress is saved locally on your device only and is transmitted only when you explicitly choose to share your progress.
           </p>
         </div>
 
