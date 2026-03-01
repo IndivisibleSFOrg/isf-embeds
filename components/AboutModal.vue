@@ -72,6 +72,23 @@
               <img src="/isf-logo.webp" alt="Indivisible SF" class="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity" />
             </a>
           </div>
+
+          <!-- Build & data info -->
+          <div class="border-t border-isf-tinted pt-3 text-xs font-mono text-isf-slate space-y-1">
+            <div class="text-[10px] uppercase tracking-wide text-isf-slate/60">Build</div>
+            <div>{{ buildInfo.ref }} @ {{ buildInfo.shortSha }}</div>
+            <div>{{ buildInfo.date }}</div>
+            <template v-if="fetchedAt">
+              <div class="text-[10px] uppercase tracking-wide text-isf-slate/60 pt-1">Data</div>
+              <button
+                class="text-left text-isf-slate hover:text-isf-navy transition-colors cursor-pointer"
+                title="Click to refresh data"
+                @click="emit('refresh')"
+              >
+                {{ dataFreshnessLabel }}
+              </button>
+            </template>
+          </div>
         </div>
 
         <!-- Footer -->
@@ -89,5 +106,34 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{ close: [] }>();
+import { computed } from 'vue';
+
+interface Props {
+  fetchedAt?: Date | null;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits<{ close: []; refresh: [] }>();
+
+const config = useRuntimeConfig();
+
+const buildInfo = computed(() => {
+  const sha = config.public.commitSha as string;
+  const ref = config.public.commitRef as string;
+  const date = config.public.buildDate as string;
+  const iso = new Date(date).toISOString();
+  const [datePart, timePart] = iso.split('T');
+  return {
+    shortSha: sha,
+    ref: ref,
+    date: `${datePart} ${timePart.slice(0, 5)} UTC`,
+  };
+});
+
+const dataFreshnessLabel = computed(() => {
+  if (!props.fetchedAt) return '';
+  const iso = props.fetchedAt.toISOString();
+  const [datePart, timePart] = iso.split('T');
+  return `${datePart} ${timePart.slice(0, 5)} UTC`;
+});
 </script>

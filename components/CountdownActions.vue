@@ -69,13 +69,13 @@
     </footer>
 
     <!-- Dev mode toggle (lower-left) -->
-    <DevModeToggle :fetched-at="fetchedAt" @refresh="emit('refresh')" />
+    <DevModeToggle />
 
     <!-- Action detail overlay -->
     <ActionDetails v-if="selectedAction" :action="selectedAction" @close="closeDetail" />
 
     <!-- About modal -->
-    <AboutModal v-if="showAboutModal" @close="showAboutModal = false" />
+    <AboutModal v-if="showAboutModal" :fetched-at="fetchedAt" @close="showAboutModal = false" @refresh="emit('refresh')" />
 
     <!-- Privacy modal -->
     <PrivacyModal v-if="showPrivacyModal" @close="showPrivacyModal = false" />
