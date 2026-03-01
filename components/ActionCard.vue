@@ -32,6 +32,14 @@
           Today
         </div>
 
+        <!-- Testing badge (dev mode only) -->
+        <div
+          v-if="isDev && action.labels.includes('testing')"
+          class="absolute top-2 right-2 bg-yellow-400 text-black text-xs font-semibold px-2 py-0.5 rounded-full"
+        >
+          TEST
+        </div>
+
         <!-- Image attribution: lower left -->
         <a
           v-if="action.image_attributions[0]"
