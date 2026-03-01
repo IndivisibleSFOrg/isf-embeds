@@ -57,23 +57,19 @@ const buildInfo = computed(() => {
   const sha = config.public.commitSha as string;
   const ref = config.public.commitRef as string;
   const date = config.public.buildDate as string;
+  const iso = new Date(date).toISOString();
+  const [datePart, timePart] = iso.split('T');
   return {
     shortSha: sha,
     ref: ref,
-    date: new Date(date).toISOString().split('T')[0],
+    date: `${datePart} ${timePart.slice(0, 5)} UTC`,
   };
 });
 
 const dataFreshnessLabel = computed(() => {
   if (!props.fetchedAt) return '';
-  return props.fetchedAt.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).replace(/(\d+)\/(\d+)\/(\d+),\s*/, '$3-$1-$2 ');
+  const iso = props.fetchedAt.toISOString();
+  const [datePart, timePart] = iso.split('T');
+  return `${datePart} ${timePart.slice(0, 5)} UTC`;
 });
 </script>
