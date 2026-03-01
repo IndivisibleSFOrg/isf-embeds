@@ -44,7 +44,7 @@ export default defineNuxtConfig({
         { property: 'og:url', content: 'https://nokingscountdown.org/' },
         { property: 'og:title', content: 'No Kings Countdown' },
         { property: 'og:description', content: 'A daily action calendar counting down to the No Kings March on March 28, 2026' },
-        { property: 'og:image', content: 'https://nokingscountdown.org/og-image.png' },
+        { property: 'og:image', content: 'https://nokingscountdown.org/og-image.webp' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         // Twitter Card
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
         { name: 'twitter:url', content: 'https://nokingscountdown.org/' },
         { name: 'twitter:title', content: 'No Kings Countdown' },
         { name: 'twitter:description', content: 'A daily action calendar counting down to the No Kings March on March 28, 2026' },
-        { name: 'twitter:image', content: 'https://nokingscountdown.org/og-image.png' }
+        { name: 'twitter:image', content: 'https://nokingscountdown.org/og-image.webp' }
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
