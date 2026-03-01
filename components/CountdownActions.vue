@@ -6,10 +6,11 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 class="font-display text-4xl font-bold text-isf-blue">
-              28 Days Until No Kings March
+              No Kings Countdown
             </h1>
             <p class="mt-2 text-isf-slate">
-              28 ways to make a difference before then
+              A daily action calendar counting down to the <a href="https://nokings.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on March 28, 2026.
+              Each day unlocks one civic action you can complete in under 15 minutes.
             </p>
           </div>
 

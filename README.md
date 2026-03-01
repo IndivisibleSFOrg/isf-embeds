@@ -1,85 +1,51 @@
 # No Kings Countdown
 
-A daily action calendar counting down to the [No Kings](https://nokings.org/) protest on **March 28, 2026**. Each day unlocks one civic action — something you can complete in under 15 minutes.  [https://nokingscountdown.org/](https://nokingscountdown.org/)
+**[nokingscountdown.org](https://nokingscountdown.org)** — A daily civic action calendar counting down to the [No Kings March](https://nokings.org/) on **March 28, 2026**.
 
-## Intro For Users
+The No Kings March is a nationwide mobilization to defend democratic norms and oppose authoritarian overreach. This app helps people show up for the cause every day in the weeks leading up to the march — not just on the day itself. Each day unlocks one action completable in under 15 minutes: calling a representative, sharing a message, supporting an organization, or showing up locally. Progress is tracked privately in your browser — nothing is sent to any server.
 
-**Actions are:**
+## What Kinds of Actions are Available?
 
 - **Completable in under 15 minutes** — no lengthy commitments or sign-ups required
 - **Concrete and specific** — a clear task with a defined end state ("call your senator about X", not "get involved")
-- **Relevant to a broad US audience** — accessible regardless of location, not hyper-local
+- **Broadly accessible** — relevant to people across the US, requiring no special skills, background, or prior experience with activism
 - **Tied to the resistance** — focused on democratic norms, anti-authoritarianism, or civic engagement
-- **Accessible to a broad audience** — actions that most people can participate in
-- **A mix of types** — contacting representatives, sharing on social media, showing up locally, supporting organizations, and more
-
-**Your privacy is respected.** Nothing you do in this app is tracked or sent anywhere. Your completed actions are saved only in your browser's local storage and stay on your device.
+- **Varied in type** — contacting representatives, sharing on social media, showing up locally, supporting organizations
 
 ## For Developers
 
-**Stack:** Vue 3 · Nuxt 3 (static generation) · Tailwind CSS · SPA deployed to GitHub pages
+**Stack:** Vue 3 · Nuxt 3 (static generation) · Tailwind CSS  
+**Issues:** [GitHub Issues](https://github.com/IndivisibleSFOrg/no-kings-countdown/issues)
 
-**How it works:**
+### How It Works
 
-- Action data lives in a Google Sheet, published as a CSV
-- The app fetches and parses that CSV, caching results for 10 minutes
-- Completion state is persisted to `localStorage` under the key `isf-completed-actions` (a JSON array of `YYYY-MM-DD` strings)
-- The app is statically generated and deployed — no backend, no database
+- Action data lives in a Google Sheet published as a CSV; the app fetches and caches it for 10 minutes
+- Completion state is stored in `localStorage` under `isf-completed-actions` (a JSON array of `YYYY-MM-DD` strings)
+- Statically generated and deployed to GitHub Pages — no backend, no database
 
-**Issue tracking:** [GitHub Issues](https://github.com/IndivisibleSFOrg/no-kings-countdown/issues)
+### Setup
 
+```bash
+pnpm install   # install dependencies
+pnpm dev       # start dev server at http://localhost:3000
+pnpm generate  # build static site
+pnpm preview   # preview production build
+```
+
+### Contributing Code
+
+1. Fork the repo and create a feature branch
+2. Reference the relevant GitHub issue in your branch name or commit message
+3. Open a pull request against `main`
+
+Every commit to `main` is automatically deployed to GitHub Pages (typically ~90 seconds).
 
 ## Contributing Actions
 
-Although we have enough actions for this round, we'll likely want more.  We may also incorporate timely actions as needed. You may [suggest actions](https://forms.gle/2Zic21S9eiaLqVPR7) for incorporation into this or future action campaigns. Actions should meet criteria above.
+We welcome action suggestions for this and future campaigns. [Submit an action idea →](https://forms.gle/2Zic21S9eiaLqVPR7)
 
-
-## Contributing Code
-
-### Prerequisites
-
-- Node.js (v18 or higher recommended)
-- pnpm (or npm/yarn)
-
-### Installation
-
-Install dependencies:
-
-```bash
-pnpm install
-```
-
-### Development
-
-Run the development server:
-
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-### Build for Production
-
-Generate a static site:
-
-```bash
-pnpm generate
-```
-
-The static files will be generated in the `out` directory.
-
-Preview the production build:
-
-```bash
-pnpm preview
-```
-
-### Deployment
-
-Each commit to main is automatically published to GitHub pages. This typically takes about 90s.
-
+Actions should meet the criteria listed above. We review all submissions and may follow up with questions.
 
 ## License
 
-This project is open source and available under the MIT License.
+MIT

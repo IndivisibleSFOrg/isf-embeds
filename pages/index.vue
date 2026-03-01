@@ -23,7 +23,7 @@ const loadData = async () => {
 onMounted(loadData);
 
 useHead({
-  title: '28 Days Until No Kings March',
+  title: 'No Kings Countdown',
   meta: [
     {
       name: 'description',
