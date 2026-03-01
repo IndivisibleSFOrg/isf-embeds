@@ -66,7 +66,6 @@ jobs:
         env:
           NUXT_PUBLIC_COMMIT_REF: ${{ github.ref_name }}
           NUXT_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
-          NUXT_PUBLIC_GTAG_ID: ${{ secrets.NUXT_PUBLIC_GTAG_ID }}
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

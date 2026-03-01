@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   ],
 
   gtag: {
-    id: process.env.NUXT_PUBLIC_GTAG_ID,
+    id: 'G-JFBM21YLDK',
     enabled: process.env.NODE_ENV === 'production',
   },
 
