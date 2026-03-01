@@ -72,6 +72,30 @@
               <img src="/isf-logo.webp" alt="Indivisible SF" class="h-12 w-auto opacity-80 hover:opacity-100 transition-opacity" />
             </a>
           </div>
+
+          <!-- Build & data info -->
+          <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue-light space-y-1">
+            <div>
+              <span class="font-semibold">code:</span> <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/tree/${buildInfo.ref}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.ref }}</a>
+              @
+              <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/commit/${buildInfo.fullSha}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.shortSha }}</a>,
+              deployed {{ buildInfo.date }}
+            </div>
+            <div v-if="fetchedAt" class="flex items-center gap-1">
+              <span class="font-semibold">data:</span>
+              <button
+                class="flex items-center gap-1 underline hover:text-isf-blue transition-colors cursor-pointer"
+                title="Click to refresh data"
+                @click="emit('refresh')"
+              >
+                <span>refreshed at {{ dataFreshnessLabel }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Footer -->
@@ -89,5 +113,35 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{ close: [] }>();
+import { computed } from 'vue';
+
+interface Props {
+  fetchedAt?: Date | null;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits<{ close: []; refresh: [] }>();
+
+const config = useRuntimeConfig();
+
+const buildInfo = computed(() => {
+  const sha = config.public.commitSha as string;
+  const ref = config.public.commitRef as string;
+  const date = config.public.buildDate as string;
+  const iso = new Date(date).toISOString();
+  const [datePart, timePart] = iso.split('T');
+  return {
+    shortSha: sha.slice(0, 7),
+    fullSha: sha,
+    ref: ref,
+    date: `${datePart} ${timePart.slice(0, 5)} UTC`,
+  };
+});
+
+const dataFreshnessLabel = computed(() => {
+  if (!props.fetchedAt) return '';
+  const iso = props.fetchedAt.toISOString();
+  const [datePart, timePart] = iso.split('T');
+  return `${datePart} ${timePart.slice(0, 5)} UTC`;
+});
 </script>
