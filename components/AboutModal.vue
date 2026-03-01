@@ -74,20 +74,23 @@
           </div>
 
           <!-- Build & data info -->
-          <div class="border-t border-isf-tinted pt-4 text-xs font-mono text-gray-400 space-y-0.5">
-            <div class="text-[10px] uppercase tracking-wide mb-1">Build</div>
-            <div>{{ buildInfo.ref }} @ {{ buildInfo.shortSha }}</div>
-            <div>{{ buildInfo.date }}</div>
-            <template v-if="fetchedAt">
-              <div class="text-[10px] uppercase tracking-wide mt-1.5 mb-0.5">Data</div>
-              <button
-                class="text-left text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-                title="Click to refresh data"
-                @click="emit('refresh')"
-              >
-                {{ dataFreshnessLabel }}
-              </button>
-            </template>
+          <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue-light space-y-1">
+            <div>
+              <span class="font-semibold">code:</span>
+              {{ buildInfo.ref }} @ {{ buildInfo.shortSha }}, deployed {{ buildInfo.date }}
+            </div>
+            <button
+              v-if="fetchedAt"
+              class="flex items-center gap-1 hover:text-isf-blue transition-colors cursor-pointer"
+              title="Click to refresh data"
+              @click="emit('refresh')"
+            >
+              <span><span class="font-semibold">data:</span> refreshed at {{ dataFreshnessLabel }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+            </button>
           </div>
         </div>
 
