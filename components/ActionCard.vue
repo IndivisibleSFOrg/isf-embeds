@@ -125,18 +125,25 @@
           >{{ (action.image_attributions[1] || action.image_attributions[0]).name || '©' }}</a>
         </div>
 
-        <!-- Lower 50%: headline + actions -->
-        <div class="h-1/2 flex-shrink-0 bg-white flex flex-col justify-between px-3 py-2">
+        <!-- Lower 50%: headline + details preview + actions -->
+        <div class="h-1/2 flex-shrink-0 bg-white flex flex-col px-3 py-2 gap-1 min-h-0">
           <p
-            class="font-bold text-isf-navy text-sm leading-snug line-clamp-4"
+            class="font-bold text-isf-navy text-sm leading-snug line-clamp-2 flex-shrink-0"
             v-html="renderInlineMarkdown(action.headline)"
           />
 
+          <!-- Details preview: fades out at the bottom -->
+          <div
+            v-if="action.details"
+            class="details-preview relative flex-1 overflow-hidden min-h-0 text-xs text-isf-slate leading-snug"
+            v-html="renderMarkdown(action.details)"
+          />
+
           <!-- Bottom row: details (left) + share + complete (right) -->
-          <div class="flex items-center justify-between mt-1">
+          <div class="flex items-center justify-between flex-shrink-0">
             <!-- Details link -->
             <button
-              class="text-isf-blue hover:text-isf-blue text-xs font-medium underline underline-offset-2 transition-colors"
+              class="text-isf-blue hover:text-isf-blue text-xs font-medium underline underline-offset-2 transition-colors flex-shrink-0"
               @click.stop="openDetail(props.action)"
             >
               Details&hellip;
@@ -178,7 +185,7 @@
 <script setup lang="ts">
 import { ref, computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
-import { renderInlineMarkdown } from '~/composables/useMarkdown';
+import { renderInlineMarkdown, renderMarkdown } from '~/composables/useMarkdown';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 
@@ -256,6 +263,35 @@ const handleBackClick = (e: Event) => {
 
 .action-card-back {
   transform: rotateY(180deg);
+}
+
+.details-preview::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1.75rem;
+  background: linear-gradient(to bottom, transparent, white);
+  pointer-events: none;
+}
+
+.details-preview :deep(p) {
+  margin: 0 0 0.2em;
+}
+
+.details-preview :deep(p:last-child) {
+  margin-bottom: 0;
+}
+
+.details-preview :deep(ul),
+.details-preview :deep(ol) {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.details-preview :deep(li) {
+  margin: 0;
 }
 
 .image-attribution {
