@@ -76,15 +76,14 @@
           <!-- Build & data info -->
           <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue-light space-y-1">
             <div>
-              <span class="font-semibold">code:</span>
-              <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/tree/${buildInfo.ref}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.ref }}</a>
+              <span class="font-semibold">code:</span> <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/tree/${buildInfo.ref}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.ref }}</a>
               @
               <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/commit/${buildInfo.fullSha}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.shortSha }}</a>,
               deployed {{ buildInfo.date }}
             </div>
             <button
               v-if="fetchedAt"
-              class="flex items-center gap-1 hover:text-isf-blue transition-colors cursor-pointer"
+              class="flex items-center gap-1 underline hover:text-isf-blue transition-colors cursor-pointer"
               title="Click to refresh data"
               @click="emit('refresh')"
             >
