@@ -77,7 +77,10 @@
           <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue-light space-y-1">
             <div>
               <span class="font-semibold">code:</span>
-              {{ buildInfo.ref }} @ {{ buildInfo.shortSha }}, deployed {{ buildInfo.date }}
+              <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/tree/${buildInfo.ref}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.ref }}</a>
+              @
+              <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/commit/${buildInfo.fullSha}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.shortSha }}</a>,
+              deployed {{ buildInfo.date }}
             </div>
             <button
               v-if="fetchedAt"
@@ -127,7 +130,8 @@ const buildInfo = computed(() => {
   const iso = new Date(date).toISOString();
   const [datePart, timePart] = iso.split('T');
   return {
-    shortSha: sha,
+    shortSha: sha.slice(0, 7),
+    fullSha: sha,
     ref: ref,
     date: `${datePart} ${timePart.slice(0, 5)} UTC`,
   };
