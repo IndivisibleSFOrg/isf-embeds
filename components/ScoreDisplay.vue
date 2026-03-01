@@ -128,6 +128,7 @@ const calendarDots = computed(() => {
   if (!campaignActions.value.length) return [];
   const now = new Date();
   now.setHours(23, 59, 59, 999);
+  const todayKey = formatDateKey(new Date());
 
   // Build a date → action lookup
   const byKey = new Map(campaignActions.value.map(a => [formatDateKey(a.date), a]));
@@ -135,7 +136,7 @@ const calendarDots = computed(() => {
   const first = campaignActions.value[0].date;
   const last = campaignActions.value[campaignActions.value.length - 1].date;
 
-  const cells: Array<{ key: string; action: CountdownItem | null; label: string; isCompleted: boolean; isAvailable: boolean; cls: string; empty: boolean }> = [];
+  const cells: Array<{ key: string; action: CountdownItem | null; label: string; isCompleted: boolean; isAvailable: boolean; isToday: boolean; cls: string; empty: boolean }> = [];
   const cur = new Date(first);
   while (cur <= last) {
     const key = formatDateKey(cur);
@@ -143,22 +144,26 @@ const calendarDots = computed(() => {
     if (action) {
       const isCompleted = completedKeys.value.has(key);
       const isAvailable = cur <= now;
+      const isToday = key === todayKey;
       cells.push({
         key,
         action,
         label: cur.toLocaleString('en-US', { month: 'short', day: 'numeric' })
-          + ' – ' + (isCompleted ? `completed ${happyEmoji(key)}` : isAvailable ? `incomplete ${sadEmoji(key)}` : 'upcoming'),
+          + ' – ' + (isCompleted ? `completed ${happyEmoji(key)}` : isToday ? 'still time today ❓' : isAvailable ? `incomplete ${sadEmoji(key)}` : 'upcoming'),
         isCompleted,
         isAvailable,
+        isToday,
         empty: false,
         cls: isCompleted
           ? 'bg-isf-green'
-          : isAvailable
-            ? 'bg-isf-red'
-            : 'bg-gray-200',
+          : isToday
+            ? 'bg-isf-gold'
+            : isAvailable
+              ? 'bg-isf-red'
+              : 'bg-gray-200',
       });
     } else {
-      cells.push({ key: `empty-${key}`, action: null, label: '', isCompleted: false, isAvailable: false, empty: true, cls: '' });
+      cells.push({ key: `empty-${key}`, action: null, label: '', isCompleted: false, isAvailable: false, isToday: false, empty: true, cls: '' });
     }
     cur.setDate(cur.getDate() + 1);
   }
@@ -174,7 +179,7 @@ const emojiGrid = computed(() => {
   const cells = [
     ...pad,
     ...calendarDots.value.map(d =>
-      d.empty ? '  ' : d.isCompleted ? '✅' : d.isAvailable ? '❌' : '⬜',
+      d.empty ? '  ' : d.isCompleted ? '✅' : d.isToday ? '❓' : d.isAvailable ? '❌' : '⬜',
     ),
   ];
   const rows: string[] = [];
