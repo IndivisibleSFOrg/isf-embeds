@@ -16,6 +16,7 @@
     "lucide-vue-next": "^0.460.0",
     "marked": "^17.0.3",
     "nuxt": "^3.14.1592",
+    "nuxt-gtag": "^4.1.0",
     "papaparse": "^5.5.3",
     "swiper": "^11.1.15",
     "vue": "^3.5.13"
