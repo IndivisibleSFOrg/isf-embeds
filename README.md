@@ -1,6 +1,6 @@
 # No Kings Countdown
 
-**[nokingscountdown.org](https://nokingscountdown.org)** — A daily civic action calendar counting down to the [No Kings March](https://nokings.org/) on **March 28, 2026**.
+**[nokingscountdown.org](https://nokingscountdown.org)** — A daily civic action calendar counting down to the [No Kings March](https://nokings.org/) on **March 28, 2026**. Incubated in [Indvisible SF](https://indvisiblesf.org/) and built by volunteers.
 
 The No Kings March is a nationwide mobilization to defend democratic norms and oppose authoritarian overreach. This app helps people show up for the cause every day in the weeks leading up to the march — not just on the day itself. Each day unlocks one action completable in under 15 minutes: calling a representative, sharing a message, supporting an organization, or showing up locally. Progress is tracked privately in your browser — nothing is sent to any server.
 

@@ -14,6 +14,7 @@
               March 28, 2026.
               Each day unlocks one civic action you can complete in under 15 minutes. Track your progress, share with
               friends, and build the movement to take back our country!
+              <button class="underline hover:text-isf-blue transition-colors" @click="showAboutModal = true">More&hellip;</button>
             </p>
             <p class="mt-2 text-isf-slate">
               <strong>Every action counts &mdash; start building the community that you want, today!</strong>
@@ -43,6 +44,10 @@
       <div class="max-w-7xl mx-auto px-4">
         <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
           <button class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
+            @click="showAboutModal = true">
+            About
+          </button>
+          <button class="text-white/80 hover:text-white underline-offset-2 hover:underline transition-colors"
             @click="showPrivacyModal = true">
             Privacy Statement
           </button>
@@ -69,6 +74,9 @@
     <!-- Action detail overlay -->
     <ActionDetails v-if="selectedAction" :action="selectedAction" @close="closeDetail" />
 
+    <!-- About modal -->
+    <AboutModal v-if="showAboutModal" @close="showAboutModal = false" />
+
     <!-- Privacy modal -->
     <PrivacyModal v-if="showPrivacyModal" @close="showPrivacyModal = false" />
   </div>
@@ -79,6 +87,7 @@ import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
 import type { ActionItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import ActionDetails from './ActionDetails.vue';
+import AboutModal from './AboutModal.vue';
 import PrivacyModal from './PrivacyModal.vue';
 import ScoreDisplay from './ScoreDisplay.vue';
 
@@ -92,6 +101,7 @@ const emit = defineEmits<{ refresh: [] }>();
 const router = useRouter();
 const route = useRoute();
 
+const showAboutModal = ref(false);
 const showPrivacyModal = ref(false);
 
 // --- Detail overlay ---
