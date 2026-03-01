@@ -14,7 +14,7 @@
       >
         <!-- Header -->
         <div class="flex items-center justify-between px-5 py-4 border-b border-isf-tinted">
-          <h2 class="font-bold text-isf-navy text-lg">Privacy</h2>
+          <h2 class="font-bold text-isf-navy text-lg">Privacy Statement</h2>
           <button
             class="text-isf-slate hover:text-isf-navy bg-transparent rounded-full p-1.5 transition-colors"
             aria-label="Close"
@@ -28,9 +28,18 @@
         </div>
 
         <!-- Body -->
-        <div class="px-5 py-5">
+        <div class="px-5 py-5 space-y-3">
           <p class="text-isf-navy text-sm leading-relaxed">
-            This site does not track users or send their data anywhere. Your action progress is stored locally only and your other devices will be unaware of your progress on this device.
+            This site uses Google Analytics to collect anonymous usage data (pages visited, time on site, city-level location). <strong>We use this solely to understand how many people visit and which content is most useful to users collectively — not to identify you, build profiles, or target advertising.</strong>
+          </p>
+          <p class="text-isf-navy text-sm leading-relaxed">
+            We have disabled Google signals and ads personalization. Google Analytics does not record your full IP address. We do not sell or share visitor data with anyone.
+          </p>
+          <p class="text-isf-navy text-sm leading-relaxed">
+            Analytics data is sent to Google and governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's Privacy Policy</a>. You can opt out of Google Analytics entirely using <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's opt-out tool</a>.
+          </p>
+          <p class="text-isf-navy text-sm leading-relaxed">
+            Your action progress is saved locally on your device only and is never transmitted anywhere.
           </p>
         </div>
 

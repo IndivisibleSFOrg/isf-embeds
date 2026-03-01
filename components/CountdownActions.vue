@@ -11,6 +11,7 @@
             <p class="mt-2 text-isf-slate">
               A daily action calendar counting down to the <a href="https://nokings.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on March 28, 2026.
               Each day unlocks one civic action you can complete in under 15 minutes.
+              <button class="underline hover:text-isf-blue transition-colors" @click="showPrivacyModal = true">Privacy Statement</button>
             </p>
           </div>
 
@@ -70,7 +71,7 @@
             class="mt-3 text-xs text-white/60 hover:text-white underline transition-colors"
             @click="showPrivacyModal = true"
           >
-            Privacy
+            Privacy Statement
           </button>
         </div>
         <div class="text-xs text-white/60 text-right">
