@@ -81,18 +81,20 @@
               <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/commit/${buildInfo.fullSha}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.shortSha }}</a>,
               deployed {{ buildInfo.date }}
             </div>
-            <button
-              v-if="fetchedAt"
-              class="flex items-center gap-1 underline hover:text-isf-blue transition-colors cursor-pointer"
-              title="Click to refresh data"
-              @click="emit('refresh')"
-            >
-              <span><span class="font-semibold">data:</span> refreshed at {{ dataFreshnessLabel }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="23 4 23 10 17 10" />
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-              </svg>
-            </button>
+            <div v-if="fetchedAt" class="flex items-center gap-1">
+              <span class="font-semibold">data:</span>
+              <button
+                class="flex items-center gap-1 underline hover:text-isf-blue transition-colors cursor-pointer"
+                title="Click to refresh data"
+                @click="emit('refresh')"
+              >
+                <span>refreshed at {{ dataFreshnessLabel }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
