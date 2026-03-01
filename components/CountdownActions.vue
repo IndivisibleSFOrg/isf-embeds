@@ -19,35 +19,7 @@
           </div>
 
           <!-- Score + Share -->
-          <div class="relative flex flex-col items-start md:items-end gap-2">
-            <div v-if="totalCount > 0" class="flex items-center gap-3">
-              <span class="font-display text-lg font-bold text-isf-navy">
-                {{ completedCount }}<span class="text-isf-slate font-normal">/{{ totalCount }}</span> completed
-              </span>
-              <button
-                @click="handleShare"
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-isf-blue text-white text-sm font-semibold hover:bg-isf-navy transition-colors"
-              >
-                <Share2 :size="14" />
-                Share
-              </button>
-            </div>
-
-            <!-- Clipboard share notice bubble -->
-            <Transition
-              enter-active-class="transition-all duration-300 ease-out"
-              leave-active-class="transition-all duration-300 ease-in"
-              enter-from-class="opacity-0 translate-y-2"
-              leave-to-class="opacity-0 translate-y-2"
-            >
-              <div
-                v-if="shareNotice"
-                class="absolute top-full mt-2 right-0 bg-isf-navy text-white text-xs text-center px-4 py-2.5 rounded-lg shadow-lg whitespace-nowrap z-10"
-              >
-                {{ shareNotice }}
-              </div>
-            </Transition>
-          </div>
+          <ScoreDisplay :actions="props.actions" />
 
 
         </div>
@@ -115,12 +87,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
-import { Share2 } from 'lucide-vue-next';
 import type { CountdownItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
-import { useActionCompletion } from '~/composables/useActionCompletion';
 import ActionDetails from './ActionDetails.vue';
 import PrivacyModal from './PrivacyModal.vue';
+import ScoreDisplay from './ScoreDisplay.vue';
 
 interface Props {
   actions: CountdownItem[];
@@ -133,50 +104,6 @@ const router = useRouter();
 const route = useRoute();
 
 const showPrivacyModal = ref(false);
-
-// --- Completion score ---
-const { completedKeys } = useActionCompletion();
-
-const shareMessage = computed(() =>
-  `I'm ramping up for No Kings 3 with daily civic actions. I've completed ${completedCount.value}/${totalCount.value} actions. Join me at https://nk3-ramp-up.org/`
-);
-
-const availableActions = computed(() => {
-  const today = new Date();
-  today.setHours(23, 59, 59, 999);
-  return props.actions.filter(a => a.date <= today);
-});
-
-const completedCount = computed(() =>
-  availableActions.value.filter(a => completedKeys.value.has(formatDateKey(a.date))).length
-);
-
-const totalCount = computed(() => availableActions.value.length);
-
-const shareNotice = ref<string | null>(null);
-let shareNoticeTimer: ReturnType<typeof setTimeout> | null = null;
-
-const handleShare = async () => {
-  if (navigator.share) {
-    try {
-      await navigator.share({ text: shareMessage.value });
-    } catch {
-      // user cancelled — ignore
-    }
-  } else {
-    try {
-      await navigator.clipboard.writeText(shareMessage.value);
-    } catch {
-      // clipboard may be blocked; still show the notice
-    }
-    if (shareNoticeTimer) clearTimeout(shareNoticeTimer);
-    shareNotice.value =
-      'Message copied to clipboard! Paste it on social media or in a text to share.';
-    shareNoticeTimer = setTimeout(() => {
-      shareNotice.value = null;
-    }, 6000);
-  }
-};
 
 // --- Detail overlay ---
 const selectedAction = ref<CountdownItem | null>(null);
