@@ -4,9 +4,9 @@
     <!-- ── Left: score + share ────────────────────────────────────────── -->
     <div class="flex flex-col items-end gap-2">
       <div class="text-right">
-        <span class="font-display text-2xl font-bold leading-none"
+        <span class="font-display text-2xl leading-none"
           :class="completedCount === totalAvailable && totalAvailable > 0 ? 'text-isf-green' : 'text-isf-gold-dark'"
-        >{{ completedCount }}</span><span class="font-display text-2xl font-normal text-isf-slate leading-none">/{{ totalAvailable }}</span>
+        ><span class="font-bold">{{ completedCount }}</span><span class="font-normal">/{{ totalAvailable }}</span></span>
         <p class="text-xs text-isf-slate mt-0.5">completed so far</p>
       </div>
       <button
