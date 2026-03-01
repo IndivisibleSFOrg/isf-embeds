@@ -4,7 +4,7 @@
     <header class="bg-white border-b-4 border-isf-blue shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
+          <div id="tour-title">
             <h1 class="font-display text-4xl font-bold text-isf-blue">
               No Kings Countdown
             </h1>
@@ -26,7 +26,7 @@
           </div>
 
           <!-- Score + Share -->
-          <ScoreDisplay :actions="props.actions" />
+          <ScoreDisplay id="tour-score" :actions="props.actions" />
 
 
         </div>
@@ -34,7 +34,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="py-8 md:py-12 max-w-7xl mx-auto px-4">
+    <main id="tour-main" class="py-8 md:py-12 max-w-7xl mx-auto px-4">
       <GridView v-if="effectiveLayout === 'grid'" :actions="actions" />
       <CalendarView v-else :actions="actions" />
     </main>
@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, provide, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, provide, watch, nextTick } from 'vue';
 import type { ActionItem } from '~/composables/googleSheets';
 import { formatDateKey } from '~/composables/dateHelpers';
 import ActionDetails from './ActionDetails.vue';
@@ -159,12 +159,18 @@ type LayoutType = 'grid' | 'calendar';
 const CALENDAR_BREAKPOINT = 1200;
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280);
 const onResize = () => { windowWidth.value = window.innerWidth; };
-onMounted(() => window.addEventListener('resize', onResize));
+onMounted(() => {
+  window.addEventListener('resize', onResize);
+  // Start home tour for first-time visitors (deferred to let DOM settle)
+  nextTick(() => setTimeout(startHomeTour, 400));
+});
 onUnmounted(() => window.removeEventListener('resize', onResize));
 
 const effectiveLayout = computed<LayoutType>(() =>
   windowWidth.value < CALENDAR_BREAKPOINT ? 'grid' : 'calendar'
 );
+
+const { startHomeTour } = useHomeTour();
 
 
 </script>

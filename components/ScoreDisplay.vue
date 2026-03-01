@@ -10,6 +10,7 @@
         <p class="text-xs text-isf-slate mt-0.5">completed so far</p>
       </div>
       <button
+        id="tour-share-progress"
         class="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-isf-blue text-white text-sm font-semibold hover:bg-isf-navy transition-colors whitespace-nowrap"
         @click="handleShare"
       >

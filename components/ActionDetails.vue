@@ -61,6 +61,7 @@
             />
             <!-- Share -->
             <button
+              id="tour-action-share"
               class="flex-shrink-0 text-isf-slate hover:text-isf-red transition-colors p-0.5 mt-0.5"
               :class="(isComplete(action.date) || isDev) ? '' : 'invisible pointer-events-none'"
               aria-label="Share"
@@ -76,6 +77,7 @@
             </button>
             <!-- Completion toggle -->
             <button
+              id="tour-action-complete"
               class="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center shadow transition-colors mt-0.5"
               :class="isComplete(action.date) ? 'bg-isf-green hover:bg-isf-green-dark' : 'bg-gray-400/80 hover:bg-gray-500'"
               :title="isComplete(action.date) ? 'Mark incomplete' : 'Mark complete'"
@@ -96,6 +98,7 @@
           <!-- CTA link -->
           <a
             v-if="action.link_url && action.link_url !== '#'"
+            id="tour-action-cta"
             :href="action.link_url"
             target="_blank"
             rel="noopener noreferrer"
@@ -130,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderMarkdown, renderInlineMarkdown } from '~/composables/useMarkdown';
 import type { ActionItem } from '~/composables/googleSheets';
@@ -147,6 +150,7 @@ const emit = defineEmits<{ close: [] }>();
 const { isComplete, toggleComplete } = useActionCompletion();
 const { isDevMode: isDev } = useDevMode();
 const { trackShareDetail, trackCompleteAction } = useAnalytics();
+const { startModalTour } = useModalTour();
 
 const handleToggleComplete = (date: Date) => {
   const wasComplete = isComplete(date);
@@ -194,7 +198,11 @@ const onKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') emit('close');
 };
 
-onMounted(() => document.addEventListener('keydown', onKeydown));
+onMounted(() => {
+  document.addEventListener('keydown', onKeydown);
+  // Start modal tour for first-time modal viewers (deferred to let DOM settle)
+  nextTick(() => setTimeout(startModalTour, 500));
+});
 onUnmounted(() => document.removeEventListener('keydown', onKeydown));
 </script>
 
