@@ -9,18 +9,18 @@ import { parseCsvDate } from '~/composables/dateHelpers';
 // retrieves the CSV data from the Google Sheet, parses it, and returns an
 // array of ActionItem objects.
 
-export interface ImageAttribution {
-  name: string;
-  url: string;
+export interface AttributedImage {
+  image_url: string;
+  artist_name: string;
+  artist_url: string;
 }
 
 export interface ActionItem {
   date: Date;
   details: string;
   headline: string;
-  image_attributions: ImageAttribution[];
-  image_back_url: string;
-  image_front_url: string;
+  image_back: AttributedImage;
+  image_front: AttributedImage;
   labels: string[];
   link_text: string;
   link_url: string;
@@ -31,31 +31,17 @@ export interface ActionCSVItem {
   date: string;
   details: string;
   headline: string;
-  image_attributions: string;
+  image_back_artist: string;
+  image_back_artist_url: string;
   image_back_url: string;
+  image_front_artist: string;
+  image_front_artist_url: string;
   image_front_url: string;
   labels: string;
   link_text: string;
   link_url: string;
   social_message: string;
 }
-
-const parseImageAttributions = (raw: string): ImageAttribution[] => {
-  if (!raw) return [];
-  return raw
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
-    .map(line => {
-      // Format: https://example.com/photo (Author Name)
-      const match = line.match(/^(.+?)\s+\((.+)\)$/);
-      if (match) {
-        return { url: match[1].trim(), name: match[2].trim() };
-      }
-      // Fallback: treat the whole line as a URL with no name
-      return { url: line, name: '' };
-    });
-};
 
 export const toCountdownItem = (item: ActionCSVItem): ActionItem | null => {
   const date = parseCsvDate(item.date);
@@ -64,9 +50,16 @@ export const toCountdownItem = (item: ActionCSVItem): ActionItem | null => {
     date,
     details: item.details || '',
     headline: item.headline,
-    image_attributions: parseImageAttributions(item.image_attributions || ''),
-    image_back_url: item.image_back_url || item.image_front_url,
-    image_front_url: item.image_front_url,
+    image_front: {
+      image_url: item.image_front_url || '',
+      artist_name: item.image_front_artist || '',
+      artist_url: item.image_front_artist_url || '',
+    },
+    image_back: {
+      image_url: item.image_back_url || item.image_front_url || '',
+      artist_name: item.image_back_artist || item.image_front_artist || '',
+      artist_url: item.image_back_artist_url || item.image_front_artist_url || '',
+    },
     labels: item.labels ? item.labels.split(',').map(l => l.trim().toLowerCase()).filter(Boolean) : [],
     link_text: item.link_text || 'Learn more',
     link_url: item.link_url || '#',

@@ -13,9 +13,10 @@
       <!-- Front -->
       <div class="action-card-face action-card-front rounded-lg overflow-hidden">
         <img
-          :src="action.image_front_url || defaultImage"
+          :src="action.image_front.image_url || defaultImage"
           :alt="action.headline"
           class="absolute inset-0 w-full h-full object-cover"
+          referrerpolicy="no-referrer"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
 
@@ -42,13 +43,13 @@
 
         <!-- Image attribution: lower left -->
         <a
-          v-if="action.image_attributions[0]"
-          :href="action.image_attributions[0].url"
+          v-if="action.image_front.artist_url"
+          :href="action.image_front.artist_url"
           target="_blank"
           rel="noopener noreferrer"
           class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
           @click.stop
-        >{{ action.image_attributions[0].name || '©' }}</a>
+        >{{ action.image_front.artist_name || '©' }}</a>
 
         <!-- Lock overlay for future cards -->
         <div
@@ -104,9 +105,10 @@
         <!-- Upper 50%: image -->
         <div class="relative h-1/2 flex-shrink-0">
           <img
-            :src="action.image_back_url || defaultImage"
+            :src="action.image_back.image_url || defaultImage"
             :alt="action.headline"
             class="absolute inset-0 w-full h-full object-cover"
+            referrerpolicy="no-referrer"
           />
           <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
           <!-- Date: upper left -->
@@ -116,13 +118,13 @@
 
           <!-- Image attribution: lower left -->
           <a
-            v-if="action.image_attributions[1] || action.image_attributions[0]"
-            :href="(action.image_attributions[1] || action.image_attributions[0]).url"
+            v-if="action.image_back.artist_url"
+            :href="action.image_back.artist_url"
             target="_blank"
             rel="noopener noreferrer"
             class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
             @click.stop
-          >{{ (action.image_attributions[1] || action.image_attributions[0]).name || '©' }}</a>
+          >{{ action.image_back.artist_name || '©' }}</a>
         </div>
 
         <!-- Lower 50%: headline + details preview + actions -->

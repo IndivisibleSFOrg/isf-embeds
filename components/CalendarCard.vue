@@ -7,9 +7,10 @@
       <!-- Front: Date with Image -->
       <div class="card-front relative rounded-lg overflow-hidden h-full">
         <img
-          :src="action ? (action.image_front_url || defaultImage) : defaultImage"
+          :src="action ? (action.image_front.image_url || defaultImage) : defaultImage"
           :alt="action ? action.headline : 'Event'"
           class="absolute inset-0 w-full h-full object-cover"
+          referrerpolicy="no-referrer"
         />
         
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70"></div>
@@ -33,9 +34,10 @@
         <div class="relative h-full flex flex-col">
           <div class="relative flex-1 overflow-hidden min-h-0">
             <img
-              :src="action.image_back_url || defaultImage"
+              :src="action.image_back.image_url || defaultImage"
               :alt="action.headline"
               class="w-full h-full object-cover"
+              referrerpolicy="no-referrer"
             />
             <div class="absolute inset-0 bg-black/20"></div>
           </div>

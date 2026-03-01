@@ -17,9 +17,10 @@
         <!-- Image header -->
         <div class="relative aspect-square w-full flex-shrink-0">
           <img
-            :src="action.image_back_url || action.image_front_url || defaultImage"
+            :src="action.image_back.image_url || action.image_front.image_url || defaultImage"
             :alt="action.headline"
             class="absolute inset-0 w-full h-full object-cover"
+            referrerpolicy="no-referrer"
           />
           <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
 
@@ -30,13 +31,13 @@
 
           <!-- Image attribution: lower left -->
           <a
-            v-if="action.image_attributions[0]"
-            :href="action.image_attributions[0].url"
+            v-if="action.image_back.artist_url || action.image_front.artist_url"
+            :href="action.image_back.artist_url || action.image_front.artist_url"
             target="_blank"
             rel="noopener noreferrer"
             class="absolute bottom-3 left-3 bg-isf-navy/90 text-white text-[10px] px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
             @click.stop
-          >{{ action.image_attributions[0].name || '©' }}</a>
+          >{{ action.image_back.artist_name || action.image_front.artist_name || '©' }}</a>
 
           <!-- Close button -->
           <button
