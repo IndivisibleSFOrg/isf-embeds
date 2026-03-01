@@ -175,11 +175,11 @@ const completedCount = computed(() => calendarDots.value.filter(d => !d.empty &&
 
 // ── Emoji grid for share text (calendar-aligned) ──────────────────────────
 const emojiGrid = computed(() => {
-  const pad = Array(startOffset.value).fill('  ');
+  const pad = Array(startOffset.value).fill('⬛');
   const cells = [
     ...pad,
     ...calendarDots.value.map(d =>
-      d.empty ? '  ' : d.isCompleted ? '✅' : d.isToday ? '❓' : d.isAvailable ? '❌' : '⬜',
+      d.empty ? '⬛' : d.isCompleted ? '✅' : d.isToday ? '❓' : d.isAvailable ? '❌' : '⬜',
     ),
   ];
   const rows: string[] = [];
