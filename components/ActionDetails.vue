@@ -17,7 +17,7 @@
         <!-- Image header -->
         <div class="relative aspect-square w-full flex-shrink-0">
           <img
-            :src="action.image_back.image_url || action.image_front.image_url || defaultImage"
+            :src="action.image_front.image_url || action.image_back.image_url || defaultImage"
             :alt="action.headline"
             class="absolute inset-0 w-full h-full object-cover"
             referrerpolicy="no-referrer"
@@ -161,7 +161,7 @@ const handleToggleComplete = (date: Date) => {
 
 const dateLabel = computed(() => {
   const d = props.action.date;
-  return `${d.getMonth() + 1}/${d.getDate()}`;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 });
 
 const shareNotice = ref<string | null>(null);

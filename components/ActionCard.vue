@@ -2,16 +2,15 @@
   <div
     class="action-card rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
     :class="[
-      { flipped: isFlipped },
       { 'cursor-pointer': !isFuture || isDev },
       { 'cursor-default': isFuture && !isDev },
       isToday ? 'ring-4 ring-isf-blue ring-offset-2' : '',
     ]"
-    @click="flip"
+    @click="handleCardClick"
   >
     <div class="action-card-inner">
       <!-- Front -->
-      <div class="action-card-face action-card-front rounded-lg overflow-hidden">
+      <div class="action-card-face rounded-lg overflow-hidden">
         <img
           :src="action.image_front.image_url || defaultImage"
           :alt="action.headline"
@@ -21,7 +20,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
 
         <!-- Date: upper left -->
-        <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
+        <div class="absolute top-2 left-2 text-white font-bold text-2xl leading-none drop-shadow">
           {{ dateLabel }}
         </div>
 
@@ -72,7 +71,21 @@
           </svg>
         </div>
 
-        <!-- Completion badge (clickable → opens detail) -->
+        <!-- CTA button: centered, non-future cards only -->
+        <div
+          v-if="!isFuture || isDev"
+          class="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <button
+            class="pointer-events-auto bg-isf-red hover:bg-isf-red-dark text-white font-bold text-sm px-4 py-2 rounded-lg shadow-lg transition-colors"
+            :aria-label="`Take action: ${action.headline}`"
+            @click.stop="openDetail(props.action)"
+          >
+            {{ action.link_text || 'Take Action' }} →
+          </button>
+        </div>
+
+        <!-- Completion badge: lower right -->
         <button
           v-if="!isFuture"
           class="absolute bottom-2 right-2 rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
@@ -99,95 +112,13 @@
           </template>
         </button>
       </div>
-
-      <!-- Back -->
-      <div class="action-card-face action-card-back rounded-lg overflow-hidden flex flex-col" @click.stop="handleBackClick">
-        <!-- Upper 50%: image -->
-        <div class="relative h-1/2 flex-shrink-0">
-          <img
-            :src="action.image_back.image_url || defaultImage"
-            :alt="action.headline"
-            class="absolute inset-0 w-full h-full object-cover"
-            referrerpolicy="no-referrer"
-          />
-          <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
-          <!-- Date: upper left -->
-          <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
-            {{ dateLabel }}
-          </div>
-
-          <!-- Image attribution: lower left -->
-          <a
-            v-if="action.image_back.artist_url"
-            :href="action.image_back.artist_url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="image-attribution absolute bottom-2 left-2 bg-isf-navy/90 text-white px-1.5 py-0.5 rounded leading-none hover:bg-isf-navy transition-colors"
-            @click.stop
-          >{{ action.image_back.artist_name || '©' }}</a>
-        </div>
-
-        <!-- Lower 50%: headline + details preview + actions -->
-        <div class="h-1/2 flex-shrink-0 bg-white flex flex-col px-3 py-2 gap-1 min-h-0">
-          <p
-            class="font-bold text-isf-navy text-sm leading-snug line-clamp-2 flex-shrink-0"
-            v-html="renderInlineMarkdown(action.headline)"
-          />
-
-          <!-- Details preview: fades out at the bottom -->
-          <div
-            v-if="action.details"
-            class="details-preview relative flex-1 overflow-hidden min-h-0 text-xs text-isf-slate leading-snug"
-            v-html="renderMarkdown(action.details)"
-          />
-
-          <!-- Bottom row: details (left) + share + complete (right) -->
-          <div class="flex items-center justify-between flex-shrink-0">
-            <!-- Details link -->
-            <button
-              class="text-isf-blue hover:text-isf-blue text-xs font-medium underline underline-offset-2 transition-colors flex-shrink-0"
-              @click.stop="openDetail(props.action)"
-            >
-              Details&hellip;
-            </button>
-
-            <!-- Completion badge (clickable → opens detail) -->
-            <button
-              v-if="!isFuture"
-              class="rounded-full w-7 h-7 flex items-center justify-center shadow transition-colors"
-              :class="isComplete(action.date) ? 'bg-isf-green hover:brightness-110' : isToday ? 'bg-isf-gold hover:brightness-110' : 'bg-isf-red hover:brightness-110'"
-              :title="isComplete(action.date) ? 'Completed – click for details' : isToday ? 'Still time today – click for details' : 'Not completed – click for details'"
-              @click.stop="openDetail(props.action)"
-            >
-              <template v-if="isComplete(action.date)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </template>
-              <template v-else-if="isToday">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                  <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="none" />
-                </svg>
-              </template>
-              <template v-else>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </template>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, inject } from 'vue';
+import { computed, inject } from 'vue';
 import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
-import { renderInlineMarkdown, renderMarkdown } from '~/composables/useMarkdown';
 import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
 import { formatDateKey } from '~/composables/dateHelpers';
@@ -200,12 +131,11 @@ const props = defineProps<Props>();
 
 const openDetail = inject<(action: ActionItem) => void>('openDetail', () => {});
 
-const isFlipped = ref(false);
 const { isComplete } = useActionCompletion();
 
 const dateLabel = computed(() => {
   const d = props.action.date;
-  return `${d.getMonth() + 1}/${d.getDate()}`;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 });
 
 const isToday = computed(() => {
@@ -224,19 +154,13 @@ const isFuture = computed(() => {
   return props.action.date > today;
 });
 
-// Allow flipping future cards in dev for testing; block in production.
 const { isDevMode: isDev } = useDevMode();
 const { trackCardFlip } = useAnalytics();
 
-const flip = () => {
+const handleCardClick = () => {
   if (isFuture.value && !isDev.value) return;
-  isFlipped.value = !isFlipped.value;
-  if (isFlipped.value) trackCardFlip(formatDateKey(props.action.date));
-};
-
-const handleBackClick = (e: Event) => {
-  // Flip back when clicking the back face directly (not on a button)
-  isFlipped.value = false;
+  trackCardFlip(formatDateKey(props.action.date));
+  openDetail(props.action);
 };
 </script>
 
@@ -244,59 +168,17 @@ const handleBackClick = (e: Event) => {
 .action-card {
   aspect-ratio: 1;
   width: 100%;
-  perspective: 1000px;
 }
 
 .action-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.action-card.flipped .action-card-inner {
-  transform: rotateY(180deg);
 }
 
 .action-card-face {
   position: absolute;
   inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.action-card-back {
-  transform: rotateY(180deg);
-}
-
-.details-preview::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1.75rem;
-  background: linear-gradient(to bottom, transparent, white);
-  pointer-events: none;
-}
-
-.details-preview :deep(p) {
-  margin: 0 0 0.2em;
-}
-
-.details-preview :deep(p:last-child) {
-  margin-bottom: 0;
-}
-
-.details-preview :deep(ul),
-.details-preview :deep(ol) {
-  margin: 0;
-  padding-left: 1em;
-}
-
-.details-preview :deep(li) {
-  margin: 0;
 }
 
 .image-attribution {

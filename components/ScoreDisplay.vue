@@ -20,7 +20,7 @@
     </div>
 
     <!-- ── Right: calendar dot grid ──────────────────────────────────── -->
-    <div>
+    <div v-if="completedCount > 0">
       <!-- Day-of-week header -->
       <div class="grid gap-0.5 mb-0.5" style="grid-template-columns: repeat(7, 1fr)">
         <div

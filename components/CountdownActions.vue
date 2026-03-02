@@ -4,21 +4,74 @@
     <header class="bg-white border-b-4 border-isf-blue shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div id="tour-title">
-            <h1 class="font-display text-4xl font-bold text-isf-blue">
-              No Kings Countdown
-            </h1>
-            <p class="mt-2 text-isf-slate">
+          <div id="tour-title" class="flex-1">
+            <div class="flex items-start justify-between gap-2">
+              <h1 class="font-sans text-4xl font-bold text-isf-blue">
+                No Kings Countdown
+              </h1>
+              <!-- Hamburger menu -->
+              <div class="relative flex-shrink-0" ref="menuRef">
+                <button
+                  class="p-2 rounded-md text-isf-slate hover:text-isf-blue hover:bg-isf-tinted transition-colors"
+                  aria-label="Menu"
+                  @click="showMenu = !showMenu"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                </button>
+                <div
+                  v-if="showMenu"
+                  class="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-1 z-50"
+                >
+                  <button
+                    class="w-full text-left px-4 py-2 text-sm text-isf-navy hover:bg-isf-tinted transition-colors"
+                    @click="showAboutModal = true; showMenu = false"
+                  >
+                    About
+                  </button>
+                  <button
+                    class="w-full text-left px-4 py-2 text-sm text-isf-navy hover:bg-isf-tinted transition-colors"
+                    @click="showPrivacyModal = true; showMenu = false"
+                  >
+                    Privacy Statement
+                  </button>
+                  <a
+                    href="https://github.com/IndivisibleSFOrg/no-kings-countdown"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block px-4 py-2 text-sm text-isf-navy hover:bg-isf-tinted transition-colors"
+                    @click="showMenu = false"
+                  >
+                    GitHub Repo
+                  </a>
+                  <a
+                    href="https://github.com/IndivisibleSFOrg/no-kings-countdown/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block px-4 py-2 text-sm text-isf-navy hover:bg-isf-tinted transition-colors"
+                    @click="showMenu = false"
+                  >
+                    Report an Issue
+                  </a>
+                  <a
+                    href="https://forms.gle/2Zic21S9eiaLqVPR7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block px-4 py-2 text-sm text-isf-navy hover:bg-isf-tinted transition-colors"
+                    @click="showMenu = false"
+                  >
+                    Suggest an Action
+                  </a>
+                </div>
+              </div>
+            </div>
+            <p class="mt-2 text-base font-semibold text-isf-slate">
               A daily action calendar counting down to the nationwide <a href="https://nokings.org/" target="_blank"
                 rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on
-              March 28, 2026.
-              Each day unlocks one civic action you can complete in under 15 minutes. Track your progress, share with
-              friends, and build the movement to resist authoritarianism and defend democracy.
-              <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showAboutModal = true">More&hellip;</button>
-            </p>
-            <p class="mt-1 text-isf-slate">
-              <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showPrivacyModal = true">Privacy
-                Statement</button>
+              March 28, 2026. Complete one civic action each day — in under 15 minutes.
             </p>
           </div>
 
@@ -100,6 +153,16 @@ const route = useRoute();
 
 const showAboutModal = ref(false);
 const showPrivacyModal = ref(false);
+const showMenu = ref(false);
+const menuRef = ref<HTMLElement | null>(null);
+
+// Close menu on outside click
+const onClickOutside = (e: MouseEvent) => {
+  if (!showMenu.value) return;
+  if (menuRef.value && !menuRef.value.contains(e.target as Node)) {
+    showMenu.value = false;
+  }
+};
 
 // --- Detail overlay ---
 const selectedAction = ref<ActionItem | null>(null);
@@ -158,10 +221,14 @@ const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280
 const onResize = () => { windowWidth.value = window.innerWidth; };
 onMounted(() => {
   window.addEventListener('resize', onResize);
+  document.addEventListener('click', onClickOutside);
   // Start home tour for first-time visitors (deferred to let DOM settle)
   nextTick(() => setTimeout(startHomeTour, 400));
 });
-onUnmounted(() => window.removeEventListener('resize', onResize));
+onUnmounted(() => {
+  window.removeEventListener('resize', onResize);
+  document.removeEventListener('click', onClickOutside);
+});
 
 const effectiveLayout = computed<LayoutType>(() =>
   windowWidth.value < CALENDAR_BREAKPOINT ? 'grid' : 'calendar'
