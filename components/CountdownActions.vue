@@ -3,12 +3,16 @@
     <!-- Header -->
     <header class="bg-white border-b-4 border-isf-blue shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div id="tour-title">
-            <h1 class="font-sans text-5xl font-black text-isf-blue leading-tight">
-              No Kings Countdown
-            </h1>
-            <p class="mt-2 text-base text-isf-blue">
+        <div class="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-4">
+          <!-- Site graphic -->
+          <div class="flex-shrink-0">
+            <img src="/og-image.webp" alt="No Kings Countdown" class="max-h-[100px] w-auto" />
+          </div>
+
+          <!-- Hero text -->
+          <div id="tour-title" class="flex-1">
+            <h1 class="font-sans text-2xl font-black text-isf-blue leading-tight text-center md:text-left mb-1">No Kings Countdown</h1>
+            <p class="text-base text-isf-blue text-center md:text-left">
               A daily action calendar counting down to the nationwide <a href="https://nokings.org/" target="_blank"
                 rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on
               March 28, 2026.
@@ -16,13 +20,10 @@
               friends, and build the movement to resist authoritarianism and defend democracy.
               <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showAboutModal = true">More&hellip;</button>
             </p>
-
           </div>
 
           <!-- Score + Share -->
           <ScoreDisplay id="tour-score" :actions="props.actions" />
-
-
         </div>
       </div>
     </header>
