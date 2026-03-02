@@ -1,7 +1,6 @@
 <template>
   <div 
-    :class="['card-flip', 'cursor-pointer', 'rounded-lg', 'shadow-lg', 'hover:shadow-xl', 'transition-all', 'duration-300', 'h-full', { 'flipped': isFlipped }]"
-    @click="handleClick"
+    :class="['card-flip', 'rounded-lg', 'shadow-lg', 'hover:shadow-xl', 'transition-all', 'duration-300', 'h-full', { 'flipped': isFlipped }]"
   >
     <div class="card-flip-inner h-full">
       <!-- Front: Date with Image -->
@@ -72,26 +71,16 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits<{
-  (e: 'flip', key: string): void;
-}>();
 
-const isFlipped = ref(false);
 
-const handleClick = (e: Event) => {
-  e.preventDefault();
-  isFlipped.value = !isFlipped.value;
-  emit('flip', `${props.month}-${props.date}`);
-};
+// Start flipped for past/today cards.
+const _initToday = new Date();
+_initToday.setHours(0, 0, 0, 0);
+const isFlipped = ref(props.action ? props.action.date <= _initToday : false);
 
 const handleLinkClick = (link: string, e: Event) => {
-  if (!isFlipped.value) {
-    e.preventDefault();
-    isFlipped.value = true;
-  } else {
-    window.open(link, "_blank", "noopener,noreferrer");
-    e.preventDefault();
-  }
+  e.preventDefault();
+  if (link) window.open(link, "_blank", "noopener,noreferrer");
 };
 </script>
 

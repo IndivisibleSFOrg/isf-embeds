@@ -3,11 +3,8 @@
     class="action-card rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
     :class="[
       { flipped: isFlipped },
-      { 'cursor-pointer': !isFuture || isDev },
-      { 'cursor-default': isFuture && !isDev },
       isToday ? 'ring-4 ring-isf-blue ring-offset-2' : '',
     ]"
-    @click="flip"
   >
     <div class="action-card-inner">
       <!-- Front -->
@@ -101,7 +98,7 @@
       </div>
 
       <!-- Back -->
-      <div class="action-card-face action-card-back rounded-lg overflow-hidden flex flex-col" @click.stop="handleBackClick">
+      <div class="action-card-face action-card-back rounded-lg overflow-hidden flex flex-col">
         <!-- Upper 50%: image -->
         <div class="relative h-1/2 flex-shrink-0">
           <img
@@ -190,7 +187,6 @@ import defaultImage from '~/assets/christy-dalmat-y_z3rURYpR0-unsplash.webp';
 import { renderInlineMarkdown, renderMarkdown } from '~/composables/useMarkdown';
 import type { ActionItem } from '~/composables/googleSheets';
 import { useActionCompletion } from '~/composables/useActionCompletion';
-import { formatDateKey } from '~/composables/dateHelpers';
 
 interface Props {
   action: ActionItem;
@@ -202,7 +198,10 @@ const props = defineProps<Props>();
 
 const openDetail = inject<(action: ActionItem) => void>('openDetail', () => {});
 
-const isFlipped = ref(false);
+// Start flipped for past/today cards so users see the content immediately.
+const _initToday = new Date();
+_initToday.setHours(0, 0, 0, 0);
+const isFlipped = ref(props.action.date <= _initToday);
 const { isComplete } = useActionCompletion();
 
 const dateLabel = computed(() => {
@@ -232,20 +231,7 @@ const isFuture = computed(() => {
   return props.action.date > today;
 });
 
-// Allow flipping future cards in dev for testing; block in production.
 const { isDevMode: isDev } = useDevMode();
-const { trackCardFlip } = useAnalytics();
-
-const flip = () => {
-  if (isFuture.value && !isDev.value) return;
-  isFlipped.value = !isFlipped.value;
-  if (isFlipped.value) trackCardFlip(formatDateKey(props.action.date));
-};
-
-const handleBackClick = (e: Event) => {
-  // Flip back when clicking the back face directly (not on a button)
-  isFlipped.value = false;
-};
 </script>
 
 <style scoped>
