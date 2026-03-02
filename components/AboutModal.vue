@@ -29,40 +29,40 @@
 
         <!-- Body -->
         <div class="px-5 py-5 space-y-4 overflow-y-auto">
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             The <a href="https://nokings.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue">No Kings March</a> is a nationwide mobilization to defend democratic norms and oppose authoritarian overreach. This app helps people show up for the cause every day in the weeks leading up to the march — not just on the day itself.
           </p>
-          <p class="text-isf-navy text-sm leading-relaxed">
-            Each day unlocks one action completable in under 15 minutes: calling a representative, sharing a message, supporting an organization, or showing up locally. <strong>Progress is tracked privately in your browser — nothing is sent to any server.</strong>
+          <p class="text-isf-navy text-base leading-relaxed">
+            Each day unlocks one action completable in under 15 minutes: calling a representative, sharing a message, supporting an organization, or showing up locally. <strong>Progress is tracked privately in your browser — nothing is sent to any server.</strong> (<button class="underline hover:text-isf-blue transition-colors" @click="emit('privacy')">See our Privacy Statement</button>)
           </p>
 
           <div>
-            <h3 class="font-semibold text-isf-navy text-sm mb-2">What kinds of actions are available?</h3>
+            <h3 class="font-semibold text-isf-navy text-base mb-2">What kinds of actions are available?</h3>
             <ul class="space-y-1.5">
-              <li class="flex gap-2 text-sm text-isf-navy leading-relaxed">
+              <li class="flex gap-2 text-base text-isf-navy leading-relaxed">
                 <span class="mt-0.5 text-isf-blue flex-shrink-0">✓</span>
                 <span><strong>Completable in under 15 minutes</strong> — no lengthy commitments or sign-ups required</span>
               </li>
-              <li class="flex gap-2 text-sm text-isf-navy leading-relaxed">
+              <li class="flex gap-2 text-base text-isf-navy leading-relaxed">
                 <span class="mt-0.5 text-isf-blue flex-shrink-0">✓</span>
                 <span><strong>Concrete and specific</strong> — a clear task with a defined end state</span>
               </li>
-              <li class="flex gap-2 text-sm text-isf-navy leading-relaxed">
+              <li class="flex gap-2 text-base text-isf-navy leading-relaxed">
                 <span class="mt-0.5 text-isf-blue flex-shrink-0">✓</span>
                 <span><strong>Broadly accessible</strong> — relevant to people across the US, requiring no special skills or prior activist experience</span>
               </li>
-              <li class="flex gap-2 text-sm text-isf-navy leading-relaxed">
+              <li class="flex gap-2 text-base text-isf-navy leading-relaxed">
                 <span class="mt-0.5 text-isf-blue flex-shrink-0">✓</span>
                 <span><strong>Tied to the resistance</strong> — focused on democratic norms, anti-authoritarianism, or civic engagement</span>
               </li>
-              <li class="flex gap-2 text-sm text-isf-navy leading-relaxed">
+              <li class="flex gap-2 text-base text-isf-navy leading-relaxed">
                 <span class="mt-0.5 text-isf-blue flex-shrink-0">✓</span>
                 <span><strong>Varied in type</strong> — contacting representatives, sharing on social media, showing up locally, supporting organizations</span>
               </li>
             </ul>
           </div>
 
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             Have an idea for an action? <a href="https://forms.gle/2Zic21S9eiaLqVPR7" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue">Submit a suggestion →</a>
           </p>
 
@@ -120,7 +120,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits<{ close: []; refresh: [] }>();
+const emit = defineEmits<{ close: []; refresh: []; privacy: [] }>();
 
 const config = useRuntimeConfig();
 

@@ -4,7 +4,7 @@
       <div
         v-for="action in sortedActions"
         :key="action.date.toISOString()"
-        :ref="(el) => setTodayRef(el, action.date)"
+
         :class="{ 'today-card': isTodayDate(action.date) }"
         style="border-radius: 0.75rem;"
       >
@@ -15,8 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, nextTick } from 'vue';
-import type { ComponentPublicInstance } from 'vue';
+import { computed } from 'vue';
 import ActionCard from './ActionCard.vue';
 import type { ActionItem } from '~/composables/googleSheets';
 
@@ -30,8 +29,6 @@ const sortedActions = computed(() =>
   [...props.actions].sort((a, b) => a.date.getTime() - b.date.getTime())
 );
 
-let todayCardEl: HTMLElement | null = null;
-
 const isTodayDate = (date: Date): boolean => {
   const now = new Date();
   return (
@@ -41,18 +38,7 @@ const isTodayDate = (date: Date): boolean => {
   );
 };
 
-const setTodayRef = (el: Element | ComponentPublicInstance | null, date: Date) => {
-  if (isTodayDate(date)) todayCardEl = el as HTMLElement | null;
-};
 
-const scrollToToday = () => {
-  if (todayCardEl) todayCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-};
-
-onMounted(async () => {
-  await nextTick();
-  scrollToToday();
-});
 </script>
 
 <style scoped>

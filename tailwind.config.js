@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        display: ['Source Sans 3', 'system-ui', 'sans-serif'],
         sans: ['Source Sans 3', 'system-ui', 'sans-serif'],
         mono: ['Source Code Pro', 'monospace'],
       },

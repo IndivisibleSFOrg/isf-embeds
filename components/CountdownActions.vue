@@ -5,10 +5,10 @@
       <div class="max-w-7xl mx-auto px-4 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div id="tour-title">
-            <h1 class="font-display text-4xl font-bold text-isf-blue">
+            <h1 class="font-sans text-5xl font-black text-isf-blue leading-tight">
               No Kings Countdown
             </h1>
-            <p class="mt-2 text-isf-slate">
+            <p class="mt-2 text-base text-isf-blue">
               A daily action calendar counting down to the nationwide <a href="https://nokings.org/" target="_blank"
                 rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on
               March 28, 2026.
@@ -16,10 +16,7 @@
               friends, and build the movement to resist authoritarianism and defend democracy.
               <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showAboutModal = true">More&hellip;</button>
             </p>
-            <p class="mt-1 text-isf-slate">
-              <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showPrivacyModal = true">Privacy
-                Statement</button>
-            </p>
+
           </div>
 
           <!-- Score + Share -->
@@ -72,7 +69,7 @@
     <ActionDetails v-if="selectedAction" :action="selectedAction" @close="closeDetail" />
 
     <!-- About modal -->
-    <AboutModal v-if="showAboutModal" :fetched-at="fetchedAt" @close="showAboutModal = false" @refresh="emit('refresh')" />
+    <AboutModal v-if="showAboutModal" :fetched-at="fetchedAt" @close="showAboutModal = false" @refresh="emit('refresh')" @privacy="showAboutModal = false; showPrivacyModal = true" />
 
     <!-- Privacy modal -->
     <PrivacyModal v-if="showPrivacyModal" @close="showPrivacyModal = false" />

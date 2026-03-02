@@ -20,7 +20,7 @@
   --isf-tinted:       #e8edf5;
 
   /* Font stacks */
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Source Sans 3', system-ui, sans-serif;
   --font-body:    'Source Sans 3', system-ui, sans-serif;
   --font-mono:    'Source Code Pro', monospace;
 }

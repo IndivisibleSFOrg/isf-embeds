@@ -29,16 +29,16 @@
 
         <!-- Body -->
         <div class="px-5 py-5 space-y-3">
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             This site uses Google Analytics to collect anonymous usage data (pages visited, time on site, city-level location). <strong>We use this solely to understand how many people visit and which content is most useful to users collectively — not to identify you, build profiles, or target advertising.</strong>
           </p>
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             We have disabled Google signals and ads personalization. Google Analytics does not record your full IP address. We do not sell or share visitor data with anyone.
           </p>
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             Analytics data is sent to Google and governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's Privacy Policy</a>. You can opt out of Google Analytics entirely using <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" class="underline hover:text-isf-blue">Google's opt-out tool</a>.
           </p>
-          <p class="text-isf-navy text-sm leading-relaxed">
+          <p class="text-isf-navy text-base leading-relaxed">
             Your action progress is saved locally on your device only and is transmitted only when you explicitly choose to share your progress.
           </p>
         </div>
