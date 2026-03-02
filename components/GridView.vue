@@ -8,7 +8,7 @@
         :class="{ 'today-card': isTodayDate(action.date) }"
         style="border-radius: 0.75rem;"
       >
-        <ActionCard :action="action" />
+        <ActionCard :action="action" :show-day-name="true" date-label-size="text-3xl" />
       </div>
     </div>
   </div>

@@ -21,7 +21,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
 
         <!-- Date: upper left -->
-        <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
+        <div class="absolute top-2 left-2 text-white font-bold leading-none drop-shadow" :class="props.dateLabelSize ?? 'text-2xl'">
           {{ dateLabel }}
         </div>
 
@@ -112,7 +112,7 @@
           />
           <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
           <!-- Date: upper left -->
-          <div class="absolute top-2 left-2 text-white font-bold text-lg leading-none drop-shadow">
+          <div class="absolute top-2 left-2 text-white font-bold leading-none drop-shadow" :class="props.dateLabelSize ?? 'text-2xl'">
             {{ dateLabel }}
           </div>
 
@@ -194,6 +194,8 @@ import { formatDateKey } from '~/composables/dateHelpers';
 
 interface Props {
   action: ActionItem;
+  showDayName?: boolean;
+  dateLabelSize?: string;
 }
 
 const props = defineProps<Props>();
@@ -205,7 +207,13 @@ const { isComplete } = useActionCompletion();
 
 const dateLabel = computed(() => {
   const d = props.action.date;
-  return `${d.getMonth() + 1}/${d.getDate()}`;
+  const month = d.toLocaleDateString('en-US', { month: 'short' });
+  const day = d.getDate();
+  if (props.showDayName) {
+    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
+    return `${month} ${day} (${dayName})`;
+  }
+  return `${month} ${day}`;
 });
 
 const isToday = computed(() => {
