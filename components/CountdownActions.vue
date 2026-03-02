@@ -9,18 +9,15 @@
               No Kings Countdown
             </h1>
             <p class="mt-2 text-isf-slate">
-              A daily action calendar counting down to the <a href="https://nokings.org/" target="_blank"
+              A daily action calendar counting down to the nationwide <a href="https://nokings.org/" target="_blank"
                 rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">No Kings March</a> on
               March 28, 2026.
               Each day unlocks one civic action you can complete in under 15 minutes. Track your progress, share with
-              friends, and build the movement to take back our country!
-              <button class="underline hover:text-isf-blue transition-colors" @click="showAboutModal = true">More&hellip;</button>
-            </p>
-            <p class="mt-2 text-isf-slate">
-              <strong>Every action counts &mdash; start building the community that you want, today!</strong>
+              friends, and build the movement to resist authoritarianism and defend democracy.
+              <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showAboutModal = true">More&hellip;</button>
             </p>
             <p class="mt-1 text-isf-slate">
-              <button class="underline hover:text-isf-blue transition-colors" @click="showPrivacyModal = true">Privacy
+              <button class="underline hover:text-isf-blue transition-colors font-bold" @click="showPrivacyModal = true">Privacy
                 Statement</button>
             </p>
           </div>
