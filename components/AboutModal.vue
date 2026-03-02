@@ -74,7 +74,7 @@
           </div>
 
           <!-- Build & data info -->
-          <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue-light space-y-1">
+          <div class="border-t border-isf-tinted pt-4 text-xs text-isf-blue space-y-1">
             <div>
               <span class="font-semibold">code:</span> <a :href="`https://github.com/IndivisibleSFOrg/no-kings-countdown/tree/${buildInfo.ref}`" target="_blank" rel="noopener noreferrer" class="underline hover:text-isf-blue transition-colors">{{ buildInfo.ref }}</a>
               @
